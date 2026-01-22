@@ -9,5 +9,24 @@ package DTO;
  * @author quock
  */
 public class PhanQuyenDTO {
-    
+    private String maQuyen;
+    private String maChucNang;
+
+    public PhanQuyenDTO() {}
+
+    public String getMaQuyen() {
+        return maQuyen;
+    }
+
+    public void setMaQuyen(String maQuyen) {
+        this.maQuyen = maQuyen;
+    }
+
+    public String getMaChucNang() {
+        return maChucNang;
+    }
+
+    public void setMaChucNang(String maChucNang) {
+        this.maChucNang = maChucNang;
+    }
 }

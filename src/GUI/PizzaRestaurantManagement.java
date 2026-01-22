@@ -8,13 +8,19 @@ package GUI;
  *
  * @author quock
  */
+import java.sql.Connection;
+import Utils.DBConnection;
 public class PizzaRestaurantManagement {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+  public static void main(String[] args) {
+
+        // Test kết nối database
+        Connection conn = DBConnection.getConnection();
+
+        if (conn != null) {
+            System.out.println("test thanh cong.");
+        } else {
+            System.out.println("test that bai");
+        }
     }
-    
 }
