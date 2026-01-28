@@ -8,19 +8,19 @@ package GUI;
  *
  * @author quock
  */
-import java.sql.Connection;
-import Utils.DBConnection;
+import DAO.NhanVienDAO;
+import DTO.NhanVienDTO;
+import java.util.List;
 public class PizzaRestaurantManagement {
 
-  public static void main(String[] args) {
-
-        // Test kết nối database
-        Connection conn = DBConnection.getConnection();
-
-        if (conn != null) {
-            System.out.println("test thanh cong.");
-        } else {
-            System.out.println("test that bai");
-        }
+  public static void main(String[] args){
+    
+        NhanVienDAO nv = new NhanVienDAO();
+        NhanVienDTO nhanvien = nv.GetNhanVienById("NV04");
+        System.out.println(
+            nhanvien.getMaNhanVien() + " - " +
+            nhanvien.getHoTen() + " - " +
+            nhanvien.getLuong()
+        );
     }
 }
