@@ -90,7 +90,7 @@ public class NhanVienDAO {
     }
     
     public List<NhanVienDTO> GetAllNhanVien()
-    {   List<NhanVienDTO> nhanViens = new ArrayList<>();
+    {   List<NhanVienDTO> nhanViens = new ArrayList();
         String sql = """
                      SELECT * FROM nhanvien
                      WHERE TRANGTHAIXOA = 0
@@ -151,5 +151,61 @@ public class NhanVienDAO {
 
         return null;
     }
-
+    
+    public String GetNextNhanVienId(){
+        String sql = """
+                     SELECT MANHANVIEN 
+                     FROM nhanvien
+                     ORDER BY MANHANVIEN DESC
+                     LIMIT 1
+                     """;
+        try(
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ){
+            if(rs.next()){
+                String lastId = rs.getString("MANHANVIEN");
+                int number = Integer.parseInt(lastId.substring(2));
+                number++;
+                
+                return String.format("NV%02d", number);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+         return "NV01";
+    }
+    
+    public List<NhanVienDTO> SearchNhanVienByName(String keyword){
+        List<NhanVienDTO> list = new ArrayList();
+        String sql = """
+                     SELECT * 
+                     FROM nhanvien
+                     WHERE HOTEN LIKE ?
+                     AND TRANGTHAIXOA = 0
+                     """;
+        try(
+             Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+        ){
+            ps.setString(1, "%" + keyword + "%");
+            
+            try(ResultSet rs = ps.executeQuery()){
+                while(rs.next()){
+                    NhanVienDTO nv = new NhanVienDTO();
+                    nv.setMaNhanVien(rs.getString("MANHANVIEN"));
+                    nv.setHoTen(rs.getString("HOTEN"));
+                    nv.setSoDienThoai(rs.getString("SODIENTHOAI"));
+                    nv.setEmail(rs.getString("EMAIL"));
+                    nv.setLuong(rs.getDouble("LUONG"));
+                    nv.setNgayTao(rs.getDate("NGAYTAO").toLocalDate());
+                    nv.setTrangThaiXoa(rs.getBoolean("TRANGTHAIXOA"));
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+         return list;
+    }
 }
