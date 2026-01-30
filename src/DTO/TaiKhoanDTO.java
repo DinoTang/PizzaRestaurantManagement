@@ -4,7 +4,7 @@
  */
 package DTO;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -16,7 +16,7 @@ public class TaiKhoanDTO {
     private String maNhanVien;
     private String tenDangNhap;
     private String matKhau;
-    private LocalDateTime ngayTao;
+    private LocalDate ngayTao;
     private boolean trangThaiXoa;
 
     public String getMaTaiKhoan() {
@@ -59,11 +59,11 @@ public class TaiKhoanDTO {
         this.matKhau = matKhau;
     }
 
-    public LocalDateTime getNgayTao() {
+    public LocalDate getNgayTao() {
         return ngayTao;
     }
 
-    public void setNgayTao(LocalDateTime ngayTao) {
+    public void setNgayTao(LocalDate ngayTao) {
         this.ngayTao = ngayTao;
     }
 
