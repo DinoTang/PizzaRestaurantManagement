@@ -9,6 +9,7 @@ import DTO.VaiTroDTO;
 import Utils.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 /**
  *
@@ -74,5 +75,30 @@ public class VaiTroDAO {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public String GetNextVaiTroId(){
+        String sql = """
+                     SELECT MAVAITRO 
+                     FROM vaitro
+                     ORDER BY MAVAITRO DESC
+                     LIMIT 1
+                     """;
+        try(
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ){
+            if(rs.next()){
+                String lastId = rs.getString("MAVAITRO");
+                int number = Integer.parseInt(lastId.substring(2));
+                number++;
+                
+                return String.format("VT%02d", number);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+         return "VT01";
     }
 }

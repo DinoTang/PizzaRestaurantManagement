@@ -157,7 +157,7 @@ public class TaiKhoanDAO {
         return null;
     }
     
-    public String GetNextCaLamId(){
+    public String GetNextTaiKhoanId(){
         String sql = """
                      SELECT MATAIKHOAN 
                      FROM taikhoan
@@ -180,5 +180,32 @@ public class TaiKhoanDAO {
             e.printStackTrace();
         }
          return "TK01";
+    }
+    
+    public boolean Login(String username, String password) {
+        String sql = """
+                     SELECT 1
+                     FROM taikhoan
+                     WHERE TENDANGNHAP = ?
+                     AND MATKHAU = ?
+                     AND TRANGTHAIXOA = 0
+                     """;
+
+        try (
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+        ) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next(); // nếu có dữ liệu -> true, không có -> false
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
