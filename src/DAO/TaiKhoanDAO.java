@@ -182,9 +182,9 @@ public class TaiKhoanDAO {
          return "TK01";
     }
     
-    public boolean Login(String username, String password) {
+    public TaiKhoanDTO Login(String username, String password) {
         String sql = """
-                     SELECT 1
+                     SELECT *
                      FROM taikhoan
                      WHERE TENDANGNHAP = ?
                      AND MATKHAU = ?
@@ -200,12 +200,24 @@ public class TaiKhoanDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            return rs.next(); // nếu có dữ liệu -> true, không có -> false
+            if (rs.next()) {
+                TaiKhoanDTO tk = new TaiKhoanDTO();
+
+                tk.setMaTaiKhoan(rs.getString("MATAIKHOAN"));
+                tk.setMaVaiTro(rs.getString("MAVAITRO"));
+                tk.setMaNhanVien(rs.getString("MANHANVIEN"));
+                tk.setTenDangNhap(rs.getString("TENDANGNHAP"));
+                tk.setMatKhau(rs.getString("MATKHAU"));
+                tk.setNgayTao(rs.getDate("NGAYTAO").toLocalDate());
+                tk.setTrangThaiXoa(rs.getBoolean("TRANGTHAIXOA"));
+
+                return tk;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return false;
+        return null;
     }
 }

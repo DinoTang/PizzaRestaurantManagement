@@ -169,16 +169,17 @@ public class DangNhapGUI extends JFrame {
             return;
         }
 
-        TaiKhoanBUS bus = new TaiKhoanBUS();
-
-        boolean result = bus.Login(username, password);
+        TaiKhoanBUS taiKhoanBUS = new TaiKhoanBUS();
+        String maNV = taiKhoanBUS.Login(username, password).getMaNhanVien();
+        String maVaiTro = taiKhoanBUS.Login(username, password).getMaVaiTro();
+        boolean result = taiKhoanBUS.Login(username, password) != null;
 
         if(result){
             JOptionPane.showMessageDialog(this,"Đăng nhập thành công!");
 
             // mở form chính
             // new MainGUI().setVisible(true);
-            Utils.WindowUtil.showWindow(new DashboardGUI());
+            Utils.WindowUtil.showWindow(new DashboardGUI(maNV,maVaiTro));
             this.dispose();
         }
         else{

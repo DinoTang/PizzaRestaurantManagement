@@ -1,13 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
-/**
- *
- * @author quock
- */
+import DAO.VaiTroDAO;
+import DTO.VaiTroDTO;
+
 public class VaiTroBUS {
     
+    private VaiTroDAO vaiTroDAO;
+
+    public VaiTroBUS(){
+        vaiTroDAO = new VaiTroDAO();
+    }
+    
+    public VaiTroDTO getVaiTroById(String maVaiTro){
+        if(maVaiTro == null || maVaiTro.trim().isEmpty()){
+            return null;
+        }
+        
+        return vaiTroDAO.getVaiTroById(maVaiTro);
+    }
 }

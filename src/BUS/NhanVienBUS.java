@@ -4,10 +4,17 @@
  */
 package BUS;
 
+import DAO.NhanVienDAO;
+import DTO.NhanVienDTO;
+
 /**
  *
  * @author quock
  */
 public class NhanVienBUS {
-    
+    private NhanVienDAO nhanVienDAO = new NhanVienDAO();
+
+    public NhanVienDTO getNhanVienById(String id) {
+        return nhanVienDAO.GetNhanVienById(id);
+    }
 }

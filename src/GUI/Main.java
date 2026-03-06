@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import Utils.DBConnection;
+import java.sql.Connection;
+
 /**
  *
  * @author quock
@@ -12,5 +15,7 @@ package GUI;
 public class Main {
 
   public static void main(String[] args){
+    Connection conn = DBConnection.getConnection();
+    if(conn == null) return;
     Utils.WindowUtil.showWindow(new DangNhapGUI());
 }}

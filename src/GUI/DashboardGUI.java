@@ -4,16 +4,23 @@
  */
 package GUI;
 
+import BUS.NhanVienBUS;
+import BUS.VaiTroBUS;
 import Custom.ImagePanel;
+import Custom.RoundedPanel;
+import DTO.NhanVienDTO;
+import DTO.VaiTroDTO;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.PopupMenu;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
@@ -26,55 +33,62 @@ public class DashboardGUI extends javax.swing.JFrame {
     /**
      * Creates new form DashboardGUI
      */
-    public DashboardGUI() {
+    private NhanVienBUS nhanVienBUS;
+    private VaiTroBUS vaiTroBUS;
+    private String maNV;
+    private String maVaiTro;
+    public DashboardGUI(String maNV, String maVaiTro) {
+        this.nhanVienBUS = new NhanVienBUS(); 
+        this.vaiTroBUS = new VaiTroBUS();
+        this.maNV = maNV;
+        this.maVaiTro = maVaiTro;
+        
         initComponents();
         this.setTitle("Trang chủ");
         this.setLocationRelativeTo(null);
-        avatar.setLayout(new java.awt.GridBagLayout()); // căn giữa
-
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        
+        this.addControls();
+        this.addEvents();
+    }
+    private void addControls(){
+        this.avatar.setLayout(new java.awt.GridBagLayout()); // căn giữa
+        
         ImagePanel avatarImage = new ImagePanel("/images/avatarAccount.png",true);
         avatarImage.setPreferredSize(new java.awt.Dimension(120, 120)); // size avatar
 
-        avatar.add(avatarImage);
+        this.avatar.add(avatarImage);
         
-        lblName.setText("Nguyễn Văn A");
-        lblRole.setText("Vai trò: Admin");
-
-        lblName.setForeground(Color.WHITE);
-        lblRole.setForeground(new Color(180,180,180));
-
-        lblName.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblRole.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-
-        lblName.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblRole.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        NhanVienDTO nhanVien = this.nhanVienBUS.getNhanVienById(this.maNV);
+        VaiTroDTO vaiTro = this.vaiTroBUS.getVaiTroById(this.maVaiTro);
+        
+        this.lblName.setText(nhanVien.getHoTen());
+        this.lblRole.setText("Vai trò: " + vaiTro.getTenVaiTro());
+        this.lblName.setForeground(Color.WHITE);
+        this.lblRole.setForeground(new Color(180,180,180));
+        this.lblName.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        this.lblRole.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        this.lblName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.lblRole.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JSeparator line = new JSeparator();
         line.setForeground(new Color(80,80,80));
         line.setMaximumSize(new Dimension(200,1));
 
 
-        // ===== SPACING + ADD COMPONENT =====
-        inforPanel.add(lblName);
-
-        inforPanel.add(Box.createVerticalStrut(15));
-
-        inforPanel.add(lblRole);
-
-        inforPanel.add(Box.createVerticalStrut(15));
-
-        inforPanel.add(line);
-
-        inforPanel.add(Box.createVerticalStrut(15));
-
-        inforPanel.add(panelMenu);
+        this.inforPanel.add(this.lblName);
+        this.inforPanel.add(Box.createVerticalStrut(15));
+        this.inforPanel.add(this.lblRole);
+        this.inforPanel.add(Box.createVerticalStrut(15));
+        this.inforPanel.add(line);
+        this.inforPanel.add(Box.createVerticalStrut(15));
+        this.inforPanel.add(this.panelMenu);
         
         JPanel itemProfile = new JPanel();
         itemProfile.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 7, 10));
         itemProfile.setBackground(new Color(31,33,37));
         itemProfile.setMaximumSize(new Dimension(250,40));
-        itemProfile.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 25, 0, 0));
+        itemProfile.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0));
         
         ImageIcon icon = new ImageIcon(getClass().getResource("/images/user.png"));
         Image img = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -88,22 +102,103 @@ public class DashboardGUI extends javax.swing.JFrame {
 
         itemProfile.add(iconLabel);
         itemProfile.add(text);
-
-        panelMenu.add(itemProfile);
+        itemProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        this.panelMenu.add(itemProfile);
         
-        logoutBtn.setLayout(new java.awt.GridBagLayout());
-        logoutBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(20,20,20,20));
-
-        jButton1.setText("Đăng xuất");
-        jButton1.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        jButton1.setBackground(new Color(255,59,48));
-        jButton1.setForeground(Color.WHITE);
-        jButton1.setBorderPainted(false);
-        jButton1.setFocusPainted(false);
-        jButton1.setPreferredSize(new Dimension(180,45));
+        this.logoutBtn.setLayout(new java.awt.GridBagLayout());
+        this.logoutBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(20,20,20,20));
         
+        this.btnDangXuat.setText("Đăng xuất");
+        this.btnDangXuat.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        this.btnDangXuat.setBackground(new Color(255,59,48));
+        this.btnDangXuat.setForeground(Color.WHITE);
+        this.btnDangXuat.setBorderPainted(false);
+        this.btnDangXuat.setFocusPainted(false);
+        this.btnDangXuat.setPreferredSize(new Dimension(180,45));
+        this.btnDangXuat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+         
+        this.container.setBackground(Color.WHITE);
+        this.container.setLayout(new BoxLayout(this.container, BoxLayout.Y_AXIS));
+        
+        ImageIcon logoIcon = new ImageIcon(getClass().getResource("/images/logo.png"));
+        Image imgLogo = logoIcon.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
+        JLabel logo = new JLabel(new ImageIcon(imgLogo));
+        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.container.add(Box.createVerticalStrut(20));
+        this.container.add(logo);
+        this.container.add(Box.createVerticalStrut(80));
+        
+        
+        JPanel cardPanel = new JPanel();
+        cardPanel.setBackground(Color.WHITE);
+        cardPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 100, 10));
+        cardPanel.setBorder(BorderFactory.createEmptyBorder(0, -10, 0, 0));
+        
+        String urlImageCardSell = "/images/POS.png";
+        String titleCardSell = "BÁN HÀNG";
+        String descriptionCardSell = "<html><center>Phục vụ món ăn,<br>hóa đơn & thanh toán.</center></html>";
+        RoundedPanel cardSell = this.createCardItem(urlImageCardSell, titleCardSell, descriptionCardSell,35);
+       
+        
+        String urlImageCardManage = "/images/ManageIcon.png";
+        String titleCardManage = "QUẢN LÝ";
+        String descriptionCardManage = "<html><center>Báo cáo doanh thu,<br>kho, nhân sự & menu</center></html>";
+        RoundedPanel cardManage = this.createCardItem(urlImageCardManage, titleCardManage, descriptionCardManage,25);
+        
+        cardPanel.add(cardSell);
+        cardPanel.add(cardManage);
+
+        this.container.add(cardPanel);
     }
+    private void addEvents(){
+        btnDangXuat.addActionListener(e -> {
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có chắc muốn đăng xuất?",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION
+        );
 
+        if(confirm == JOptionPane.YES_OPTION){
+            new DangNhapGUI().setVisible(true);
+            this.dispose();
+        }
+    });
+    }
+    private RoundedPanel createCardItem(String urlImage, String titleItem, String descriptionItem, int verticalStrut)
+    {
+        RoundedPanel card = new RoundedPanel(30);
+        card.setPreferredSize(new Dimension(500, 500));
+        card.setBackground(new Color(255,153,0));
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+
+        JLabel icon = new JLabel(new ImageIcon(
+                new ImageIcon(getClass().getResource(urlImage))
+                .getImage().getScaledInstance(300,240,Image.SCALE_SMOOTH)));
+
+        JLabel title = new JLabel(titleItem);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        title.setForeground(Color.WHITE);
+
+        JLabel descSell = new JLabel(descriptionItem);
+        descSell.setHorizontalAlignment(JLabel.CENTER);
+        descSell.setForeground(Color.WHITE);
+        descSell.setFont(new Font("Segoe UI", Font.PLAIN, 28));
+        
+        icon.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descSell.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        card.add(Box.createVerticalStrut(verticalStrut));
+        card.add(icon);
+        card.add(Box.createVerticalStrut(35));
+        card.add(title);
+        card.add(Box.createVerticalStrut(30));
+        card.add(descSell);
+        card.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        return card;
+    }
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
      * content of this method is always regenerated by the Form Editor.
@@ -119,9 +214,9 @@ public class DashboardGUI extends javax.swing.JFrame {
         lblRole = new javax.swing.JLabel();
         panelMenu = new javax.swing.JPanel();
         logoutBtn = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnDangXuat = new javax.swing.JButton();
         panelMain = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        container = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,8 +256,8 @@ public class DashboardGUI extends javax.swing.JFrame {
 
         logoutBtn.setBackground(new java.awt.Color(31, 33, 37));
 
-        jButton1.setText("jButton1");
-        logoutBtn.add(jButton1);
+        btnDangXuat.setText("jButton1");
+        logoutBtn.add(btnDangXuat);
 
         panelSidebar.add(logoutBtn, java.awt.BorderLayout.PAGE_END);
 
@@ -170,21 +265,18 @@ public class DashboardGUI extends javax.swing.JFrame {
 
         panelMain.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(204, 102, 0));
-        jPanel1.setPreferredSize(new java.awt.Dimension(950, 200));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
+        container.setLayout(containerLayout);
+        containerLayout.setHorizontalGroup(
+            containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 950, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+        containerLayout.setVerticalGroup(
+            containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
 
-        panelMain.add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        panelMain.add(container, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(panelMain, java.awt.BorderLayout.CENTER);
 
@@ -194,9 +286,9 @@ public class DashboardGUI extends javax.swing.JFrame {
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel avatar;
+    private javax.swing.JButton btnDangXuat;
+    private javax.swing.JPanel container;
     private javax.swing.JPanel inforPanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRole;
     private javax.swing.JPanel logoutBtn;

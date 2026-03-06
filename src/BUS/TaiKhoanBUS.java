@@ -5,6 +5,7 @@
 package BUS;
 
 import DAO.TaiKhoanDAO;
+import DTO.TaiKhoanDTO;
 
 /**
  *
@@ -13,13 +14,13 @@ import DAO.TaiKhoanDAO;
 public class TaiKhoanBUS {
     private TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
 
-    public boolean Login(String username, String password) {
+    public TaiKhoanDTO Login(String username, String password) {
 
         if(username == null || username.isEmpty())
-            return false;
+            return null;
 
         if(password == null || password.isEmpty())
-            return false;
+            return null;
 
         return this.taiKhoanDAO.Login(username, password);
     }

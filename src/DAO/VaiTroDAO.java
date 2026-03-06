@@ -101,4 +101,33 @@ public class VaiTroDAO {
         }
          return "VT01";
     }
+    public VaiTroDTO getVaiTroById(String maVaiTro){
+        String sql = """
+                     SELECT MAVAITRO, MAQUYEN, TENVAITRO, TRANGTHAIXOA
+                     FROM vaitro
+                     WHERE MAVAITRO = ? AND TRANGTHAIXOA = 0
+                     """;
+
+        try(
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+        ){
+            ps.setString(1, maVaiTro);
+
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    VaiTroDTO vaitro = new VaiTroDTO();
+                    vaitro.setMaVaiTro(rs.getString("MAVAITRO"));
+                    vaitro.setMaQuyen(rs.getString("MAQUYEN"));
+                    vaitro.setTenVaiTro(rs.getString("TENVAITRO"));
+                    return vaitro;
+                }
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
