@@ -17,5 +17,5 @@ public class Main {
   public static void main(String[] args){
     Connection conn = DBConnection.getConnection();
     if(conn == null) return;
-    Utils.WindowUtil.showWindow(new DangNhapGUI());
+    Utils.WindowUtil.showWindow(new BanHangGUI());
 }}

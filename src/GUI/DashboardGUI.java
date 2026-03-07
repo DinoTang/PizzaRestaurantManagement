@@ -7,6 +7,7 @@ package GUI;
 import BUS.NhanVienBUS;
 import BUS.VaiTroBUS;
 import Custom.ImagePanel;
+import Custom.RoundedButton;
 import Custom.RoundedPanel;
 import DTO.NhanVienDTO;
 import DTO.VaiTroDTO;
@@ -37,12 +38,15 @@ public class DashboardGUI extends javax.swing.JFrame {
     private VaiTroBUS vaiTroBUS;
     private String maNV;
     private String maVaiTro;
+    private RoundedButton btnDangXuat;
+    private RoundedPanel cardSell;
+    private RoundedPanel cardManage;
     public DashboardGUI(String maNV, String maVaiTro) {
         this.nhanVienBUS = new NhanVienBUS(); 
         this.vaiTroBUS = new VaiTroBUS();
         this.maNV = maNV;
         this.maVaiTro = maVaiTro;
-        
+        this.btnDangXuat = new RoundedButton(20);
         initComponents();
         this.setTitle("Trang chủ");
         this.setLocationRelativeTo(null);
@@ -108,6 +112,7 @@ public class DashboardGUI extends javax.swing.JFrame {
         this.logoutBtn.setLayout(new java.awt.GridBagLayout());
         this.logoutBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(20,20,20,20));
         
+        
         this.btnDangXuat.setText("Đăng xuất");
         this.btnDangXuat.setFont(new Font("Segoe UI", Font.BOLD, 18));
         this.btnDangXuat.setBackground(new Color(255,59,48));
@@ -116,7 +121,8 @@ public class DashboardGUI extends javax.swing.JFrame {
         this.btnDangXuat.setFocusPainted(false);
         this.btnDangXuat.setPreferredSize(new Dimension(180,45));
         this.btnDangXuat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-         
+        
+        this.logoutBtn.add(this.btnDangXuat);
         this.container.setBackground(Color.WHITE);
         this.container.setLayout(new BoxLayout(this.container, BoxLayout.Y_AXIS));
         
@@ -138,13 +144,13 @@ public class DashboardGUI extends javax.swing.JFrame {
         String urlImageCardSell = "/images/POS.png";
         String titleCardSell = "BÁN HÀNG";
         String descriptionCardSell = "<html><center>Phục vụ món ăn,<br>hóa đơn & thanh toán.</center></html>";
-        RoundedPanel cardSell = this.createCardItem(urlImageCardSell, titleCardSell, descriptionCardSell,35);
+        this.cardSell = this.createCardItem(urlImageCardSell, titleCardSell, descriptionCardSell,35);
        
         
         String urlImageCardManage = "/images/ManageIcon.png";
         String titleCardManage = "QUẢN LÝ";
         String descriptionCardManage = "<html><center>Báo cáo doanh thu,<br>kho, nhân sự & menu</center></html>";
-        RoundedPanel cardManage = this.createCardItem(urlImageCardManage, titleCardManage, descriptionCardManage,25);
+        this.cardManage = this.createCardItem(urlImageCardManage, titleCardManage, descriptionCardManage,25);
         
         cardPanel.add(cardSell);
         cardPanel.add(cardManage);
@@ -161,8 +167,28 @@ public class DashboardGUI extends javax.swing.JFrame {
         );
 
         if(confirm == JOptionPane.YES_OPTION){
-            new DangNhapGUI().setVisible(true);
+            Utils.WindowUtil.showWindow(new DangNhapGUI());
             this.dispose();
+        }
+    });
+        
+        this.cardSell.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            Utils.WindowUtil.showWindow(new BanHangGUI());
+            dispose();
+        }
+    });
+        this.cardManage.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            if(vaiTroBUS.isAdmin(maVaiTro)){
+                //new QuanLyGUI(maNV, maVaiTro).setVisible(true);
+                dispose();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Bạn không có quyền truy cập chức năng này");
+            }
         }
     });
     }
@@ -214,7 +240,6 @@ public class DashboardGUI extends javax.swing.JFrame {
         lblRole = new javax.swing.JLabel();
         panelMenu = new javax.swing.JPanel();
         logoutBtn = new javax.swing.JPanel();
-        btnDangXuat = new javax.swing.JButton();
         panelMain = new javax.swing.JPanel();
         container = new javax.swing.JPanel();
 
@@ -255,10 +280,6 @@ public class DashboardGUI extends javax.swing.JFrame {
         panelSidebar.add(inforPanel, java.awt.BorderLayout.CENTER);
 
         logoutBtn.setBackground(new java.awt.Color(31, 33, 37));
-
-        btnDangXuat.setText("jButton1");
-        logoutBtn.add(btnDangXuat);
-
         panelSidebar.add(logoutBtn, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(panelSidebar, java.awt.BorderLayout.LINE_START);
@@ -286,7 +307,6 @@ public class DashboardGUI extends javax.swing.JFrame {
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel avatar;
-    private javax.swing.JButton btnDangXuat;
     private javax.swing.JPanel container;
     private javax.swing.JPanel inforPanel;
     private javax.swing.JLabel lblName;

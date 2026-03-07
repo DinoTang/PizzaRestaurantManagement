@@ -4,6 +4,8 @@ import Custom.ImagePanel;
 import java.awt.*;
 import javax.swing.*;
 import BUS.TaiKhoanBUS;
+import Custom.RoundedButton;
+import DTO.TaiKhoanDTO;
 
 public class DangNhapGUI extends JFrame {
 
@@ -18,7 +20,7 @@ public class DangNhapGUI extends JFrame {
     private JTextField txtUser;
     private JPasswordField txtPass;
     private JCheckBox chkShowPass;
-    private JButton btnLogin;
+    private RoundedButton btnLogin;
     private char defaultEchoChar;
     
     private JLabel lblClose;
@@ -44,92 +46,93 @@ public class DangNhapGUI extends JFrame {
     }
     
     private void addControls() {
-        MainPanel = new JPanel(new GridLayout(1, 2));
+        this.MainPanel = new JPanel(new GridLayout(1, 2));
 
        
-        jPanelLeft = new JPanel(new BorderLayout());
-        jPanelLeft.setBackground(Color.WHITE);
-        jPanelLeft.setPreferredSize(new Dimension(350, 500));
+        this.jPanelLeft = new JPanel(new BorderLayout());
+        this.jPanelLeft.setBackground(Color.WHITE);
+        this.jPanelLeft.setPreferredSize(new Dimension(350, 500));
 
-        jPanelLogo = new JPanel(null);
-        jPanelLogo.setPreferredSize(new Dimension(350, 120));
-        jPanelLogo.setBackground(Color.WHITE);
+        this.jPanelLogo = new JPanel(null);
+        this.jPanelLogo.setPreferredSize(new Dimension(350, 120));
+        this.jPanelLogo.setBackground(Color.WHITE);
         ImagePanel logoPanel = new ImagePanel("/images/logo.png", true);
         logoPanel.setBounds(50, -15, 250, 150);
 
-        jPanelLogo.add(logoPanel);
-        jPanelLeft.add(jPanelLogo, BorderLayout.NORTH);
+        this.jPanelLogo.add(logoPanel);
+        this.jPanelLeft.add(this.jPanelLogo, BorderLayout.NORTH);
         
         JPanel formPanel = new JPanel(null);
         formPanel.setBackground(Color.WHITE);
-        lblTitle = new JLabel("ĐĂNG NHẬP");
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 36));
-        lblTitle.setBounds(60, 10, 350, 50);
+        this.lblTitle = new JLabel("ĐĂNG NHẬP");
+        this.lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        this.lblTitle.setBounds(60, 10, 350, 50);
 
-        formPanel.add(lblTitle);
+        formPanel.add(this.lblTitle);
 
-        lblUser = new JLabel("Mã nhân viên");
-        lblUser.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblUser.setBounds(50, 80, 200, 20);
-        formPanel.add(lblUser);
+        this.lblUser = new JLabel("Mã nhân viên");
+        this.lblUser.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        this.lblUser.setBounds(50, 80, 200, 20);
+        formPanel.add(this.lblUser);
 
-        txtUser = new JTextField();
-        txtUser.setBounds(40, 110, 270, 35);
-        txtUser.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtUser.setBorder(BorderFactory.createCompoundBorder(
+        this.txtUser = new JTextField();
+        this.txtUser.setBounds(40, 110, 270, 35);
+        this.txtUser.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        this.txtUser.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createLineBorder(Color.GRAY, 2),
         BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
-        formPanel.add(txtUser);
+        formPanel.add(this.txtUser);
         
-        lblPass = new JLabel("Mật khẩu");
-        lblPass.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblPass.setBounds(50, 160, 200, 20);
-        formPanel.add(lblPass);
+        this.lblPass = new JLabel("Mật khẩu");
+        this.lblPass.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        this.lblPass.setBounds(50, 160, 200, 20);
+        formPanel.add(this.lblPass);
         
-        txtPass = new JPasswordField();
-        txtPass.setBounds(40, 190, 270, 35);
-        txtPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtPass.setBorder(BorderFactory.createCompoundBorder(
+        this.txtPass = new JPasswordField();
+        this.txtPass.setBounds(40, 190, 270, 35);
+        this.txtPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        this.txtPass.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createLineBorder(Color.GRAY, 2),
         BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
-        defaultEchoChar = txtPass.getEchoChar();
-        formPanel.add(txtPass);
+        this.defaultEchoChar = this.txtPass.getEchoChar();
+        formPanel.add(this.txtPass);
         
-        chkShowPass = new JCheckBox("Hiện mật khẩu");
-        chkShowPass.setBackground(Color.WHITE);
-        chkShowPass.setBounds(40, 230, 150, 20);
-        chkShowPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        formPanel.add(chkShowPass);
+        this.chkShowPass = new JCheckBox("Hiện mật khẩu");
+        this.chkShowPass.setBackground(Color.WHITE);
+        this.chkShowPass.setBounds(40, 230, 150, 20);
+        this.chkShowPass.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        formPanel.add(this.chkShowPass);
         
-        btnLogin = new JButton("ĐĂNG NHẬP");
-        btnLogin.setBounds(40, 280, 270, 40);
-        btnLogin.setBackground(new Color(255,140,0));
-        btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        btnLogin.setFocusPainted(false);
-        formPanel.add(btnLogin);
+        this.btnLogin = new RoundedButton(20);
+        this.btnLogin.setText("ĐĂNG NHẬP");
+        this.btnLogin.setBounds(40, 280, 270, 40);
+        this.btnLogin.setBackground(new Color(255,140,0));
+        this.btnLogin.setForeground(Color.WHITE);
+        this.btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        this.btnLogin.setFocusPainted(false);
+        formPanel.add(this.btnLogin);
         
-        jPanelLeft.add(formPanel, BorderLayout.CENTER);
-        MainPanel.add(jPanelLeft);
+        this.jPanelLeft.add(formPanel, BorderLayout.CENTER);
+        this.MainPanel.add(this.jPanelLeft);
         
         
-        jPanelRight = new ImagePanel("/images/pizza.png", false);
-        jPanelRight.setLayout(null); // cho phép đặt icon
-        jPanelRight.setBackground(Color.WHITE);
+        this.jPanelRight = new ImagePanel("/images/pizza.png", false);
+        this.jPanelRight.setLayout(null); // cho phép đặt icon
+        this.jPanelRight.setBackground(Color.WHITE);
 
         this.createCloseButton();
 
-        MainPanel.add(jPanelRight);
+        MainPanel.add(this.jPanelRight);
 
-        add(MainPanel, BorderLayout.CENTER);
+        add(this.MainPanel, BorderLayout.CENTER);
     }
     private void addEvents() {
 
-        btnLogin.addActionListener(e -> xuLyDangNhap());
+        this.btnLogin.addActionListener(e -> xuLyDangNhap());
 
-        chkShowPass.addActionListener(e -> togglePassword());
+        this.chkShowPass.addActionListener(e -> togglePassword());
     }
     
     private void createCloseButton() {
@@ -137,32 +140,32 @@ public class DangNhapGUI extends JFrame {
         Image img = icon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
         icon = new ImageIcon(img);
 
-        lblClose = new JLabel(icon);
+        this.lblClose = new JLabel(icon);
 
-        lblClose.setBounds(310, 10, 32, 32); // góc phải panel
-        lblClose.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.lblClose.setBounds(310, 10, 32, 32); // góc phải panel
+        this.lblClose.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
+        this.lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 System.exit(0);
             }
         });
-        jPanelRight.add(lblClose);
+        this.jPanelRight.add(lblClose);
     }
     
    
    private void togglePassword() {
-    if (chkShowPass.isSelected()) {
-      txtPass.setEchoChar((char) 0); // hiện mật khẩu
+    if (this.chkShowPass.isSelected()) {
+      this.txtPass.setEchoChar((char) 0); // hiện mật khẩu
     } else {
-      txtPass.setEchoChar(defaultEchoChar); // trở lại dấu chấm ban đầu
+      this.txtPass.setEchoChar(defaultEchoChar); // trở lại dấu chấm ban đầu
     }
    }
    private void xuLyDangNhap() {
 
-        String username = txtUser.getText();
-        String password = new String(txtPass.getPassword());
+        String username = this.txtUser.getText();
+        String password = new String(this.txtPass.getPassword());
 
         if(username.isEmpty() || password.isEmpty()){
             JOptionPane.showMessageDialog(this,"Vui lòng nhập đầy đủ thông tin!");
@@ -170,15 +173,13 @@ public class DangNhapGUI extends JFrame {
         }
 
         TaiKhoanBUS taiKhoanBUS = new TaiKhoanBUS();
-        String maNV = taiKhoanBUS.Login(username, password).getMaNhanVien();
-        String maVaiTro = taiKhoanBUS.Login(username, password).getMaVaiTro();
-        boolean result = taiKhoanBUS.Login(username, password) != null;
+        TaiKhoanDTO tk = taiKhoanBUS.Login(username, password);
 
-        if(result){
+        if(tk != null){
+            String maNV = tk.getMaNhanVien();
+            String maVaiTro = tk.getMaVaiTro();
+            
             JOptionPane.showMessageDialog(this,"Đăng nhập thành công!");
-
-            // mở form chính
-            // new MainGUI().setVisible(true);
             Utils.WindowUtil.showWindow(new DashboardGUI(maNV,maVaiTro));
             this.dispose();
         }
