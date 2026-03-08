@@ -12,6 +12,7 @@ public class RoundedButton extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
+        setOpaque(false);
     }
 
     @Override
