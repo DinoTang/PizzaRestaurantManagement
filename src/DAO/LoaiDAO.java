@@ -1,13 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
-/**
- *
- * @author quock
- */
+import DTO.LoaiDTO;
+import Utils.DBConnection;
+import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
+
 public class LoaiDAO {
-    
+
+    public List<LoaiDTO> getAllLoai() {
+
+        List<LoaiDTO> list = new ArrayList<>();
+
+        try {
+
+            Connection conn = DBConnection.getConnection();
+
+            String sql = "SELECT * FROM loai WHERE trangThaiXoa = 0";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                LoaiDTO loai = new LoaiDTO();
+
+                loai.setMaLoai(rs.getString("maLoai"));
+                loai.setTenLoai(rs.getString("tenLoai"));
+                loai.setTrangThaiXoa(rs.getBoolean("trangThaiXoa"));
+
+                list.add(loai);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

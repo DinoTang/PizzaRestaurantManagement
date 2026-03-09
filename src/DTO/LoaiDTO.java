@@ -12,7 +12,7 @@ public class LoaiDTO {
     private String maLoai;
     private String tenLoai;
     private boolean trangThaiXoa;
-
+    public LoaiDTO() {}
     public String getMaLoai() {
         return maLoai;
     }
@@ -37,5 +37,8 @@ public class LoaiDTO {
         this.trangThaiXoa = trangThaiXoa;
     }
 
-    public LoaiDTO() {}
+    @Override
+    public String toString() {
+        return tenLoai;
+    }
 }

@@ -1,5 +1,7 @@
 package GUI.components;
 
+import BUS.CartBUS;
+import DTO.CartItemDTO;
 import Custom.RoundedButton;
 import Custom.RoundedPanel;
 import Custom.WrapLayout;
@@ -8,7 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CartPanel extends RoundedPanel {
-
+    private RoundedButton btnPay;
+    private JPanel cartList;
+    private JLabel lblPriceTotal;
     public CartPanel(){
 
         super(40);
@@ -20,13 +24,43 @@ public class CartPanel extends RoundedPanel {
         int width = (int)(screen.width * 1.0/3);
         setPreferredSize(new Dimension(width,0));
 
-        createHeader();
-        createCartList();
-        createBottom();
+        this.addControls();
+        this.addEvents();
     }
 
-    private JPanel cartList;
+    private void addControls(){
+        this.createHeader();
+        this.createCartList();
+        this.createBottom();
+    }
+    private void addEvents(){
+        Color payNormal = Color.decode("#FF8C00");
+        Color payClick = payNormal.darker();
 
+        this.btnPay.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        this.btnPay.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnPay.setBackground(payClick);
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnPay.setBackground(payNormal);
+            }
+        });
+        this.btnPay.addActionListener(e -> {
+
+            Window parent = SwingUtilities.getWindowAncestor(CartPanel.this);
+
+            PaymentDlg dialog = new PaymentDlg(parent);
+
+            dialog.setVisible(true);
+
+        });
+    }
     private void createHeader(){
 
         JLabel title = new JLabel("Thông tin hóa đơn:");
@@ -37,24 +71,26 @@ public class CartPanel extends RoundedPanel {
         header.setOpaque(false);
         header.add(title);
 
-        add(header,BorderLayout.NORTH);
+        this.add(header, BorderLayout.NORTH);
     }
 
     private void createCartList(){
 
-        cartList = new JPanel(new WrapLayout(FlowLayout.CENTER,10,10));
+        JPanel container = new JPanel(new BorderLayout());
+        container.setBackground(Color.WHITE);
+        container.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
+
+        this.add(container, BorderLayout.CENTER);
+
+        cartList = new JPanel();
+        cartList.setLayout(new WrapLayout(FlowLayout.CENTER,10,10));
         cartList.setBackground(Color.WHITE);
 
-        JScrollPane scroll = new JScrollPane(cartList);
-        scroll.setBorder(null);
+        JScrollPane cartScroll = new JScrollPane(cartList);
+        cartScroll.setBorder(null);
+        cartScroll.getVerticalScrollBar().setUnitIncrement(16);
 
-        add(scroll,BorderLayout.CENTER);
-
-        cartList.add(new CartItem(
-                "Pizza Phô Mai",
-                "155,000đ",
-                "/images/menu/pizza/Pizza Hải Sản Xốt Mayonnaise.jpg"
-        ));
+        container.add(cartScroll, BorderLayout.CENTER);
     }
 
     private void createBottom(){
@@ -63,27 +99,68 @@ public class CartPanel extends RoundedPanel {
         bottom.setBackground(Color.WHITE);
         bottom.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
 
-        JLabel total = new JLabel("Tổng");
-        total.setFont(new Font("Segoe UI",Font.BOLD,18));
+        JLabel lblTotal = new JLabel("Tổng");
+        lblTotal.setFont(new Font("Segoe UI",Font.BOLD,18));
 
-        JLabel price = new JLabel("380,000đ");
-        price.setFont(new Font("Segoe UI",Font.BOLD,20));
+        lblPriceTotal = new JLabel("0đ");
+        lblPriceTotal.setFont(new Font("Segoe UI",Font.BOLD,20));
 
         JPanel totalPanel = new JPanel(new BorderLayout());
         totalPanel.setBackground(Color.WHITE);
+        totalPanel.add(lblTotal,BorderLayout.WEST);
+        totalPanel.add(lblPriceTotal,BorderLayout.EAST);
 
-        totalPanel.add(total,BorderLayout.WEST);
-        totalPanel.add(price,BorderLayout.EAST);
+        this.btnPay = new RoundedButton(10);
+        this.btnPay.setText("THANH TOÁN");
+        this.btnPay.setBackground(Color.decode("#FF8C00"));
+        this.btnPay.setForeground(Color.WHITE);
+        this.btnPay.setFont(new Font("Segoe UI",Font.BOLD,18));
+        this.btnPay.setPreferredSize(new Dimension(500,50));
 
-        RoundedButton pay = new RoundedButton(10);
-        pay.setText("THANH TOÁN");
-        pay.setBackground(Color.decode("#FF8C00"));
-        pay.setForeground(Color.WHITE);
-        pay.setPreferredSize(new Dimension(500,50));
+        JPanel payPanel = new JPanel();
+        payPanel.setBackground(Color.WHITE);
+        payPanel.setLayout(new BorderLayout());
+        payPanel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+        payPanel.add(this.btnPay, BorderLayout.CENTER);
 
         bottom.add(totalPanel,BorderLayout.NORTH);
-        bottom.add(pay,BorderLayout.CENTER);
+        bottom.add(payPanel,BorderLayout.CENTER);
 
-        add(bottom,BorderLayout.SOUTH);
+        this.add(bottom,BorderLayout.SOUTH);
+    }
+    public void addItemToCart(CartItem item){
+
+        cartList.add(item);
+        
+        cartList.revalidate();
+        cartList.repaint();
+    }
+    public void reloadCart(){
+
+        cartList.removeAll();
+
+        for(CartItemDTO item : CartBUS.getCart()){
+
+            CartItem guiItem = new CartItem(
+                    item.getMaSP(),
+                    item.getTenSP(),
+                    item.getSize(),
+                    item.getGia(),
+                    item.getImg(),
+                    item.getSoLuong(),
+                    this
+            );
+
+            cartList.add(guiItem);
+        }
+        this.updateTotal();
+        cartList.revalidate();
+        cartList.repaint();
+    }
+    public void updateTotal(){
+
+        double total = CartBUS.getTotalPrice();
+
+        lblPriceTotal.setText(String.format("%,.0fđ", total));
     }
 }

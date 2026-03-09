@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
-/**
- *
- * @author quock
- */
+import DAO.LoaiDAO;
+import DTO.LoaiDTO;
+import java.util.List;
+
 public class LoaiBUS {
-    
+
+    private LoaiDAO loaiDAO = new LoaiDAO();
+
+    public List<LoaiDTO> getAllLoai() {
+        return loaiDAO.getAllLoai();
+    }
+
 }
