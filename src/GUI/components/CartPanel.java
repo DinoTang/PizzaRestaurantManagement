@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CartPanel extends RoundedPanel {
+    private JPanel menuPanel;
     private RoundedButton btnPay;
     private JPanel cartList;
     private JLabel lblPriceTotal;
@@ -27,7 +28,9 @@ public class CartPanel extends RoundedPanel {
         this.addControls();
         this.addEvents();
     }
-
+    public void setMenuPanel(JPanel menuPanel){
+        this.menuPanel = menuPanel;
+    }
     private void addControls(){
         this.createHeader();
         this.createCartList();
@@ -53,9 +56,18 @@ public class CartPanel extends RoundedPanel {
         });
         this.btnPay.addActionListener(e -> {
 
-            Window parent = SwingUtilities.getWindowAncestor(CartPanel.this);
+            if(CartBUS.getCart().isEmpty()){
+                JOptionPane.showMessageDialog(
+                        CartPanel.this,
+                        "Vui lòng thêm món trước khi thanh toán!",
+                        "Thông báo",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
-            PaymentDlg dialog = new PaymentDlg(parent);
+            Window parent = SwingUtilities.getWindowAncestor(CartPanel.this);
+            PaymentDlg dialog = new PaymentDlg(parent, CartBUS.getCart());
 
             dialog.setVisible(true);
 
@@ -162,5 +174,14 @@ public class CartPanel extends RoundedPanel {
         double total = CartBUS.getTotalPrice();
 
         lblPriceTotal.setText(String.format("%,.0fđ", total));
+    }
+    public void updateAllStocks(){
+
+        for(Component c : menuPanel.getComponents()){
+            if(c instanceof ItemCard){
+                ((ItemCard)c).updateStock();
+            }
+        }
+
     }
 }

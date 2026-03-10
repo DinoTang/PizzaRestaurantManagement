@@ -1,13 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
-/**
- *
- * @author quock
- */
+import DAO.QuyenDAO;
+import DTO.QuyenDTO;
+
 public class QuyenBUS {
-    
+
+    private QuyenDAO quyenDAO = new QuyenDAO();
+
+    public QuyenDTO getQuyenById(String maQuyen){
+        return quyenDAO.getQuyenById(maQuyen);
+    }
+
+    public boolean isAdmin(String maQuyen){
+        return quyenDAO.isAdmin(maQuyen);
+    }
+
 }

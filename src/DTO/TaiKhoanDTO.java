@@ -1,23 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-import java.time.LocalDate;
-
-/**
- *
- * @author quock
- */
 public class TaiKhoanDTO {
+
     private String maTaiKhoan;
-    private String maVaiTro;
+    private String maQuyen;
     private String maNhanVien;
     private String tenDangNhap;
     private String matKhau;
-    private LocalDate ngayTao;
     private boolean trangThaiXoa;
+
+    public TaiKhoanDTO(){}
 
     public String getMaTaiKhoan() {
         return maTaiKhoan;
@@ -27,12 +19,12 @@ public class TaiKhoanDTO {
         this.maTaiKhoan = maTaiKhoan;
     }
 
-    public String getMaVaiTro() {
-        return maVaiTro;
+    public String getMaQuyen() {
+        return maQuyen;
     }
 
-    public void setMaVaiTro(String maVaiTro) {
-        this.maVaiTro = maVaiTro;
+    public void setMaQuyen(String maQuyen) {
+        this.maQuyen = maQuyen;
     }
 
     public String getMaNhanVien() {
@@ -59,14 +51,6 @@ public class TaiKhoanDTO {
         this.matKhau = matKhau;
     }
 
-    public LocalDate getNgayTao() {
-        return ngayTao;
-    }
-
-    public void setNgayTao(LocalDate ngayTao) {
-        this.ngayTao = ngayTao;
-    }
-
     public boolean isTrangThaiXoa() {
         return trangThaiXoa;
     }
@@ -74,6 +58,4 @@ public class TaiKhoanDTO {
     public void setTrangThaiXoa(boolean trangThaiXoa) {
         this.trangThaiXoa = trangThaiXoa;
     }
-
-    public TaiKhoanDTO() {}
 }

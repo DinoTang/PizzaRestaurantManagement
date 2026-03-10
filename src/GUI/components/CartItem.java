@@ -95,17 +95,9 @@ public class CartItem extends RoundedPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
 
-                lblDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-
-                @Override
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-
-                    CartBUS.removeItem(maSP, size);
-
+                CartBUS.removeItem(maSP, size);
                     cartPanel.reloadCart();
-                }
-
-            });
+                    cartPanel.updateAllStocks();
             }
         });
         

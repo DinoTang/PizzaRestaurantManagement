@@ -1,10 +1,14 @@
 package GUI.components;
 
+import GUI.BanHangGUI;
+import GUI.DashboardGUI;
+import Utils.WindowUtil;
 import javax.swing.*;
 import java.awt.*;
 
 public class HeaderPanel extends JPanel {
-
+    private String maNV;
+    private String maQuyen;
     private JPanel leftPanel;
     private JPanel rightPanel;
 
@@ -12,11 +16,16 @@ public class HeaderPanel extends JPanel {
     private JButton btnHoaDon;
 
     private JLabel exitIcon;
+    private BanHangGUI parent;
+    
+    public HeaderPanel(BanHangGUI parent, String maNV, String maQuyen){
+        this.parent = parent;
+        this.maNV = maNV;
+        this.maQuyen = maQuyen;
 
-    public HeaderPanel(){
-        this.initComponents();
-        this.addControls();
-        this.addEvents();
+        initComponents();
+        addControls();
+        addEvents();
     }
 
     private void initComponents(){
@@ -81,7 +90,7 @@ public class HeaderPanel extends JPanel {
             styleTab(this.btnBanHang,true);
             styleTab(this.btnHoaDon,false);
 
-            // TODO: chuyển panel bán hàng
+            parent.showBanHang();
         });
 
         this.btnHoaDon.addActionListener(e -> {
@@ -89,7 +98,7 @@ public class HeaderPanel extends JPanel {
             styleTab(this.btnBanHang,false);
             styleTab(this.btnHoaDon,true);
 
-            // TODO: chuyển panel hóa đơn
+            parent.showLichSu();
         });
 
         // exit
@@ -100,6 +109,8 @@ public class HeaderPanel extends JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Window w = SwingUtilities.getWindowAncestor(HeaderPanel.this);
                 w.dispose();
+
+                WindowUtil.showWindow(new DashboardGUI(maNV, maQuyen));
             }
         });
     }

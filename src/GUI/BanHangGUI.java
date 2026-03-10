@@ -1,37 +1,68 @@
 package GUI;
 
-import GUI.components.CartPanel;
-import GUI.components.HeaderPanel;
-import GUI.components.MenuFoodPanel;
+import GUI.components.*;
 import javax.swing.*;
 import java.awt.*;
 
 public class BanHangGUI extends JFrame {
 
-    public BanHangGUI() {
-        this.initComponents();
-        this.addControls();
+    private String maNV;
+    private String maQuyen;
+
+    private JPanel mainContainer;
+    private CardLayout cardLayout;
+
+    public BanHangGUI(String maNV, String maQuyen) {
+
+        this.maNV = maNV;
+        this.maQuyen = maQuyen;
+
+        initComponents();
+        addControls();
     }
 
     private void initComponents(){
-        this.setTitle("Bán Hàng");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setLayout(new BorderLayout());
+        setTitle("Bán Hàng");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
     }
-    private void addControls(){
-        this.add(new HeaderPanel(),BorderLayout.NORTH);
 
-        JPanel container = new JPanel(new BorderLayout());
-        container.setBackground(new Color(31,33,37));
+    private void addControls(){
+
+        // header
+        add(new HeaderPanel(this, maNV, maQuyen), BorderLayout.NORTH);
+
+        // container chính
+        cardLayout = new CardLayout();
+        mainContainer = new JPanel(cardLayout);
         
+        // ===== PANEL BÁN HÀNG =====
         CartPanel cartPanel = new CartPanel();
         MenuFoodPanel menuPanel = new MenuFoodPanel(cartPanel);
-        
-        container.add(menuPanel,BorderLayout.CENTER);
-        container.add(cartPanel,BorderLayout.EAST);
 
-        this.add(container,BorderLayout.CENTER);
+        JPanel banHangPanel = new JPanel(new BorderLayout());
+        banHangPanel.setBackground(new Color(31,33,37));
+        banHangPanel.add(menuPanel, BorderLayout.CENTER);
+        banHangPanel.add(cartPanel, BorderLayout.EAST);
+
+        // ===== PANEL LỊCH SỬ =====
+        LichSuPanel lichSuPanel = new LichSuPanel();
+
+        // thêm vào card
+        mainContainer.add(banHangPanel, "BANHANG");
+        mainContainer.add(lichSuPanel, "LICHSU");
+
+        add(mainContainer, BorderLayout.CENTER);
+    }
+
+    // hàm chuyển panel
+    public void showBanHang(){
+        cardLayout.show(mainContainer, "BANHANG");
+    }
+
+    public void showLichSu(){
+        cardLayout.show(mainContainer, "LICHSU");
     }
 }

@@ -9,19 +9,20 @@ import java.util.List;
 public class SanPhamDAO {
 
     public boolean addSanPham(SanPhamDTO sp){
-        try{
-            Connection conn = DBConnection.getConnection();
 
-            String sql = "INSERT INTO sanpham VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO sanpham (MaSP,TenSP,MaLoai,SoLuong,DonViTinh,HinhAnh,DonGia,TrangThaiXoa) VALUES (?,?,?,?,?,?,?,?)";
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
 
-            ps.setString(1, sp.getMaSanPham());
-            ps.setString(2, sp.getTenSanPham());
+            ps.setString(1, sp.getMaSP());
+            ps.setString(2, sp.getTenSP());
             ps.setString(3, sp.getMaLoai());
-            ps.setDouble(4, sp.getGia());
-            ps.setString(5, sp.getHinh());
-            ps.setBoolean(6, sp.isTrangThaiXoa());
+            ps.setInt(4, sp.getSoLuong());
+            ps.setString(5, sp.getDonViTinh());
+            ps.setString(6, sp.getHinhAnh());
+            ps.setInt(7, sp.getDonGia());
+            ps.setBoolean(8, sp.isTrangThaiXoa());
 
             return ps.executeUpdate() > 0;
 
@@ -33,18 +34,19 @@ public class SanPhamDAO {
     }
 
     public boolean updateSanPham(SanPhamDTO sp){
-        try{
-            Connection conn = DBConnection.getConnection();
 
-            String sql = "UPDATE sanpham SET TENSANPHAM=?, MALOAI=?, GIA=?, HINH=? WHERE MASANPHAM=?";
+        String sql = "UPDATE sanpham SET TenSP=?,MaLoai=?,SoLuong=?,DonViTinh=?,HinhAnh=?,DonGia=? WHERE MaSP=?";
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
 
-            ps.setString(1, sp.getTenSanPham());
+            ps.setString(1, sp.getTenSP());
             ps.setString(2, sp.getMaLoai());
-            ps.setDouble(3, sp.getGia());
-            ps.setString(4, sp.getHinh());
-            ps.setString(5, sp.getMaSanPham());
+            ps.setInt(3, sp.getSoLuong());
+            ps.setString(4, sp.getDonViTinh());
+            ps.setString(5, sp.getHinhAnh());
+            ps.setInt(6, sp.getDonGia());
+            ps.setString(7, sp.getMaSP());
 
             return ps.executeUpdate() > 0;
 
@@ -55,15 +57,14 @@ public class SanPhamDAO {
         return false;
     }
 
-    public boolean deleteSanPham(String maSanPham){
-        try{
-            Connection conn = DBConnection.getConnection();
+    public boolean deleteSanPham(String maSP){
 
-            String sql = "UPDATE sanpham SET TRANGTHAIXOA = 1 WHERE MASANPHAM=?";
+        String sql = "UPDATE sanpham SET TrangThaiXoa = 1 WHERE MaSP=?";
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
 
-            ps.setString(1, maSanPham);
+            ps.setString(1, maSP);
 
             return ps.executeUpdate() > 0;
 
@@ -78,25 +79,24 @@ public class SanPhamDAO {
 
         List<SanPhamDTO> list = new ArrayList<>();
 
-        try{
-            Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM sanpham WHERE TrangThaiXoa = 0";
 
-            String sql = "SELECT * FROM sanpham WHERE TRANGTHAIXOA = 0";
-
+        try(Connection conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery()){
 
             while(rs.next()){
 
                 SanPhamDTO sp = new SanPhamDTO();
 
-                sp.setMaSanPham(rs.getString("MASANPHAM"));
-                sp.setTenSanPham(rs.getString("TENSANPHAM"));
-                sp.setMaLoai(rs.getString("MALOAI"));
-                sp.setGia(rs.getDouble("GIA"));
-                sp.setHinh(rs.getString("HINH"));
-                sp.setTrangThaiXoa(rs.getBoolean("TRANGTHAIXOA"));
+                sp.setMaSP(rs.getString("MaSP"));
+                sp.setTenSP(rs.getString("TenSP"));
+                sp.setMaLoai(rs.getString("MaLoai"));
+                sp.setSoLuong(rs.getInt("SoLuong"));
+                sp.setDonViTinh(rs.getString("DonViTinh"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                sp.setDonGia(rs.getInt("DonGia"));
+                sp.setTrangThaiXoa(rs.getBoolean("TrangThaiXoa"));
 
                 list.add(sp);
             }
@@ -108,18 +108,16 @@ public class SanPhamDAO {
         return list;
     }
 
-    public SanPhamDTO getSanPhamById(String maSanPham){
+    public SanPhamDTO getSanPhamById(String maSP){
 
         SanPhamDTO sp = null;
 
-        try{
-            Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM sanpham WHERE MaSP=?";
 
-            String sql = "SELECT * FROM sanpham WHERE MASANPHAM=?";
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setString(1, maSanPham);
+            ps.setString(1, maSP);
 
             ResultSet rs = ps.executeQuery();
 
@@ -127,12 +125,14 @@ public class SanPhamDAO {
 
                 sp = new SanPhamDTO();
 
-                sp.setMaSanPham(rs.getString("MASANPHAM"));
-                sp.setTenSanPham(rs.getString("TENSANPHAM"));
-                sp.setMaLoai(rs.getString("MALOAI"));
-                sp.setGia(rs.getDouble("GIA"));
-                sp.setHinh(rs.getString("HINH"));
-                sp.setTrangThaiXoa(rs.getBoolean("TRANGTHAIXOA"));
+                sp.setMaSP(rs.getString("MaSP"));
+                sp.setTenSP(rs.getString("TenSP"));
+                sp.setMaLoai(rs.getString("MaLoai"));
+                sp.setSoLuong(rs.getInt("SoLuong"));
+                sp.setDonViTinh(rs.getString("DonViTinh"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                sp.setDonGia(rs.getInt("DonGia"));
+                sp.setTrangThaiXoa(rs.getBoolean("TrangThaiXoa"));
             }
 
         }catch(Exception e){
@@ -142,47 +142,16 @@ public class SanPhamDAO {
         return sp;
     }
 
-    public String getNextSanPhamId(){
-
-        String nextId = "SP001";
-
-        try{
-            Connection conn = DBConnection.getConnection();
-
-            String sql = "SELECT MASANPHAM FROM sanpham ORDER BY MASANPHAM DESC LIMIT 1";
-
-            Statement st = conn.createStatement();
-
-            ResultSet rs = st.executeQuery(sql);
-
-            if(rs.next()){
-
-                String lastId = rs.getString("MASANPHAM");
-
-                int num = Integer.parseInt(lastId.substring(2)) + 1;
-
-                nextId = "SP" + String.format("%03d", num);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return nextId;
-    }
-
     public List<SanPhamDTO> searchSanPhamByName(String keyword){
 
         List<SanPhamDTO> list = new ArrayList<>();
 
-        try{
-            Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM sanpham WHERE TenSP LIKE ? AND TrangThaiXoa = 0";
 
-            String sql = "SELECT * FROM sanpham WHERE TENSANPHAM LIKE ? AND TRANGTHAIXOA = 0";
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setString(1, "%" + keyword + "%");
+            ps.setString(1,"%"+keyword+"%");
 
             ResultSet rs = ps.executeQuery();
 
@@ -190,12 +159,14 @@ public class SanPhamDAO {
 
                 SanPhamDTO sp = new SanPhamDTO();
 
-                sp.setMaSanPham(rs.getString("MASANPHAM"));
-                sp.setTenSanPham(rs.getString("TENSANPHAM"));
-                sp.setMaLoai(rs.getString("MALOAI"));
-                sp.setGia(rs.getDouble("GIA"));
-                sp.setHinh(rs.getString("HINH"));
-                sp.setTrangThaiXoa(rs.getBoolean("TRANGTHAIXOA"));
+                sp.setMaSP(rs.getString("MaSP"));
+                sp.setTenSP(rs.getString("TenSP"));
+                sp.setMaLoai(rs.getString("MaLoai"));
+                sp.setSoLuong(rs.getInt("SoLuong"));
+                sp.setDonViTinh(rs.getString("DonViTinh"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                sp.setDonGia(rs.getInt("DonGia"));
+                sp.setTrangThaiXoa(rs.getBoolean("TrangThaiXoa"));
 
                 list.add(sp);
             }

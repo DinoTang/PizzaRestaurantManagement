@@ -1,34 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-/**
- *
- * @author quock
- */
 public class SanPhamDTO {
-    private String maSanPham;
-    private String tenSanPham;
+
+    private String maSP;
+    private String tenSP;
     private String maLoai;
-    private double gia;
-    private String hinh;
+    private int soLuong;
+    private String donViTinh;
+    private String hinhAnh;
+    private int donGia;
+    private boolean trangThaiXoa;
 
-    public String getMaSanPham() {
-        return maSanPham;
+    public SanPhamDTO(){}
+
+    public String getMaSP() {
+        return maSP;
     }
 
-    public void setMaSanPham(String maSanPham) {
-        this.maSanPham = maSanPham;
+    public void setMaSP(String maSP) {
+        this.maSP = maSP;
     }
 
-    public String getTenSanPham() {
-        return tenSanPham;
+    public String getTenSP() {
+        return tenSP;
     }
 
-    public void setTenSanPham(String tenSanPham) {
-        this.tenSanPham = tenSanPham;
+    public void setTenSP(String tenSP) {
+        this.tenSP = tenSP;
     }
 
     public String getMaLoai() {
@@ -39,20 +37,36 @@ public class SanPhamDTO {
         this.maLoai = maLoai;
     }
 
-    public double getGia() {
-        return gia;
+    public int getSoLuong() {
+        return soLuong;
     }
 
-    public void setGia(double gia) {
-        this.gia = gia;
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
     }
 
-    public String getHinh() {
-        return hinh;
+    public String getDonViTinh() {
+        return donViTinh;
     }
 
-    public void setHinh(String hinh) {
-        this.hinh = hinh;
+    public void setDonViTinh(String donViTinh) {
+        this.donViTinh = donViTinh;
+    }
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
+    public int getDonGia() {
+        return donGia;
+    }
+
+    public void setDonGia(int donGia) {
+        this.donGia = donGia;
     }
 
     public boolean isTrangThaiXoa() {
@@ -62,7 +76,4 @@ public class SanPhamDTO {
     public void setTrangThaiXoa(boolean trangThaiXoa) {
         this.trangThaiXoa = trangThaiXoa;
     }
-    private boolean trangThaiXoa;
-
-    public SanPhamDTO() {}
 }

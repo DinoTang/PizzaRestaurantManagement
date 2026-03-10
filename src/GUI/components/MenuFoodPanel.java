@@ -134,7 +134,8 @@ public class MenuFoodPanel extends RoundedPanel {
         this.menuContainer = new JPanel();
         this.menuContainer.setLayout(new WrapLayout(FlowLayout.LEFT,20,10));
         this.menuContainer.setBackground(Color.decode("#383C42"));
-
+        cartPanel.setMenuPanel(menuContainer);
+        
         this.loadMenuFood();
 
         JScrollPane scroll = new JScrollPane(this.menuContainer);
@@ -178,7 +179,7 @@ public class MenuFoodPanel extends RoundedPanel {
             }
             // ===== lọc theo search =====
             if(!keyword.equals("") && !keyword.equals("tìm kiếm...")){
-                if(!sp.getTenSanPham().toLowerCase().contains(keyword)){
+                if(!sp.getTenSP().toLowerCase().contains(keyword)){
                     continue;
                 }
             }
@@ -194,26 +195,28 @@ public class MenuFoodPanel extends RoundedPanel {
                 folder = "other";
             }
 
-            String imagePath = "/images/menu/" + folder + "/" + sp.getHinh();
+            String imagePath = "/images/menu/" + folder + "/" + sp.getHinhAnh();
 
             ItemCard card;
 
             if(sp.getMaLoai().equals("L01")){
                 card = new ItemCard(
-                    sp.getMaSanPham(),
-                    sp.getTenSanPham(),
+                    sp.getMaSP(),
+                    sp.getTenSP(),
+                    sp.getSoLuong(),
                     imagePath,
                     true,
-                    sp.getGia(),
+                    sp.getDonGia(),
                     this.cartPanel
                 );
             }else{
                 card = new ItemCard(
-                    sp.getMaSanPham(),
-                    sp.getTenSanPham(),
+                    sp.getMaSP(),
+                    sp.getTenSP(),
+                    sp.getSoLuong(),
                     imagePath,
                     false,
-                    sp.getGia(),
+                    sp.getDonGia(),
                     this.cartPanel
                 );
             }

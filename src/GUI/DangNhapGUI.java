@@ -177,7 +177,7 @@ public class DangNhapGUI extends JFrame {
 
         if(tk != null){
             String maNV = tk.getMaNhanVien();
-            String maVaiTro = tk.getMaVaiTro();
+            String maVaiTro = tk.getMaQuyen();
             
             JOptionPane.showMessageDialog(this,"Đăng nhập thành công!");
             Utils.WindowUtil.showWindow(new DashboardGUI(maNV,maVaiTro));

@@ -15,10 +15,14 @@ public class ItemCard extends RoundedPanel {
     double priceS,priceM,priceL;
     JRadioButton sizeS,sizeM,sizeL;
     private CartPanel cartPanel;
-    public ItemCard(String code, String name, String img, boolean hasSize, double basePrice, CartPanel cartPanel) {
+    private String code;
+    private int stock;
+    private JLabel lblStock;
+    public ItemCard(String code, String name, int stock, String img, boolean hasSize, double basePrice, CartPanel cartPanel) {
 
         super(20);
-
+        this.code = code;
+        this.stock = stock;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(300,400));
         setBackground(Color.WHITE);
@@ -58,7 +62,19 @@ public class ItemCard extends RoundedPanel {
         codePanel.setLayout(new BorderLayout());
         codePanel.setBackground(Color.decode("#E8E8E8"));
         codePanel.setBounds(8,8,65,30);
+        
+        RoundedPanel stockPanel = new RoundedPanel(10);
+        stockPanel.setLayout(new BorderLayout());
+        stockPanel.setBackground(Color.decode("#4CAF50"));
+        stockPanel.setBounds(227,8,65,30); // góc phải
 
+        this.lblStock = new JLabel("SL: " + this.stock); // số lượng tồn
+        lblStock.setFont(new Font("Segoe UI",Font.BOLD,16));
+        lblStock.setForeground(Color.WHITE);
+        lblStock.setHorizontalAlignment(JLabel.CENTER);
+
+        stockPanel.add(lblStock,BorderLayout.CENTER);
+        
         JLabel lblCode = new JLabel(code);
         lblCode.setFont(new Font("Segoe UI", Font.BOLD,16));
         lblCode.setForeground(Color.decode("#D32F2F"));
@@ -67,6 +83,7 @@ public class ItemCard extends RoundedPanel {
         codePanel.add(lblCode,BorderLayout.CENTER);
 
         imgPanel.add(codePanel);
+        imgPanel.add(stockPanel);
         imgPanel.add(lblImg);
 
         JLabel lblName = new JLabel(
@@ -160,8 +177,16 @@ public class ItemCard extends RoundedPanel {
         
         
         btnAdd.addActionListener(e -> {
-            String size = "";
-            double price = basePrice;
+
+            int inCart = CartBUS.getQuantityByMaSP(code);
+
+            if(inCart >= stock){
+                JOptionPane.showMessageDialog(null,"Sản phẩm đã hết!");
+                return;
+            }
+
+            String size="";
+            double price=basePrice;
 
             if(sizeM != null){
                 if(sizeS.isSelected()){
@@ -172,14 +197,22 @@ public class ItemCard extends RoundedPanel {
                     size="L"; price=priceL;
                 }
             }
+
             CartItemDTO dto = new CartItemDTO(code,name,size,price,img);
 
             CartBUS.addToCart(dto);
 
             cartPanel.reloadCart();
+            cartPanel.updateAllStocks();
         });
     }
     private String format(double price){
         return String.format("%,.0fđ", price);
+    }
+    public void updateStock(){
+        int inCart = CartBUS.getQuantityByMaSP(this.code); 
+        int remain = this.stock - inCart;
+
+        this.lblStock.setText("SL: " + remain);
     }
 }

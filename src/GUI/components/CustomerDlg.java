@@ -1,5 +1,6 @@
 package GUI.components;
 
+import BUS.KhachHangBUS;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -24,6 +25,7 @@ public class CustomerDlg extends JDialog {
         createTop();
         createTable();
         createBottom();
+        searchCustomer();
     }
 
     private void createTop(){
@@ -45,7 +47,7 @@ public class CustomerDlg extends JDialog {
 
     private void createTable(){
 
-        String[] col = {"Tên khách","Số điện thoại"};
+        String[] col = {"Tên khách","SĐT","Ngày tạo","Tổng chi tiêu"};
 
         model = new DefaultTableModel(col,0);
 
@@ -75,12 +77,23 @@ public class CustomerDlg extends JDialog {
 
         String phone = txtPhone.getText();
 
-        // demo data
-        if(phone.contains("09") || phone.isEmpty()){
+        KhachHangBUS bus = new KhachHangBUS();
 
-            model.addRow(new Object[]{"Nguyễn Văn A","0909123456"});
-            model.addRow(new Object[]{"Trần Văn B","0988888888"});
+        var list = phone.isEmpty()
+                ? bus.getAllCustomers()
+                : bus.searchCustomer(phone);
+
+        for(var kh : list){
+
+            model.addRow(new Object[]{
+                    kh.getTenKhachHang(),
+                    kh.getSoDienThoai(),
+                    kh.getNgayTao(),
+                    String.format("%,d", kh.getTongChiTieu())
+            });
+
         }
+
     }
 
     private void selectCustomer(){

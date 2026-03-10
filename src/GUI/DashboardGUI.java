@@ -5,12 +5,12 @@
 package GUI;
 
 import BUS.NhanVienBUS;
-import BUS.VaiTroBUS;
+import BUS.QuyenBUS;
 import Custom.ImagePanel;
 import Custom.RoundedButton;
 import Custom.RoundedPanel;
 import DTO.NhanVienDTO;
-import DTO.VaiTroDTO;
+import DTO.QuyenDTO;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -35,17 +35,18 @@ public class DashboardGUI extends javax.swing.JFrame {
      * Creates new form DashboardGUI
      */
     private NhanVienBUS nhanVienBUS;
-    private VaiTroBUS vaiTroBUS;
+    private QuyenBUS quyenBUS;
+    private String maQuyen;
     private String maNV;
-    private String maVaiTro;
     private RoundedButton btnDangXuat;
     private RoundedPanel cardSell;
     private RoundedPanel cardManage;
-    public DashboardGUI(String maNV, String maVaiTro) {
+    private JPanel itemProfile;
+    public DashboardGUI(String maNV, String maQuyen) {
         this.nhanVienBUS = new NhanVienBUS(); 
-        this.vaiTroBUS = new VaiTroBUS();
+        this.quyenBUS = new QuyenBUS();
         this.maNV = maNV;
-        this.maVaiTro = maVaiTro;
+        this.maQuyen = maQuyen;
         this.btnDangXuat = new RoundedButton(20);
         initComponents();
         this.setTitle("Trang chủ");
@@ -64,10 +65,10 @@ public class DashboardGUI extends javax.swing.JFrame {
         this.avatar.add(avatarImage);
         
         NhanVienDTO nhanVien = this.nhanVienBUS.getNhanVienById(this.maNV);
-        VaiTroDTO vaiTro = this.vaiTroBUS.getVaiTroById(this.maVaiTro);
+        QuyenDTO quyen = this.quyenBUS.getQuyenById(this.maQuyen);
         
         this.lblName.setText(nhanVien.getHoTen());
-        this.lblRole.setText("Vai trò: " + vaiTro.getTenVaiTro());
+        this.lblRole.setText("Vai trò: " + quyen.getTenQuyen());
         this.lblName.setForeground(Color.WHITE);
         this.lblRole.setForeground(new Color(180,180,180));
         this.lblName.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -88,11 +89,11 @@ public class DashboardGUI extends javax.swing.JFrame {
         this.inforPanel.add(Box.createVerticalStrut(15));
         this.inforPanel.add(this.panelMenu);
         
-        JPanel itemProfile = new JPanel();
-        itemProfile.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 7, 10));
-        itemProfile.setBackground(new Color(31,33,37));
-        itemProfile.setMaximumSize(new Dimension(250,40));
-        itemProfile.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0));
+        this.itemProfile = new JPanel();
+        this.itemProfile.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 7, 10));
+        this.itemProfile.setBackground(new Color(31,33,37));
+        this.itemProfile.setMaximumSize(new Dimension(250,40));
+        this.itemProfile.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0));
         
         ImageIcon icon = new ImageIcon(getClass().getResource("/images/user.png"));
         Image img = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -175,14 +176,14 @@ public class DashboardGUI extends javax.swing.JFrame {
         this.cardSell.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
-            Utils.WindowUtil.showWindow(new BanHangGUI());
+            Utils.WindowUtil.showWindow(new BanHangGUI(maNV, maQuyen));
             dispose();
         }
     });
         this.cardManage.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
-            if(vaiTroBUS.isAdmin(maVaiTro)){
+            if(quyenBUS.isAdmin(maQuyen)){
                 //new QuanLyGUI(maNV, maVaiTro).setVisible(true);
                 dispose();
             }
@@ -191,6 +192,22 @@ public class DashboardGUI extends javax.swing.JFrame {
             }
         }
     });
+        this.itemProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                NhanVienDTO nv = nhanVienBUS.getNhanVienById(maNV);
+                QuyenDTO quyen = quyenBUS.getQuyenById(maQuyen);
+
+                NhanVienProfileDlg dlg = new NhanVienProfileDlg(
+                        DashboardGUI.this,
+                        nv,
+                        quyen.getTenQuyen()
+                );
+
+                dlg.setVisible(true);
+            }
+        });
     }
     private RoundedPanel createCardItem(String urlImage, String titleItem, String descriptionItem, int verticalStrut)
     {

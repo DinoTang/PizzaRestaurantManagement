@@ -22,7 +22,6 @@ public class HoaDonDTO {
     private double tongTienThanhToan;
     private String trangThaiHoaDon;
     private LocalDateTime ngayTao;
-    private LocalDateTime thoiGianHuy;
     private boolean trangThaiXoa;
 
     public String getMaHoaDon() {
@@ -113,13 +112,6 @@ public class HoaDonDTO {
         this.ngayTao = ngayTao;
     }
 
-    public LocalDateTime getThoiGianHuy() {
-        return thoiGianHuy;
-    }
-
-    public void setThoiGianHuy(LocalDateTime thoiGianHuy) {
-        this.thoiGianHuy = thoiGianHuy;
-    }
 
     public boolean isTrangThaiXoa() {
         return trangThaiXoa;

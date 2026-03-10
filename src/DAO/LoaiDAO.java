@@ -16,7 +16,7 @@ public class LoaiDAO {
 
             Connection conn = DBConnection.getConnection();
 
-            String sql = "SELECT * FROM loai WHERE trangThaiXoa = 0";
+            String sql = "SELECT * FROM loai";
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -27,7 +27,6 @@ public class LoaiDAO {
 
                 loai.setMaLoai(rs.getString("maLoai"));
                 loai.setTenLoai(rs.getString("tenLoai"));
-                loai.setTrangThaiXoa(rs.getBoolean("trangThaiXoa"));
 
                 list.add(loai);
             }

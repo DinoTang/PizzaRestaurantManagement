@@ -79,4 +79,17 @@ public class CartBUS {
 
         return total;
     }
+    
+    public static int getQuantityByMaSP(String maSP){
+
+        int total = 0;
+
+        for(CartItemDTO item : cartList){
+            if(item.getMaSP().equals(maSP)){
+                total += item.getSoLuong();
+            }
+        }
+
+        return total;
+    }
 }

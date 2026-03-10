@@ -1,13 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
-/**
- *
- * @author quock
- */
+import DAO.KhachHangDAO;
+import DTO.KhachHangDTO;
+
+import java.util.List;
+
 public class KhachHangBUS {
-    
+
+    private KhachHangDAO dao = new KhachHangDAO();
+
+    public List<KhachHangDTO> getAllCustomers(){
+        return dao.getAll();
+    }
+
+    public List<KhachHangDTO> searchCustomer(String phone){
+        return dao.searchByPhone(phone);
+    }
+
 }
