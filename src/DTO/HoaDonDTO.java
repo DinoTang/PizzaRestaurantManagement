@@ -1,75 +1,66 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-/**
- *
- * @author quock
- */
 public class HoaDonDTO {
-    private String maHoaDon;
-    private String maBan;
-    private String maKhachHang;
-    private String maNhanVien;
-    private String maThanhToan;
-    private String maKhuyenMai;
+
+    private String maHD;
+    private String maKH;
+    private String maNV;
+    private String maGiamGia;
+    private LocalDate ngayLap;
     private double tongTien;
-    private double tienGiam;
-    private double tongTienThanhToan;
-    private String trangThaiHoaDon;
-    private LocalDateTime ngayTao;
-    private boolean trangThaiXoa;
 
-    public String getMaHoaDon() {
-        return maHoaDon;
+    public HoaDonDTO() {
     }
 
-    public void setMaHoaDon(String maHoaDon) {
-        this.maHoaDon = maHoaDon;
+    public HoaDonDTO(String maHD, String maKH, String maNV, String maGiamGia, LocalDate ngayLap, int tongTien) {
+        this.maHD = maHD;
+        this.maKH = maKH;
+        this.maNV = maNV;
+        this.maGiamGia = maGiamGia;
+        this.ngayLap = ngayLap;
+        this.tongTien = tongTien;
     }
 
-    public String getMaBan() {
-        return maBan;
+    public String getMaHD() {
+        return maHD;
     }
 
-    public void setMaBan(String maBan) {
-        this.maBan = maBan;
+    public void setMaHD(String maHD) {
+        this.maHD = maHD;
     }
 
-    public String getMaKhachHang() {
-        return maKhachHang;
+    public String getMaKH() {
+        return maKH;
     }
 
-    public void setMaKhachHang(String maKhachHang) {
-        this.maKhachHang = maKhachHang;
+    public void setMaKH(String maKH) {
+        this.maKH = maKH;
     }
 
-    public String getMaNhanVien() {
-        return maNhanVien;
+    public String getMaNV() {
+        return maNV;
     }
 
-    public void setMaNhanVien(String maNhanVien) {
-        this.maNhanVien = maNhanVien;
+    public void setMaNV(String maNV) {
+        this.maNV = maNV;
     }
 
-    public String getMaThanhToan() {
-        return maThanhToan;
+    public String getMaGiamGia() {
+        return maGiamGia;
     }
 
-    public void setMaThanhToan(String maThanhToan) {
-        this.maThanhToan = maThanhToan;
+    public void setMaGiamGia(String maGiamGia) {
+        this.maGiamGia = maGiamGia;
     }
 
-    public String getMaKhuyenMai() {
-        return maKhuyenMai;
+    public LocalDate getNgayLap() {
+        return ngayLap;
     }
 
-    public void setMaKhuyenMai(String maKhuyenMai) {
-        this.maKhuyenMai = maKhuyenMai;
+    public void setNgayLap(LocalDate ngayLap) {
+        this.ngayLap = ngayLap;
     }
 
     public double getTongTien() {
@@ -79,47 +70,4 @@ public class HoaDonDTO {
     public void setTongTien(double tongTien) {
         this.tongTien = tongTien;
     }
-
-    public double getTienGiam() {
-        return tienGiam;
-    }
-
-    public void setTienGiam(double tienGiam) {
-        this.tienGiam = tienGiam;
-    }
-
-    public double getTongTienThanhToan() {
-        return tongTienThanhToan;
-    }
-
-    public void setTongTienThanhToan(double tongTienThanhToan) {
-        this.tongTienThanhToan = tongTienThanhToan;
-    }
-
-    public String getTrangThaiHoaDon() {
-        return trangThaiHoaDon;
-    }
-
-    public void setTrangThaiHoaDon(String trangThaiHoaDon) {
-        this.trangThaiHoaDon = trangThaiHoaDon;
-    }
-
-    public LocalDateTime getNgayTao() {
-        return ngayTao;
-    }
-
-    public void setNgayTao(LocalDateTime ngayTao) {
-        this.ngayTao = ngayTao;
-    }
-
-
-    public boolean isTrangThaiXoa() {
-        return trangThaiXoa;
-    }
-
-    public void setTrangThaiXoa(boolean trangThaiXoa) {
-        this.trangThaiXoa = trangThaiXoa;
-    }
-
-    public HoaDonDTO() {}
 }

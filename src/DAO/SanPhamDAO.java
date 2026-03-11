@@ -177,4 +177,22 @@ public class SanPhamDAO {
 
         return list;
     }
+    public boolean updateSoLuong(String maSP, int soLuong){
+
+        String sql = "UPDATE sanpham SET SoLuong = SoLuong - ? WHERE MaSP = ?";
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setInt(1, soLuong);
+            ps.setString(2, maSP);
+
+            return ps.executeUpdate() > 0;
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

@@ -1,8 +1,16 @@
 package GUI.components;
-
+import BUS.CTHoaDonBUS;
+import BUS.CartBUS;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import BUS.GiamGiaBUS;
+import BUS.HoaDonBUS;
+import BUS.NhanVienBUS;
+import BUS.SanPhamBUS;
+import DTO.CTHoaDonDTO;
 import DTO.CartItemDTO;
 import DTO.GiamGiaDTO;
+import DTO.HoaDonDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -13,6 +21,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
+import java.time.LocalDateTime;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -24,12 +33,10 @@ public class PaymentDlg extends JDialog {
     private DefaultTableModel model;
     private JLabel lblTempTotal;
     private JLabel lblCustomerPay;
-    private JLabel lblChange;
     private JTextField txtCustomerPay;
     private JButton btnPay;
     private double totalPrice;
 
-    // thêm biến này để lưu tiền sau khi giảm
     private double finalPrice;
 
     private JComboBox<GiamGiaDTO> cboKhuyenMai;
@@ -38,10 +45,12 @@ public class PaymentDlg extends JDialog {
     private JLabel lblTienGiam;
     private JLabel lblKhachCanTra;
     private boolean isFormatting = false;
-    public PaymentDlg(Window parent, List<CartItemDTO> cartList) {
+    private String selectedMaKH;
+    private String maNV;
+    public PaymentDlg(Window parent, List<CartItemDTO> cartList, String maNV) {
 
         super(parent,"Thanh toán",ModalityType.APPLICATION_MODAL);
-
+        this.maNV = maNV;
         calculateTotal(cartList);
 
         // mặc định giá cuối = tổng tiền
@@ -63,73 +72,115 @@ public class PaymentDlg extends JDialog {
 
         loadCartToTable(cartList);
 
-        txtCustomerPay.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-
-            public void insertUpdate(javax.swing.event.DocumentEvent e) {
-                formatMoney();
-                calculateChange();
-            }
-
-            public void removeUpdate(javax.swing.event.DocumentEvent e) {
-                formatMoney();
-                calculateChange();
-            }
-
-            public void changedUpdate(javax.swing.event.DocumentEvent e) {
-                calculateChange();
-            }
-        });
-
         this.loadKhuyenMai();
 
         cboKhuyenMai.addActionListener(e -> {
             tinhKhuyenMai();
-            calculateChange();
         });
         btnPay.addActionListener(e -> {
 
             String method = (String) cboPaymentMethod.getSelectedItem();
 
-            if(method.equals("Tiền mặt")){
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có chắc chắn muốn thanh toán hóa đơn này?",
+                "Xác nhận thanh toán",
+                JOptionPane.YES_NO_OPTION
+            );
 
-                String text = txtCustomerPay.getText().replace(",", "");
+            if(confirm == JOptionPane.YES_OPTION){
 
-                if(text.isEmpty()){
-                    JOptionPane.showMessageDialog(this,"Vui lòng nhập tiền khách đưa!");
-                    return;
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaKH(selectedMaKH);
+                hd.setMaNV(maNV); // nhân viên đăng nhập
+
+                GiamGiaDTO km = (GiamGiaDTO) cboKhuyenMai.getSelectedItem();
+
+                if(km != null){
+                    hd.setMaGiamGia(km.getMaGiam());
                 }
 
-                double pay = Double.parseDouble(text);
+                hd.setTongTien(totalPrice);
+                hd.setTongTien(finalPrice);
+                hd.setNgayLap(LocalDate.now());
 
-                if(pay < finalPrice){
-                    JOptionPane.showMessageDialog(this,"Khách đưa chưa đủ tiền!");
-                    return;
+                HoaDonBUS bus = new HoaDonBUS();
+                hd.setMaHD(bus.getNextMaHoaDon());
+                if(bus.taoHoaDon(hd)){
+
+                    // lưu chi tiết hóa đơn
+                    CTHoaDonBUS ctBUS = new CTHoaDonBUS();
+
+                    for(CartItemDTO item : CartBUS.getCart()){
+                        CTHoaDonDTO cTHoaDonDTO = new CTHoaDonDTO();
+                        cTHoaDonDTO.setMaHoaDon(hd.getMaHD());
+                        cTHoaDonDTO.setMaSanPham(item.getMaSP());
+                        cTHoaDonDTO.setSoLuong(item.getSoLuong());
+                        cTHoaDonDTO.setDonGia(item.getGia());
+                        
+                        ctBUS.addCTHoaDon(cTHoaDonDTO);
+                    }
+
+                    // trừ tồn kho
+                    SanPhamBUS spBUS = new SanPhamBUS();
+
+                    for(CartItemDTO item : CartBUS.getCart()){
+                        spBUS.updateSoLuong(item.getMaSP(), item.getSoLuong());
+                    }
+
+                    // xóa giỏ hàng
+                    CartBUS.clearCart();
+
+                    JOptionPane.showMessageDialog(this,"Thanh toán thành công!");
+
+                    dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this,"Lỗi thanh toán!");
                 }
+
             }
-
-            JOptionPane.showMessageDialog(this,"Thanh toán thành công!");
-            dispose();
         });
     }
 
     private void createHeader(JPanel main){
 
-        JPanel header = new JPanel();
-        header.setLayout(new BoxLayout(header,BoxLayout.Y_AXIS));
+        JPanel header = new JPanel(new BorderLayout());
         header.setBackground(new Color(245,245,245));
+        
+        JPanel left = new JPanel();
+        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        left.setBackground(new Color(245,245,245));
 
         JLabel title = new JLabel("Thông tin thanh toán");
         title.setFont(new Font("Segoe UI",Font.BOLD,20));
-
-        JLabel maHD = new JLabel("Mã hóa đơn: HD001");
+        
+        HoaDonBUS hoaDonBUS = new HoaDonBUS();
+        String maHDString = hoaDonBUS.getNextMaHoaDon();
+        JLabel maHD = new JLabel("Mã hóa đơn: " + maHDString);
         maHD.setFont(new Font("Segoe UI",Font.BOLD,15));
         maHD.setForeground(new Color(0,70,255));
 
-        header.add(title);
-        header.add(Box.createVerticalStrut(5));
-        header.add(maHD);
+        NhanVienBUS nhanVienBUS = new NhanVienBUS();
+        String tenNV = nhanVienBUS.getNhanVienById(maNV).getHoTen();
+        JLabel nhanVien = new JLabel("Nhân viên thực hiện: " + tenNV);
+        nhanVien.setFont(new Font("Segoe UI",Font.BOLD,14));
+        nhanVien.setForeground(new Color(0,70,255));
 
-        main.add(header,BorderLayout.NORTH);
+        left.add(title);
+        left.add(Box.createVerticalStrut(5));
+        left.add(maHD);
+        left.add(nhanVien);
+        
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        JLabel ngayLap = new JLabel("Ngày lập: " + today.format(formatter));
+        ngayLap.setFont(new Font("Segoe UI",Font.PLAIN,14));
+
+        header.add(left, BorderLayout.WEST);
+        header.add(ngayLap, BorderLayout.EAST);
+
+        main.add(header, BorderLayout.NORTH);
     }
 
     private void createCenter(JPanel main){
@@ -209,10 +260,11 @@ public class PaymentDlg extends JDialog {
 
                 CustomerDlg dialog = new CustomerDlg(PaymentDlg.this);
                 dialog.setVisible(true);
-
+                
+                
                 String name = dialog.getSelectedName();
                 String phone = dialog.getSelectedPhone();
-
+                selectedMaKH = dialog.getSelectedMaKH(); 
                 if(name != null){
                     if(phone.equals("")) lblCustomer.setText(name);
                     else lblCustomer.setText("👤 " + name + " - " + phone);
@@ -288,24 +340,6 @@ public class PaymentDlg extends JDialog {
         panel.add(this.cboPaymentMethod, gbc);
         y++;
 
-        gbc.gridx = 0;
-        gbc.gridy = y;
-        panel.add(new JLabel("Khách đưa"), gbc);
-
-        gbc.gridx = 1;
-        txtCustomerPay = new JTextField();
-        txtCustomerPay.setHorizontalAlignment(JTextField.RIGHT);
-        panel.add(txtCustomerPay, gbc);
-        y++;
-
-        gbc.gridx = 0;
-        gbc.gridy = y;
-        panel.add(new JLabel("Tiền thừa"), gbc);
-
-        gbc.gridx = 1;
-        lblChange = createRightLabel("0đ");
-        panel.add(lblChange, gbc);
-
         return panel;
     }
 
@@ -376,28 +410,6 @@ public class PaymentDlg extends JDialog {
                 .sum();
     }
 
-    private void calculateChange(){
-
-        try{
-
-            String text = txtCustomerPay.getText().replace(",", "").replace("đ", "");
-
-            if(text.isEmpty()) return;
-
-            double customerPay = Double.parseDouble(text);
-
-            double change = customerPay - finalPrice;
-
-            if(change < 0){
-                lblChange.setText("0đ");
-            }else{
-                lblChange.setText(String.format("%,.0fđ", change));
-            }
-
-        }catch(Exception e){
-            lblChange.setText("0đ");
-        }
-    }
 
     private void loadKhuyenMai(){
 
@@ -439,34 +451,5 @@ public class PaymentDlg extends JDialog {
         lblPhanTramGiam.setText(phanTram + "%");
         lblTienGiam.setText(String.format("%,.0fđ", tienGiam));
         lblKhachCanTra.setText(String.format("%,.0fđ", finalPrice));
-    }
-
-    // format tiền giống POS
-    private void formatMoney(){
-
-        if(isFormatting) return;
-
-        try{
-
-            isFormatting = true;
-
-            String text = txtCustomerPay.getText().replace(",", "");
-
-            if(text.isEmpty()){
-                isFormatting = false;
-                return;
-            }
-
-            long value = Long.parseLong(text);
-
-            String formatted = String.format("%,d", value);
-
-            if(!formatted.equals(txtCustomerPay.getText())){
-                txtCustomerPay.setText(formatted);
-            }
-
-        }catch(Exception ignored){}
-
-        isFormatting = false;
     }
 }

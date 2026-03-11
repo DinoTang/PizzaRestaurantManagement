@@ -39,7 +39,7 @@ public class BanHangGUI extends JFrame {
         mainContainer = new JPanel(cardLayout);
         
         // ===== PANEL BÁN HÀNG =====
-        CartPanel cartPanel = new CartPanel();
+        CartPanel cartPanel = new CartPanel(maNV);
         MenuFoodPanel menuPanel = new MenuFoodPanel(cartPanel);
 
         JPanel banHangPanel = new JPanel(new BorderLayout());

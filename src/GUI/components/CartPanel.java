@@ -14,10 +14,11 @@ public class CartPanel extends RoundedPanel {
     private RoundedButton btnPay;
     private JPanel cartList;
     private JLabel lblPriceTotal;
-    public CartPanel(){
+    private String maNV;
+    public CartPanel(String maNV){
 
         super(40);
-
+        this.maNV = maNV;
         setLayout(new BorderLayout());
         setBackground(Color.decode("#2A2D31"));
 
@@ -67,10 +68,13 @@ public class CartPanel extends RoundedPanel {
             }
 
             Window parent = SwingUtilities.getWindowAncestor(CartPanel.this);
-            PaymentDlg dialog = new PaymentDlg(parent, CartBUS.getCart());
+            PaymentDlg dialog = new PaymentDlg(parent, CartBUS.getCart(), maNV);
 
             dialog.setVisible(true);
-
+            
+            reloadCart();
+            updateTotal();
+            updateAllStocks();
         });
     }
     private void createHeader(){

@@ -92,4 +92,7 @@ public class CartBUS {
 
         return total;
     }
+    public static void clearCart(){
+        cartList.clear();
+    }
 }

@@ -15,5 +15,10 @@ public class SanPhamBUS {
     public List<SanPhamDTO> searchSanPham(String keyword){
         return sanPhamDAO.searchSanPhamByName(keyword);
     }
-
+    public boolean updateSoLuong(String maSP, int soLuong){
+        return sanPhamDAO.updateSoLuong(maSP, soLuong);
+    }
+    public SanPhamDTO getSanPhamById(String maSP){
+        return sanPhamDAO.getSanPhamById(maSP);
+    }
 }

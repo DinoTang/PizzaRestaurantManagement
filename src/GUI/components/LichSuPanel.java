@@ -1,5 +1,5 @@
 package GUI.components;
-
+import Custom.WrapLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -155,12 +155,22 @@ public class LichSuPanel extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(31,33,37));
 
-        JPanel cards = new JPanel(new GridLayout(0,4,20,20));
+        JPanel cards = new JPanel(new WrapLayout(FlowLayout.LEFT,20,20));
         cards.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         cards.setBackground(new Color(31,33,37));
 
         JScrollPane scroll = new JScrollPane(cards);
         scroll.setBorder(null);
+
+        // CHỈ SCROLL DỌC
+        scroll.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
+
+        scroll.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        );
+
         scroll.getViewport().setBackground(new Color(31,33,37));
 
         panel.add(scroll,BorderLayout.CENTER);

@@ -26,7 +26,7 @@ public class GiamGiaDAO {
 
                 GiamGiaDTO km = new GiamGiaDTO();
 
-                km.setMaGiam(rs.getString("MaGiam"));
+                km.setMaGiam(rs.getString("MaGiamGia"));
                 km.setTenGiamGia(rs.getString("TenGiamGia"));
                 km.setPhanTramGiam(rs.getInt("PhanTramGiam"));
                 km.setTrangThaiXoa(rs.getBoolean("TrangThaiXoa"));

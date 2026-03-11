@@ -1,6 +1,7 @@
 package GUI.components;
 
 import BUS.CartBUS;
+import BUS.SanPhamBUS;
 import Custom.RoundedButton;
 import Custom.RoundedPanel;
 import Custom.TopRoundedImageLabel;
@@ -210,8 +211,20 @@ public class ItemCard extends RoundedPanel {
         return String.format("%,.0fđ", price);
     }
     public void updateStock(){
-        int inCart = CartBUS.getQuantityByMaSP(this.code); 
+
+        // lấy lại số lượng mới từ database
+        SanPhamBUS bus = new BUS.SanPhamBUS();
+        DTO.SanPhamDTO sp = bus.getSanPhamById(this.code);
+
+        if(sp != null){
+            this.stock = sp.getSoLuong();
+        }
+
+        int inCart = CartBUS.getQuantityByMaSP(this.code);
+
         int remain = this.stock - inCart;
+
+        if(remain < 0) remain = 0;
 
         this.lblStock.setText("SL: " + remain);
     }

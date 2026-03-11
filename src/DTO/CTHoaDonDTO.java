@@ -13,6 +13,7 @@ public class CTHoaDonDTO {
     private String maSanPham;
     private int soLuong;
     private double donGia;
+    private double thanhTien;
 
     public String getMaHoaDon() {
         return maHoaDon;
@@ -53,7 +54,6 @@ public class CTHoaDonDTO {
     public void setThanhTien(double thanhTien) {
         this.thanhTien = thanhTien;
     }
-    private double thanhTien;
 
     public CTHoaDonDTO() {}
 }

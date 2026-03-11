@@ -1,13 +1,71 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
-/**
- *
- * @author quock
- */
+import DTO.HoaDonDTO;
+import Utils.DBConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+
 public class HoaDonDAO {
-    
+
+    public boolean addHoaDon(HoaDonDTO hd){
+
+        try{
+
+            Connection con = DBConnection.getConnection();
+
+            String sql = "INSERT INTO hoadon(MaHD,MaKH,MaNV,MaGiamGia,NgayLap,TongTien) VALUES (?,?,?,?,?,?)";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, hd.getMaHD());
+            ps.setString(2, hd.getMaKH());
+            ps.setString(3, hd.getMaNV());
+            ps.setString(4, hd.getMaGiamGia());
+            ps.setObject(5, hd.getNgayLap());
+            ps.setDouble(6, hd.getTongTien());
+
+            ps.executeUpdate();
+
+            return true;
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public String getNextMaHoaDon() {
+
+        String maHD = "HD001";
+
+        try {
+
+            Connection conn = DBConnection.getConnection();
+
+            String sql = "SELECT MaHD FROM hoadon ORDER BY CAST(SUBSTRING(MaHD,3) AS UNSIGNED) DESC LIMIT 1";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                String lastID = rs.getString("MaHD");
+
+                int number = Integer.parseInt(lastID.substring(2));
+
+                number++;
+
+                maHD = String.format("HD%03d", number);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return maHD;
+    }
 }

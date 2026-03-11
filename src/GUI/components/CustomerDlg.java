@@ -10,10 +10,11 @@ public class CustomerDlg extends JDialog {
     private JTable table;
     private DefaultTableModel model;
     private JTextField txtPhone;
-
+    
+    private String selectedMaKH;
     private String selectedName;
     private String selectedPhone;
-
+    
     public CustomerDlg(Window parent) {
 
         super(parent,"Tìm khách hàng",ModalityType.APPLICATION_MODAL);
@@ -47,7 +48,7 @@ public class CustomerDlg extends JDialog {
 
     private void createTable(){
 
-        String[] col = {"Tên khách","SĐT","Ngày tạo","Tổng chi tiêu"};
+        String[] col = {"Mã KH","Tên khách","SĐT","Ngày tạo","Tổng chi tiêu"};
 
         model = new DefaultTableModel(col,0);
 
@@ -85,7 +86,8 @@ public class CustomerDlg extends JDialog {
 
         for(var kh : list){
 
-            model.addRow(new Object[]{
+           model.addRow(new Object[]{
+                    kh.getMaKhachHang(),
                     kh.getTenKhachHang(),
                     kh.getSoDienThoai(),
                     kh.getNgayTao(),
@@ -101,10 +103,11 @@ public class CustomerDlg extends JDialog {
         int row = table.getSelectedRow();
 
         if(row == -1) return;
-
+        
+        selectedMaKH = model.getValueAt(row,0).toString();
         selectedName = model.getValueAt(row,0).toString();
         selectedPhone = model.getValueAt(row,1).toString();
-
+        
         dispose();
     }
 
@@ -114,5 +117,9 @@ public class CustomerDlg extends JDialog {
 
     public String getSelectedPhone(){
         return selectedPhone;
+    }
+
+    public String getSelectedMaKH(){
+        return selectedMaKH;
     }
 }
