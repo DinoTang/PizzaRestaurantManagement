@@ -110,4 +110,44 @@ public class HoaDonDAO {
 
         return list;
     }
+    public HoaDonDTO getHoaDonById(String maHD){
+
+        HoaDonDTO hd = null;
+
+        try{
+
+            Connection conn = DBConnection.getConnection();
+
+            String sql = "SELECT * FROM hoadon WHERE MaHD = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, maHD);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                hd = new HoaDonDTO();
+
+                hd.setMaHD(rs.getString("MaHD"));
+                hd.setMaKH(rs.getString("MaKH"));
+                hd.setMaNV(rs.getString("MaNV"));
+                hd.setMaGiamGia(rs.getString("MaGiamGia"));
+
+                Date date = rs.getDate("NgayLap");
+
+                if(date != null){
+                    hd.setNgayLap(date.toLocalDate());
+                }
+
+                hd.setTongTien(rs.getDouble("TongTien"));
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return hd;
+    }
 }

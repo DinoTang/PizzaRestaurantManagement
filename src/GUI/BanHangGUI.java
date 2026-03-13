@@ -11,12 +11,12 @@ public class BanHangGUI extends JFrame {
 
     private JPanel mainContainer;
     private CardLayout cardLayout;
-
+    private LichSuPanel lichSuPanel;
     public BanHangGUI(String maNV, String maQuyen) {
 
         this.maNV = maNV;
         this.maQuyen = maQuyen;
-
+        this.lichSuPanel = new LichSuPanel();
         initComponents();
         addControls();
     }
@@ -48,11 +48,9 @@ public class BanHangGUI extends JFrame {
         banHangPanel.add(cartPanel, BorderLayout.EAST);
 
         // ===== PANEL LỊCH SỬ =====
-//        LichSuPanel lichSuPanel = new LichSuPanel();
-
         // thêm vào card
         mainContainer.add(banHangPanel, "BANHANG");
-//        mainContainer.add(lichSuPanel, "LICHSU");
+        mainContainer.add(lichSuPanel, "LICHSU");
 
         add(mainContainer, BorderLayout.CENTER);
     }
@@ -63,6 +61,7 @@ public class BanHangGUI extends JFrame {
     }
 
     public void showLichSu(){
+        lichSuPanel.refreshData();
         cardLayout.show(mainContainer, "LICHSU");
     }
 }

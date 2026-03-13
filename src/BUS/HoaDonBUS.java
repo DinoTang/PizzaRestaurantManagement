@@ -24,4 +24,7 @@ public class HoaDonBUS {
     public List<HoaDonDTO> getAllHoaDon(){
         return hoaDonDAO.getAllHoaDon();
     }
+    public HoaDonDTO getHoaDonById(String maHD){
+        return hoaDonDAO.getHoaDonById(maHD);
+    }
 }
