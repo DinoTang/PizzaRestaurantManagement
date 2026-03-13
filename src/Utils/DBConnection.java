@@ -11,7 +11,7 @@ import java.sql.DriverManager;
  */
 public class DBConnection {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/cc?useSSL=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/pizza_restaurant_db?useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "";   // XAMPP mặc định để trống
 
