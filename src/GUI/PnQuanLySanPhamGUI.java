@@ -12,6 +12,7 @@ import Custom.MyDialog;
 import Custom.MyFileChooser;
 import Custom.MyTable;
 import Custom.TransparentPanel;
+import Custom.XuLyFileExcel;
 import Utils.Constants;
 
 import java.awt.*;
@@ -356,12 +357,12 @@ public class PnQuanLySanPhamGUI extends JPanel {
                 xuLyTimKiem();
             }
         });
-//        btnXuatExcel.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                xuLyXuatFileExcel();
-//            }
-//        });
+        btnXuatExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xuLyXuatFileExcel();
+            }
+        });
 //        btnNhapExcel.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
@@ -392,10 +393,10 @@ public class PnQuanLySanPhamGUI extends JPanel {
 //        }
 //    }
 
-//    private void xuLyXuatFileExcel() {
-//        XuLyFileExcel xuatFile = new XuLyFileExcel();
-//        xuatFile.xuatExcel(tblSanPham);
-//    }
+    private void xuLyXuatFileExcel() {
+        XuLyFileExcel xuatFile = new XuLyFileExcel();
+        xuatFile.xuatExcel(tblSanPham);
+    }
 
     private void loadAnh(String anh) {
         lblAnhSP.setIcon(getAnhSP(anh));

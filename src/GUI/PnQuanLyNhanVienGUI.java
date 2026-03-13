@@ -11,6 +11,7 @@ import BUS.NhanVienBUS;
 import BUS.PhanQuyenBUS;
 import BUS.QuyenBUS;
 import BUS.TaiKhoanBUS;
+import Custom.XuLyFileExcel;
 import DTO.NhanVienDTO;
 import DTO.QuyenDTO;
 import Utils.Constants;
@@ -471,12 +472,12 @@ public class PnQuanLyNhanVienGUI extends JPanel {
             }
         });
 
-//        btnXuatExcel.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                xuLyXuatExcel();
-//            }
-//        });
+        btnXuatExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xuLyXuatExcel();
+            }
+        });
 
 //        btnNhapExcel.addActionListener(new ActionListener() {
 //            @Override
@@ -665,7 +666,7 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         loadDataTblNhanVien();
     }
 
-    private void xuLyNhapExcel() {
+//    private void xuLyNhapExcel() {
 //        MyDialog dlg = new MyDialog("Dữ liệu cũ sẽ bị xoá, tiếp tục?", MyDialog.WARNING_DIALOG);
 //        if (dlg.getAction() != MyDialog.OK_OPTION) {
 //            return;
@@ -684,12 +685,12 @@ public class PnQuanLyNhanVienGUI extends JPanel {
 //            nhanVienBUS.nhapExcel(ho, ten, gioiTinh, chucVu);
 //
 //        }
-    }
-
-//    private void xuLyXuatExcel() {
-//        XuLyFileExcel xuatExcel = new XuLyFileExcel();
-//        xuatExcel.xuatExcel(tblNhanVien);
 //    }
+
+        private void xuLyXuatExcel() {
+        XuLyFileExcel xuatExcel = new XuLyFileExcel();
+        xuatExcel.xuatExcel(tblNhanVien);
+    }
 
     private void xuLyXoaNhanVien(){
 
