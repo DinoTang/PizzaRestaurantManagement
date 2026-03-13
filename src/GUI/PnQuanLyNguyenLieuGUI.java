@@ -10,6 +10,7 @@ import BUS.NhaCungCapBUS;
 import DTO.DonViDTO;
 import DTO.NguyenLieuDTO;
 import DTO.NhaCungCapDTO;
+import Utils.Constants;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -50,7 +51,7 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
 
         JLabel lblTitle = new JLabel("<html><h1>QUẢN LÝ NGUYÊN LIỆU</h1></html>");
 
-        btnReset = new JButton(new ImageIcon("image/Refresh-icon.png"));
+        btnReset = new JButton(Constants.loadIcon("/images/Refresh-icon.png"));
         btnReset.setPreferredSize(new Dimension(40,40));
 
         pnTitle.add(lblTitle);
@@ -136,7 +137,7 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
         txtTim = new JTextField(20);
         txtTim.setFont(font);
 
-        btnTim = new JButton(new ImageIcon("image/Search-icon.png"));
+        btnTim = new JButton(Constants.loadIcon("/images/Search-icon.png"));
 
         pnSearch.add(lblTim);
         pnSearch.add(txtTim);
@@ -147,9 +148,9 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
         // ===== BUTTON =====
         JPanel pnButton = new TransparentPanel();
 
-        btnThem = new JButton("Thêm", new ImageIcon("image/add-icon.png"));
-        btnSua = new JButton("Sửa", new ImageIcon("image/Pencil-icon.png"));
-        btnXoa = new JButton("Xoá", new ImageIcon("image/delete-icon.png"));
+        btnThem = new JButton("Thêm", Constants.loadIcon("/images/add-icon.png"));
+        btnSua = new JButton("Sửa", Constants.loadIcon("/images/Pencil-icon.png"));
+        btnXoa = new JButton("Xoá", Constants.loadIcon("/images/delete-icon.png"));
 
         Font fontBtn = new Font("Tahoma", Font.PLAIN, 16);
 

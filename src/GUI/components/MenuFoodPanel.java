@@ -177,6 +177,7 @@ public class MenuFoodPanel extends RoundedPanel {
                 && !sp.getMaLoai().equals(loaiChon.getMaLoai())){
                 continue;
             }
+
             // ===== lọc theo search =====
             if(!keyword.equals("") && !keyword.equals("tìm kiếm...")){
                 if(!sp.getTenSP().toLowerCase().contains(keyword)){
@@ -184,18 +185,8 @@ public class MenuFoodPanel extends RoundedPanel {
                 }
             }
 
-            String folder;
-            if(sp.getMaLoai().equalsIgnoreCase("L01")){
-                folder = "pizza";
-            }
-            else if(sp.getMaLoai().equalsIgnoreCase("L02")){
-                folder = "drink";
-            }
-            else{
-                folder = "other";
-            }
-
-            String imagePath = "/images/SanPham/" + folder + "/" + sp.getHinhAnh();
+            // ===== chỉ lấy ảnh trong 1 folder =====
+            String imagePath = "/images/SanPham/" + sp.getHinhAnh();
 
             ItemCard card;
 

@@ -1,6 +1,7 @@
 package Custom;
 
 import GUI.Main;
+import Utils.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,10 +28,10 @@ public class MyDialog extends JDialog {
     JPanel pnMain, pnTop, pnBottom, pnButton;
     JLabel lblIcon, lblContent, lblClose;
     JButton btnOK, btnCancel;
-    final ImageIcon iconError = new ImageIcon("image/icons8_cancel_70px.png");
-    final ImageIcon iconSuccess = new ImageIcon("image/icons8_checkmark_70px.png");
-    final ImageIcon iconInfo = new ImageIcon("image/icons8_info_70px.png");
-    final ImageIcon iconWarning = new ImageIcon("image/icons8_warning_shield_70px.png");
+    final ImageIcon iconError = Constants.loadIcon("/images/icons8_cancel_70px.png");
+    final ImageIcon iconSuccess = Constants.loadIcon("/images/icons8_checkmark_70px.png");
+    final ImageIcon iconInfo = Constants.loadIcon("/images/icons8_info_70px.png");
+    final ImageIcon iconWarning = Constants.loadIcon("/images/icons8_warning_shield_70px.png");
 
     private void addControls() {
         Container con = getContentPane();
@@ -72,7 +73,7 @@ public class MyDialog extends JDialog {
         JPanel pnHeader = new JPanel();
         pnHeader.setLayout(new FlowLayout(FlowLayout.RIGHT));
         pnHeader.setPreferredSize(new Dimension(400, 25));
-        lblClose = new JLabel(new ImageIcon("image/icons8_x_24px.png"));
+        lblClose = new JLabel(Constants.loadIcon("/images/icons8_x_24px.png"));
         lblClose.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pnHeader.add(lblClose);
 

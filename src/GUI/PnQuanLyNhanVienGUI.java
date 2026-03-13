@@ -13,6 +13,7 @@ import BUS.QuyenBUS;
 import BUS.TaiKhoanBUS;
 import DTO.NhanVienDTO;
 import DTO.QuyenDTO;
+import Utils.Constants;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -43,8 +44,8 @@ public class PnQuanLyNhanVienGUI extends JPanel {
     private NhanVienBUS nhanVienBUS = new NhanVienBUS();
 
     JLabel lblTabbedNhanVien, lblTabbedQuyen;
-    final ImageIcon tabbedSelected = new ImageIcon("image/ManagerUI/tabbed-btn--selected.png");
-    final ImageIcon tabbedDefault = new ImageIcon("image/ManagerUI/tabbed-btn.png");
+    final ImageIcon tabbedSelected = Constants.loadIcon("/images/ManagerUI/tabbed-btn--selected.png");
+    final ImageIcon tabbedDefault = Constants.loadIcon("/images/ManagerUI/tabbed-btn.png");
     final Color colorPanel = new Color(247, 247, 247);
     CardLayout cardNhanVienGroup = new CardLayout();
     JPanel pnCardTabNhanVien;
@@ -107,7 +108,7 @@ public class PnQuanLyNhanVienGUI extends JPanel {
 
         JPanel pnTitle = new TransparentPanel();
         JLabel lblTitle = new JLabel("<html><h1>QUẢN LÝ NHÂN VIÊN</h1></html>");
-        btnReset = new JButton(new ImageIcon("image/Refresh-icon.png"));
+        btnReset = new JButton(Constants.loadIcon("/images/Refresh-icon.png"));
         btnReset.setPreferredSize(new Dimension(40, 40));
         pnTitle.add(lblTitle);
         pnTitle.add(btnReset);
@@ -211,11 +212,11 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         btnXuatExcel.setFont(fontButton);
 //        btnNhapExcel.setFont(fontButton);
 
-        btnThemNV.setIcon(new ImageIcon("image/add-icon.png"));
-        btnSuaNV.setIcon(new ImageIcon("image/Pencil-icon.png"));
-        btnXoaNV.setIcon(new ImageIcon("image/delete-icon.png"));
-        btnTimNV.setIcon(new ImageIcon("image/Search-icon.png"));
-        btnXuatExcel.setIcon(new ImageIcon("image/excel-icon.png"));
+        btnThemNV.setIcon(Constants.loadIcon("/images/add-icon.png"));
+        btnSuaNV.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
+        btnXoaNV.setIcon(Constants.loadIcon("/images/delete-icon.png"));
+        btnTimNV.setIcon(Constants.loadIcon("/images/Search-icon.png"));
+        btnXuatExcel.setIcon(Constants.loadIcon("/images/excel-icon.png"));
 //        btnNhapExcel.setIcon(new ImageIcon("image/excel-icon.png"));
 
         pnButton.add(btnThemNV);
@@ -237,9 +238,9 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         btnCapTaiKhoan = new JButton("Cấp tài khoản");
         btnResetMatKhau = new JButton("Mật khẩu/Quyền");
         btnXoaTaiKhoan = new JButton("Khoá tài khoản");
-        btnCapTaiKhoan.setIcon(new ImageIcon("image/icons8_man_with_key_32px.png"));
-        btnResetMatKhau.setIcon(new ImageIcon("image/icons8_password_reset_32px.png"));
-        btnXoaTaiKhoan.setIcon(new ImageIcon("image/icons8_denied_32px.png"));
+        btnCapTaiKhoan.setIcon(Constants.loadIcon("/images/icons8_man_with_key_32px.png"));
+        btnResetMatKhau.setIcon(Constants.loadIcon("/images/icons8_password_reset_32px.png"));
+        btnXoaTaiKhoan.setIcon(Constants.loadIcon("/images/icons8_denied_32px.png"));
         btnCapTaiKhoan.setFont(fontButton);
         btnResetMatKhau.setFont(fontButton);
         btnXoaTaiKhoan.setFont(fontButton);
@@ -333,9 +334,9 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         btnThemQuyen.setFont(font);
         btnSuaQuyen.setFont(font);
         btnXoaQuyen.setFont(font);
-        btnThemQuyen.setIcon(new ImageIcon("image/add-icon.png"));
-        btnSuaQuyen.setIcon(new ImageIcon("image/Pencil-icon.png"));
-        btnXoaQuyen.setIcon(new ImageIcon("image/delete-icon.png"));
+        btnThemQuyen.setIcon(Constants.loadIcon("/images/add-icon.png"));
+        btnSuaQuyen.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
+        btnXoaQuyen.setIcon(Constants.loadIcon("/images/delete-icon.png"));
         pnButtonQuyen.add(btnThemQuyen);
         pnButtonQuyen.add(btnSuaQuyen);
         pnButtonQuyen.add(btnXoaQuyen);

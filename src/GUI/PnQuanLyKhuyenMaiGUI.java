@@ -5,6 +5,7 @@ import DTO.GiamGiaDTO;
 //import Main.Main;
 import Custom.MyTable;
 import Custom.TransparentPanel;
+import Utils.Constants;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -53,7 +54,7 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
 
         JPanel pnTitle = new TransparentPanel();
         JLabel lblTitle = new JLabel("<html><h1>QUẢN LÝ MÃ KHUYẾN MÃI</h1></html>");
-        btnReset = new JButton(new ImageIcon("image/Refresh-icon.png"));
+        btnReset = new JButton(Constants.loadIcon("/images/Refresh-icon.png"));
         btnReset.setFocusPainted(false);
         btnReset.setPreferredSize(new Dimension(40, 40));
         pnTitle.add(lblTitle);
@@ -90,7 +91,7 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
 
         txtMa.setEditable(false);
         dateBD.getCalendarButton().setPreferredSize(new Dimension(32, 32));
-        dateBD.getCalendarButton().setIcon(new ImageIcon("image/icons8_calendar_25_20px.png"));
+        dateBD.getCalendarButton().setIcon(Constants.loadIcon("/images/icons8_calendar_25_20px.png"));
         dateKT.getCalendarButton().setPreferredSize(dateBD.getCalendarButton().getPreferredSize());
         dateKT.getCalendarButton().setIcon(dateBD.getCalendarButton().getIcon());
 
@@ -149,8 +150,8 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
         btnSua = new JButton("Sửa");
         btnThem.setFont(font);
         btnSua.setFont(font);
-        btnThem.setIcon(new ImageIcon("image/add-icon.png"));
-        btnSua.setIcon(new ImageIcon("image/Pencil-icon.png"));
+        btnThem.setIcon(Constants.loadIcon("/images/add-icon.png"));
+        btnSua.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
         pnButton.add(btnThem);
         pnButton.add(btnSua);
         pnMain.add(pnButton);

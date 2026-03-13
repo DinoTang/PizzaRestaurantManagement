@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Utils;
 
-/**
- *
- * @author quock
- */
+import javax.swing.ImageIcon;
+
 public class Constants {
     
+    public static ImageIcon loadIcon(String name){
+        return new ImageIcon(Constants.class.getResource(name));
+    }
 }

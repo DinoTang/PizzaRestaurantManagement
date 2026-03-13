@@ -4,6 +4,7 @@ import BUS.KhachHangBUS;
 import DTO.KhachHangDTO;
 import Custom.MyTable;
 import Custom.TransparentPanel;
+import Utils.Constants;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -59,7 +60,7 @@ public class PnQuanLyKhachHangGUI extends JPanel {
 
         JLabel lblTitle = new JLabel("<html><h1>QUẢN LÝ KHÁCH HÀNG</h1></html>");
 
-        btnReset = new JButton(new ImageIcon("image/Refresh-icon.png"));
+        btnReset = new JButton(Constants.loadIcon("/images/Refresh-icon.png"));
         btnReset.setPreferredSize(new Dimension(40,40));
 
         pnTitle.add(lblTitle);
@@ -145,7 +146,7 @@ public class PnQuanLyKhachHangGUI extends JPanel {
         txtTukhoa.setFont(font);
 
         btnTim = new JButton();
-        btnTim.setIcon(new ImageIcon("image/Search-icon.png"));
+        btnTim.setIcon(Constants.loadIcon("/images/Search-icon.png"));
         btnTim.setPreferredSize(new Dimension(50,30));
 
         pnSearch.add(lblSearch);
@@ -187,9 +188,9 @@ public class PnQuanLyKhachHangGUI extends JPanel {
         btnSua.setFont(fontButton);
         btnXoa.setFont(fontButton);
 
-        btnThem.setIcon(new ImageIcon("image/add-icon.png"));
-        btnSua.setIcon(new ImageIcon("image/Pencil-icon.png"));
-        btnXoa.setIcon(new ImageIcon("image/delete-icon.png"));
+        btnThem.setIcon(Constants.loadIcon("/images/add-icon.png"));
+        btnSua.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
+        btnXoa.setIcon(Constants.loadIcon("/images/delete-icon.png"));
 
         Dimension btnSize = new Dimension(120,40);
 

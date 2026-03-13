@@ -4,7 +4,7 @@ import BUS.LoaiBUS;
 import BUS.SanPhamBUS;
 import DTO.LoaiDTO;
 import DTO.SanPhamDTO;
-
+import Utils.Constants;
 //import static Main.Main.changLNF;
 
 import Custom.XuLyFileExcel;
@@ -12,6 +12,7 @@ import Custom.MyDialog;
 import Custom.MyFileChooser;
 import Custom.MyTable;
 import Custom.TransparentPanel;
+import Utils.Constants;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -58,7 +59,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
     JComboBox<String> cmbLoai;
     JButton btnThem, btnSua, btnXoa, btnTim, btnChonAnh, btnReset, btnXuatExcel, btnNhapExcel;
     JLabel lblAnhSP;
-
+    
     private void addControlsSanPham() {
         Font font = new Font("Tahoma", Font.PLAIN, 20);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -72,7 +73,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
 
         JPanel pnTitle = new TransparentPanel();
         JLabel lblTitle = new JLabel("<html><h1>QUẢN LÝ SẢN PHẨM</h1></html>");
-        btnReset = new JButton(new ImageIcon("image/Refresh-icon.png"));
+        btnReset = new JButton(Constants.loadIcon("/images/Refresh-icon.png"));
         btnReset.setPreferredSize(new Dimension(40, 40));
         pnTitle.add(lblTitle);
         pnTitle.add(btnReset);
@@ -171,7 +172,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         pnButtonAnh.setPreferredSize(new Dimension(
                 (int) pnChuaAnh.getPreferredSize().getHeight(), 40));
         btnChonAnh = new JButton("Chọn ảnh");
-        btnChonAnh.setIcon(new ImageIcon("image/picture_icon.png"));
+        btnChonAnh.setIcon(Constants.loadIcon("/images/picture_icon.png"));
         btnChonAnh.setFont(font);
         pnButtonAnh.add(btnChonAnh);
         pnChuaAnh.add(pnButtonAnh);
@@ -197,11 +198,11 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnXuatExcel.setFont(fontButton);
 //        btnNhapExcel.setFont(fontButton);
 
-        btnThem.setIcon(new ImageIcon("image/add-icon.png"));
-        btnSua.setIcon(new ImageIcon("image/Pencil-icon.png"));
-        btnXoa.setIcon(new ImageIcon("image/delete-icon.png"));
-        btnTim.setIcon(new ImageIcon("image/Search-icon.png"));
-        btnXuatExcel.setIcon(new ImageIcon("image/excel-icon.png"));
+        btnThem.setIcon(Constants.loadIcon("/images/add-icon.png"));
+        btnSua.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
+        btnXoa.setIcon(Constants.loadIcon("/images/delete-icon.png"));
+        btnTim.setIcon(Constants.loadIcon("/images/Search-icon.png"));
+        btnXuatExcel.setIcon(Constants.loadIcon("/images/excel-icon.png"));
 //        btnNhapExcel.setIcon(new ImageIcon("image/excel-icon.png"));
 
         JPanel pnTimKiem = new TransparentPanel();
@@ -425,7 +426,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
                 }
             }
             cmbLoai.setSelectedIndex(flag);
-            loadAnh("image/SanPham/" + anh);
+            loadAnh(anh);
         }
     }
 
@@ -520,7 +521,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
             File initialImage = new File(fileAnhSP.getPath());
             bImage = ImageIO.read(initialImage);
 
-            ImageIO.write(bImage, "png", new File("image/SanPham/" + fileAnhSP.getName()));
+            ImageIO.write(bImage, "png", new File("src/images/SanPham/" + fileAnhSP.getName()));
 
         } catch (IOException e) {
             System.out.println("Exception occured :" + e.getMessage());
@@ -528,7 +529,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
     }
 
     private void xuLyChonAnh() {
-        JFileChooser fileChooser = new MyFileChooser("image/SanPham/");
+        JFileChooser fileChooser = new MyFileChooser("/images/SanPham/");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "Tệp hình ảnh", "jpg", "png", "jpeg");
         fileChooser.setFileFilter(filter);
@@ -541,30 +542,18 @@ public class PnQuanLySanPhamGUI extends JPanel {
     }
 
     private ImageIcon getAnhSP(String src) {
-        src = src.trim().equals("") ? "default.png" : src;
-        //Xử lý ảnh
-        BufferedImage img = null;
-        File fileImg = new File(src);
 
-        if (!fileImg.exists()) {
-            src = "default.png";
-            fileImg = new File("image/SanPham/" + src);
-        }
-
-        try {
-            img = ImageIO.read(fileImg);
-            fileAnhSP = new File(src);
-        } catch (IOException e) {
-            fileAnhSP = new File("imgs/anhthe/avatar.jpg");
-        }
-
-        if (img != null) {
-            Image dimg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-            return new ImageIcon(dimg);
-        }
-
-        return null;
+    if(src == null || src.trim().isEmpty()){
+        src = "default.png";
     }
+
+    String path = "/images/SanPham/" + src;
+
+    ImageIcon icon = new ImageIcon(getClass().getResource(path));
+    Image img = icon.getImage().getScaledInstance(200,200,Image.SCALE_SMOOTH);
+
+    return new ImageIcon(img);
+}
 
     private void xuLyTimKiem() {
         String ten = txtTimKiem.getText().toLowerCase();

@@ -11,6 +11,8 @@ import Custom.MyTable;
 import BUS.CTPhieuNhapBUS;
 import BUS.PhieuNhapBUS;
 import DTO.PhieuNhapDTO;
+import Utils.Constants;
+import java.io.Console;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,7 +62,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         dtmGioNhap.addColumn("Thành tiền");
         tblGioNhap.setModel(dtmGioNhap);
         
-        btnResetKho.setIcon(new ImageIcon("image/Refresh-icon.png"));
+        btnResetKho.setIcon(Constants.loadIcon("/images/Refresh-icon.png"));
 
         tblKho.getColumnModel().getColumn(0).setPreferredWidth(20);
         tblKho.getColumnModel().getColumn(1).setPreferredWidth(440);
