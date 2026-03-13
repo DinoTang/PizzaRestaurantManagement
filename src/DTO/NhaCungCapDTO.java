@@ -11,14 +11,14 @@ package DTO;
 public class NhaCungCapDTO {
     private String maNCC;
     private String tenNCC;
-    private String soDienThoai;
+    private String DienThoai;
     private String diaChi;
     private boolean trangThaiXoa;
     
-    public NhaCungCapDTO(String maNCC, String tenNCC, String soDienThoai, String diaChi, boolean trangThaiXoa) {
+    public NhaCungCapDTO(String maNCC, String tenNCC, String DienThoai, String diaChi, boolean trangThaiXoa) {
         this.maNCC = maNCC;
         this.tenNCC = tenNCC;
-        this.soDienThoai = soDienThoai;
+        this.DienThoai = DienThoai;
         this.diaChi = diaChi;
         this.trangThaiXoa = trangThaiXoa;
     }
@@ -42,12 +42,12 @@ public class NhaCungCapDTO {
         this.tenNCC = tenNCC;
     }
 
-    public String getSoDienThoai() {
-        return soDienThoai;
+    public String getDienThoai() {
+        return DienThoai;
     }
 
     public void setSoDienThoai(String soDienThoai) {
-        this.soDienThoai = soDienThoai;
+        this.DienThoai = soDienThoai;
     }
 
     public String getDiaChi() {

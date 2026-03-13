@@ -7,7 +7,7 @@ import DTO.SanPhamDTO;
 import Utils.Constants;
 //import static Main.Main.changLNF;
 
-import Custom.XuLyFileExcel;
+//import Custom.XuLyFileExcel;
 import Custom.MyDialog;
 import Custom.MyFileChooser;
 import Custom.MyTable;
@@ -356,12 +356,12 @@ public class PnQuanLySanPhamGUI extends JPanel {
                 xuLyTimKiem();
             }
         });
-        btnXuatExcel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                xuLyXuatFileExcel();
-            }
-        });
+//        btnXuatExcel.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                xuLyXuatFileExcel();
+//            }
+//        });
 //        btnNhapExcel.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
@@ -392,10 +392,10 @@ public class PnQuanLySanPhamGUI extends JPanel {
 //        }
 //    }
 
-    private void xuLyXuatFileExcel() {
-        XuLyFileExcel xuatFile = new XuLyFileExcel();
-        xuatFile.xuatExcel(tblSanPham);
-    }
+//    private void xuLyXuatFileExcel() {
+//        XuLyFileExcel xuatFile = new XuLyFileExcel();
+//        xuatFile.xuatExcel(tblSanPham);
+//    }
 
     private void loadAnh(String anh) {
         lblAnhSP.setIcon(getAnhSP(anh));
@@ -471,7 +471,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
     }
 
     private void xuLyThemSanPham() {
-        String anh = fileAnhSP.getName();
+        String anh = (fileAnhSP != null) ? fileAnhSP.getName() : "default.png";
         System.out.println(fileAnhSP.getName());
         String maSP = spBUS.getNextSanPhamId();
         SanPhamDTO sp = new SanPhamDTO();
@@ -537,23 +537,29 @@ public class PnQuanLySanPhamGUI extends JPanel {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             fileAnhSP = fileChooser.getSelectedFile();
-            lblAnhSP.setIcon(getAnhSP(fileAnhSP.getPath()));
+            lblAnhSP.setIcon(getAnhSP(fileAnhSP.getName()));
         }
     }
 
-    private ImageIcon getAnhSP(String src) {
+   private ImageIcon getAnhSP(String src) {
 
     if(src == null || src.trim().isEmpty()){
         src = "default.png";
     }
 
     String path = "/images/SanPham/" + src;
+    java.net.URL url = getClass().getResource(path);
 
-    ImageIcon icon = new ImageIcon(getClass().getResource(path));
+    if(url == null){
+        System.out.println("Khong tim thay anh: " + path);
+        return new ImageIcon(); // trả icon rỗng, không crash
+    }
+
+    ImageIcon icon = new ImageIcon(url);
     Image img = icon.getImage().getScaledInstance(200,200,Image.SCALE_SMOOTH);
 
     return new ImageIcon(img);
-}
+    }
 
     private void xuLyTimKiem() {
         String ten = txtTimKiem.getText().toLowerCase();

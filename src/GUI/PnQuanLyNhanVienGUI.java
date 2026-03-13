@@ -1,6 +1,6 @@
 package GUI;
 
-import Custom.XuLyFileExcel;
+//import Custom.XuLyFileExcel;
 import Custom.MyDialog;
 import Custom.TransparentPanel;
 import Custom.MyTable;
@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -49,8 +50,7 @@ public class PnQuanLyNhanVienGUI extends JPanel {
     final Color colorPanel = new Color(247, 247, 247);
     CardLayout cardNhanVienGroup = new CardLayout();
     JPanel pnCardTabNhanVien;
-    JTextField txtMaNV, txtHo, txtTen, txtChucVu, txtTimNV;
-    JComboBox<String> cmbGioiTinh;
+    JTextField txtMaNV, txtHoten, txtSoDienThoai, txtEmail, txtLuong, txtTimNV;
     MyTable tblNhanVien;
     DefaultTableModel dtmNhanVien;
     JButton btnReset, btnThemNV, btnSuaNV, btnXoaNV, btnTimNV, btnCapTaiKhoan, btnResetMatKhau, btnXoaTaiKhoan, btnXuatExcel, btnNhapExcel;
@@ -120,67 +120,65 @@ public class PnQuanLyNhanVienGUI extends JPanel {
 
         txtMaNV = new JTextField(25);
         txtMaNV.setEditable(false);
-        txtHo = new JTextField(25);
-        txtTen = new JTextField(25);
-        cmbGioiTinh = new JComboBox<>();
-        txtChucVu = new JTextField(25);
+        txtHoten = new JTextField(25);
+        txtSoDienThoai = new JTextField(25);
+        txtEmail = new JTextField(25);
+        txtLuong = new JTextField(25);
+        
 
         txtMaNV.setFont(font);
-        txtHo.setFont(font);
-        txtTen.setFont(font);
-        cmbGioiTinh.setFont(font);
-        txtChucVu.setFont(font);
+        txtHoten.setFont(font);
+        txtSoDienThoai.setFont(font);
+        txtEmail.setFont(font);
+        txtLuong.setFont(font);
+ 
+        JLabel lblMa, lblHoTen, lblSDT, lblEmail, lblLuong;
 
-        cmbGioiTinh.addItem("Chọn giới tính");
-        cmbGioiTinh.addItem("Nam");
-        cmbGioiTinh.addItem("Nữ");
-
-        JLabel lblMa, lblHo, lblTen, lblGioiTinh, lblChucVu;
-
-        lblMa = new JLabel("Mã Nhân viên");
-        lblHo = new JLabel("Họ đệm");
-        lblTen = new JLabel("Tên");
-        lblGioiTinh = new JLabel("Giới tính");
-        lblChucVu = new JLabel("Chức vụ");
+        lblMa = new JLabel("Mã NV");
+        lblHoTen = new JLabel("Họ tên");
+        lblSDT = new JLabel("Số điện thoại");
+        lblEmail = new JLabel("Email");
+        lblLuong = new JLabel("Lương");
 
         lblMa.setFont(font);
-        lblHo.setFont(font);
-        lblTen.setFont(font);
-        lblGioiTinh.setFont(font);
-        lblChucVu.setFont(font);
+        lblHoTen.setFont(font);
+        lblSDT.setFont(font);
+        lblEmail.setFont(font);
+        lblLuong.setFont(font);
+        
+      
 
         JPanel pnMa = new TransparentPanel();
         pnMa.add(lblMa);
         pnMa.add(txtMaNV);
         pnText.add(pnMa);
 
-        JPanel pnHo = new TransparentPanel();
-        pnHo.add(lblHo);
-        pnHo.add(txtHo);
-        pnText.add(pnHo);
+        JPanel pnHoTen = new TransparentPanel();
+        pnHoTen.add(lblHoTen);
+        pnHoTen.add(txtHoten);
+        pnText.add(pnHoTen);
 
-        JPanel pnTen = new TransparentPanel();
-        pnTen.add(lblTen);
-        pnTen.add(txtTen);
-        pnText.add(pnTen);
+        JPanel pnSDT = new TransparentPanel();
+        pnSDT.add(lblSDT);
+        pnSDT.add(txtSoDienThoai);
+        pnText.add(pnSDT);
 
-        JPanel pnGioiTinh = new TransparentPanel();
-        pnGioiTinh.add(lblGioiTinh);
-        pnGioiTinh.add(cmbGioiTinh);
-        pnText.add(pnGioiTinh);
-
-        JPanel pnChucVu = new TransparentPanel();
-        pnChucVu.add(lblChucVu);
-        pnChucVu.add(txtChucVu);
-        pnText.add(pnChucVu);
+        JPanel pnEmail = new TransparentPanel();
+        pnEmail.add(lblEmail);
+        pnEmail.add(txtEmail);
+        pnText.add(pnEmail);
+        
+        JPanel pnLuong = new TransparentPanel();
+        pnLuong.add(lblLuong);
+        pnLuong.add(txtLuong);
+        pnText.add(pnLuong);
 
         Dimension lblSize = new Dimension(130, lblMa.getPreferredSize().height);
         lblMa.setPreferredSize(lblSize);
-        lblHo.setPreferredSize(lblSize);
-        lblTen.setPreferredSize(lblSize);
-        lblGioiTinh.setPreferredSize(lblSize);
-        lblChucVu.setPreferredSize(lblSize);
-        cmbGioiTinh.setPreferredSize(txtChucVu.getPreferredSize());
+        lblHoTen.setPreferredSize(lblSize);
+        lblSDT.setPreferredSize(lblSize);
+        lblEmail.setPreferredSize(lblSize);
+        lblLuong.setPreferredSize(lblSize);
 
         pnTopNV.add(pnText);
 
@@ -254,12 +252,13 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         //===================TABLE NHÂN VIÊN=====================
         JPanel pnTableNhanVien = new TransparentPanel();
         pnTableNhanVien.setLayout(new BorderLayout());
+        
         dtmNhanVien = new DefaultTableModel(
-            new Object[]{"Mã NV","Họ đệm","Tên","Giới tính","Chức vụ","Tài khoản"}, 0
+            new Object[]{"Mã NV","Họ tên","SĐT","Email","Lương","Ngày tạo"},0
         ){
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // không cho sửa ô
+            public boolean isCellEditable(int row,int column){
+                return false;
             }
         };
        
@@ -472,12 +471,12 @@ public class PnQuanLyNhanVienGUI extends JPanel {
             }
         });
 
-        btnXuatExcel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                xuLyXuatExcel();
-            }
-        });
+//        btnXuatExcel.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                xuLyXuatExcel();
+//            }
+//        });
 
 //        btnNhapExcel.addActionListener(new ActionListener() {
 //            @Override
@@ -512,11 +511,11 @@ public class PnQuanLyNhanVienGUI extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 loadDataTblNhanVien();
                 txtMaNV.setText("");
-                txtHo.setText("");
-                txtTen.setText("");
-                txtChucVu.setText("");
+                txtHoten.setText("");
+                txtSoDienThoai.setText("");
+                txtEmail.setText("");
+                txtLuong.setText("");
                 txtTimNV.setText("");
-                cmbGioiTinh.setSelectedIndex(0);
             }
         });
     }
@@ -687,98 +686,112 @@ public class PnQuanLyNhanVienGUI extends JPanel {
 //        }
     }
 
-    private void xuLyXuatExcel() {
-        XuLyFileExcel xuatExcel = new XuLyFileExcel();
-        xuatExcel.xuatExcel(tblNhanVien);
+//    private void xuLyXuatExcel() {
+//        XuLyFileExcel xuatExcel = new XuLyFileExcel();
+//        xuatExcel.xuatExcel(tblNhanVien);
+//    }
+
+    private void xuLyXoaNhanVien(){
+
+    String ma = txtMaNV.getText();
+    
+    NhanVienDTO nv = nhanVienBUS.getNhanVienById(ma);
+
+    if(nhanVienBUS.deleteNhanVien(nv)){
+        loadDataTblNhanVien();
+    }
     }
 
-    private void xuLyXoaNhanVien() {
-//        String ma = txtMaNV.getText();
-//        boolean flag = nhanVienBUS.xoaNhanVien(ma);
-//        if (flag) {
-//            nhanVienBUS.docDanhSach();
-//            loadDataTblNhanVien();
-//        }
+    private void xuLySuaNhanVien(){
+
+    String ma = txtMaNV.getText();
+
+    NhanVienDTO nv = nhanVienBUS.getNhanVienById(ma);
+
+    nv.setHoTen(txtHoten.getText());
+
+    if(nhanVienBUS.updateNhanVien(nv)){
+        loadDataTblNhanVien();
+    }
     }
 
-    private void xuLySuaNhanVien() {
-//        if (cmbGioiTinh.getSelectedIndex() == 0) {
-//            new MyDialog("Hãy chọn giới tính!", MyDialog.ERROR_DIALOG);
-//            return;
-//        }
-//        String ma = txtMaNV.getText();
-//        String ho = txtHo.getText();
-//        String ten = txtTen.getText();
-//        String gioiTinh = cmbGioiTinh.getSelectedItem() + "";
-//        String chucVu = txtChucVu.getText();
-//        if (nhanVienBUS.updateNhanVien(ma, ho, ten, gioiTinh, chucVu)) {
-//            nhanVienBUS.docDanhSach();
-//            loadDataTblNhanVien();
-//        }
+    private void xuLyThemNhanVien(){
+
+    String hoten = txtHoten.getText();
+
+    NhanVienDTO nv = new NhanVienDTO();
+
+    nv.setMaNhanVien(nhanVienBUS.getNextId());
+    nv.setHoTen(hoten);
+    nv.setSoDienThoai("");
+    nv.setEmail("");
+    nv.setLuong(0);
+    nv.setNgayTao(LocalDate.now());
+    nv.setTrangThaiXoa(false);
+
+    if(nhanVienBUS.addNhanVien(nv)){
+        loadDataTblNhanVien();
+    }
     }
 
-    private void xuLyThemNhanVien() {
-//        if (cmbGioiTinh.getSelectedIndex() == 0) {
-//            new MyDialog("Hãy chọn giới tính!", MyDialog.ERROR_DIALOG);
-//            return;
-//        }
-//        String ho = txtHo.getText();
-//        String ten = txtTen.getText();
-//        String gioiTinh = cmbGioiTinh.getSelectedItem() + "";
-//        String chucVu = txtChucVu.getText();
-//        if (nhanVienBUS.themNhanVien(ho, ten, gioiTinh, chucVu)) {
-//            nhanVienBUS.docDanhSach();
-//            loadDataTblNhanVien();
-//        }
+    private void xuLyTimKiemNhanVien(){
+
+    String keyword = txtTimNV.getText().trim();
+
+    dtmNhanVien.setRowCount(0);
+
+    List<NhanVienDTO> list = nhanVienBUS.searchNhanVienByName(keyword);
+
+    for(NhanVienDTO nv : list){
+
+        Vector row = new Vector();
+
+        row.add(nv.getMaNhanVien());
+        row.add(nv.getHoTen());
+        row.add(nv.getSoDienThoai());
+        row.add(nv.getEmail());
+        row.add(nv.getLuong());
+        row.add(nv.getNgayTao());
+
+        dtmNhanVien.addRow(row);
+    }
     }
 
-    private void xuLyTimKiemNhanVien() {
-//        ArrayList<NhanVien> dsnv = nhanVienBUS.timNhanVien(txtTimNV.getText());
-//        dtmNhanVien.setRowCount(0);
-//        for (NhanVien nv : dsnv) {
-//            Vector vec = new Vector();
-//            vec.add(nv.getMaNV());
-//            vec.add(nv.getHo());
-//            vec.add(nv.getTen());
-//            vec.add(nv.getGioiTinh());
-//            vec.add(nv.getChucVu());
-//            dtmNhanVien.addRow(vec);
-//        }
+    private void xuLyClickTblNhanVien(){
+
+    int row = tblNhanVien.getSelectedRow();
+
+    if(row > -1){
+
+        txtMaNV.setText(tblNhanVien.getValueAt(row,0)+"");
+        txtHoten.setText(tblNhanVien.getValueAt(row,1)+"");
+        txtSoDienThoai.setText(tblNhanVien.getValueAt(row,2)+"");
+        txtEmail.setText(tblNhanVien.getValueAt(row,3)+"");
+        txtLuong.setText(tblNhanVien.getValueAt(row,4)+"");
+
+    }
     }
 
-    private void xuLyClickTblNhanVien() {
-        int row = tblNhanVien.getSelectedRow();
-        if (row > -1) {
-            txtMaNV.setText(tblNhanVien.getValueAt(row, 0) + "");
-            txtHo.setText(tblNhanVien.getValueAt(row, 1) + "");
-            txtTen.setText(tblNhanVien.getValueAt(row, 2) + "");
-            txtChucVu.setText(tblNhanVien.getValueAt(row, 4) + "");
+    private void loadDataTblNhanVien(){
 
-            String gioiTinh = "";
-            if ((tblNhanVien.getValueAt(row, 3) + "").equals("Nam")) {
-                cmbGioiTinh.setSelectedIndex(1);
-            } else {
-                cmbGioiTinh.setSelectedIndex(2);
-            }
-        }
+    dtmNhanVien.setRowCount(0);
+
+    List<NhanVienDTO> list = nhanVienBUS.getAllNhanVien();
+
+    for(NhanVienDTO nv : list){
+
+        Vector row = new Vector();
+
+        row.add(nv.getMaNhanVien());
+        row.add(nv.getHoTen());
+        row.add(nv.getSoDienThoai());
+        row.add(nv.getEmail());
+        row.add(nv.getLuong());
+        row.add(nv.getNgayTao());
+
+        dtmNhanVien.addRow(row);
     }
-
-    private void loadDataTblNhanVien() {
-//        dtmNhanVien.setRowCount(0);
-//        ArrayList<NhanVien> dsnv = nhanVienBUS.getDanhSachNhanVien();
-//
-//        for (NhanVien nv : dsnv) {
-//            Vector vec = new Vector();
-//            vec.add(nv.getMaNV());
-//            vec.add(nv.getHo());
-//            vec.add(nv.getTen());
-//            vec.add(nv.getGioiTinh());
-//            vec.add(nv.getChucVu());
-//            
-//            dtmNhanVien.addRow(vec);
-//        }
     }
-
     TaiKhoanBUS taiKhoanBUS = new TaiKhoanBUS();
 
 }

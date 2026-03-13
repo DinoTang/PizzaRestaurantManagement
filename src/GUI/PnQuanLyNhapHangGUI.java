@@ -853,7 +853,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
 
     private void loadDataCmbNhanVien() {
         cmbNhanVien.removeAllItems();
-        List<NhanVienDTO> dsnv = nhanVienBUS.GetAllNhanVien();
+        List<NhanVienDTO> dsnv = nhanVienBUS.getAllNhanVien();
         if (dsnv != null) {
             for (NhanVienDTO nv : dsnv) {
                 cmbNhanVien.addItem(nv.getMaNhanVien()+ " - " + nv.getHoTen());

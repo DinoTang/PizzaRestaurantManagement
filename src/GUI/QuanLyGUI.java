@@ -15,12 +15,14 @@ public class QuanLyGUI extends JFrame {
     public QuanLyGUI(String maNV, String maQuyen) {
         this.maNV = maNV;
         this.maQuyen = maQuyen;
-        this.setTitle("Phần mềm quản lý cửa hàng pizza");
+        this.setTitle("Quản trị");
         this.setSize(1280, 900);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Image icon = Toolkit.getDefaultToolkit().getImage("/images/ManagerUI/icon-app.png");
         this.setIconImage(icon);
         addControls();
         addEvents();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
     public void showWindow() {
@@ -37,10 +39,10 @@ public class QuanLyGUI extends JFrame {
     // PnQuanLyKhuyenMaiGUI khuyenMaiPanel;
     PnQuanLyNhapHangGUI nhapHangPanel;
     PnQuanLySanPhamGUI sanPhamPanel;
-    // PnQuanLyNhanVienGUI nhanVienPanel;
+     PnQuanLyNhanVienGUI nhanVienPanel;
     PnQuanLyKhachHangGUI khachHangPanel;
     // PnQuanLyThongKeGUI thongKePanel;
-    // PnQuanLyNguyenLieuGUI nguyenLieuPanel;
+     PnQuanLyNguyenLieuGUI nguyenLieuPanel;
 
     JLabel btnClose, btnMinimize, btnMinisize, lblHoaDon, lblKhuyenMai, lblNhapHang, lblSanPham, lblNhanVien,
             lblKhachHang, lblThongKe, lblNguyenLieu;
@@ -62,6 +64,7 @@ public class QuanLyGUI extends JFrame {
 
         JPanel pnMain = new JPanel();
         pnMain.setLayout(new BorderLayout());
+        pnMain.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(80,80,80)));
 
         /*
          * ============================================================
@@ -85,9 +88,9 @@ public class QuanLyGUI extends JFrame {
         // pnTitle.add(btnDoiMatKhau, BorderLayout.WEST);
 
         // ===== Title ở giữa =====
-        JLabel lblTitleText = new JLabel(this.loadIcon("title-text.png"));
-        lblTitleText.setHorizontalAlignment(JLabel.CENTER);
-        pnTitle.add(lblTitleText, BorderLayout.CENTER);
+//        JLabel lblTitleText = new JLabel(this.loadIcon("title-text.png"));
+//        lblTitleText.setHorizontalAlignment(JLabel.CENTER);
+//        pnTitle.add(lblTitleText, BorderLayout.CENTER);
 
         // ===== Panel chứa nút bên phải =====
         JPanel pnRightButton = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
@@ -108,7 +111,7 @@ public class QuanLyGUI extends JFrame {
 
         pnTitle.add(pnRightButton, BorderLayout.EAST);
 
-        pnMain.add(pnTitle, BorderLayout.NORTH);
+       
         /*
          * ============================================================
          * SIDE BAR MENU
@@ -191,9 +194,9 @@ public class QuanLyGUI extends JFrame {
         // pnKhuyenMai.setLayout(new BorderLayout());
         // pnKhuyenMai.add(khuyenMaiPanel, BorderLayout.CENTER);
 
-        // nguyenLieuPanel = new PnQuanLyNguyenLieuGUI();
-        // pnNguyenLieu.setLayout(new BorderLayout());
-        // pnNguyenLieu.add(nguyenLieuPanel, BorderLayout.CENTER);
+         nguyenLieuPanel = new PnQuanLyNguyenLieuGUI();
+         pnNguyenLieu.setLayout(new BorderLayout());
+         pnNguyenLieu.add(nguyenLieuPanel, BorderLayout.CENTER);
 
         // ======XỬ LÝ PHÂN QUYỀN=======
 
@@ -215,10 +218,10 @@ public class QuanLyGUI extends JFrame {
         }
 
         if (quyen.getQlNhanVien() == 1) {
-            // nhanVienPanel = new PnQuanLyNhanVienGUI();
-            // pnNhanVien.setLayout(new BorderLayout());
-            // pnNhanVien.add(nhanVienPanel, BorderLayout.CENTER);
-            // lblNhanVien.setVisible(true);
+             nhanVienPanel = new PnQuanLyNhanVienGUI();
+             pnNhanVien.setLayout(new BorderLayout());
+             pnNhanVien.add(nhanVienPanel, BorderLayout.CENTER);
+             lblNhanVien.setVisible(true);
         }
 
         if (quyen.getQlKhachHang() == 1) {
@@ -429,11 +432,7 @@ public class QuanLyGUI extends JFrame {
         this.setState(Frame.ICONIFIED);
     }
 
-    // private void thoatChuongTrinh() {
-    // banHangPanel.xuLyThoat();
-    // Main.Main.changLNF("Nimbus");
-    // System.exit(0);
-    // }
+   
 
     private void thoatChuongTrinh() {
         System.exit(0);

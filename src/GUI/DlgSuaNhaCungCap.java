@@ -16,7 +16,7 @@ public class DlgSuaNhaCungCap extends javax.swing.JDialog {
         txtMaNCC.setText(nhaCungCap.getMaNCC() + "");
         txtTenNCC.setText(nhaCungCap.getTenNCC());
         txtDiaChiNCC.setText(nhaCungCap.getDiaChi());
-        txtDienThoaiNCC.setText(nhaCungCap.getSoDienThoai());
+        txtDienThoaiNCC.setText(nhaCungCap.getDienThoai());
     }
 
     private boolean checkSuaNCC = false;

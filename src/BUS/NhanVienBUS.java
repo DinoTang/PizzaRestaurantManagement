@@ -8,17 +8,35 @@ import DAO.NhanVienDAO;
 import DTO.NhanVienDTO;
 import java.util.List;
 
-/**
- *
- * @author quock
- */
 public class NhanVienBUS {
+
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
 
-    public NhanVienDTO getNhanVienById(String id) {
+    public List<NhanVienDTO> getAllNhanVien(){
+        return nhanVienDAO.GetAllNhanVien();
+    }
+
+    public NhanVienDTO getNhanVienById(String id){
         return nhanVienDAO.GetNhanVienById(id);
     }
-    public List<NhanVienDTO> GetAllNhanVien(){
-        return nhanVienDAO.GetAllNhanVien();
+
+    public boolean addNhanVien(NhanVienDTO nv){
+        return nhanVienDAO.AddNhanVien(nv);
+    }
+
+    public boolean updateNhanVien(NhanVienDTO nv){
+        return nhanVienDAO.UpdateNhanVien(nv);
+    }
+
+    public boolean deleteNhanVien(NhanVienDTO nv){
+        return nhanVienDAO.DeleteNhanVien(nv);
+    }
+
+    public List<NhanVienDTO> searchNhanVienByName(String name){
+    return nhanVienDAO.SearchNhanVienByName(name);
+    }
+
+    public String getNextId(){
+        return nhanVienDAO.GetNextNhanVienId();
     }
 }

@@ -48,11 +48,11 @@ public class BanHangGUI extends JFrame {
         banHangPanel.add(cartPanel, BorderLayout.EAST);
 
         // ===== PANEL LỊCH SỬ =====
-        LichSuPanel lichSuPanel = new LichSuPanel();
+//        LichSuPanel lichSuPanel = new LichSuPanel();
 
         // thêm vào card
         mainContainer.add(banHangPanel, "BANHANG");
-        mainContainer.add(lichSuPanel, "LICHSU");
+//        mainContainer.add(lichSuPanel, "LICHSU");
 
         add(mainContainer, BorderLayout.CENTER);
     }

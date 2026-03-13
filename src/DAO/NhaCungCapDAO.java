@@ -29,7 +29,7 @@ public class NhaCungCapDAO {
                 NhaCungCapDTO ncc = new NhaCungCapDTO(
                         rs.getString("MaNCC"),
                         rs.getString("TenNCC"),
-                        rs.getString("SoDienThoai"),
+                        rs.getString("DienThoai"),
                         rs.getString("DiaChi"),
                         rs.getBoolean("TrangThaiXoa")
                 );
@@ -48,7 +48,7 @@ public class NhaCungCapDAO {
     public boolean addNhaCungCap(NhaCungCapDTO ncc){
 
         String sql = """
-                     INSERT INTO nhacungcap(MaNCC, TenNCC, SoDienThoai, DiaChi, TrangThaiXoa)
+                     INSERT INTO nhacungcap(MaNCC, TenNCC, DienThoai, DiaChi, TrangThaiXoa)
                      VALUES(?,?,?,?,0)
                      """;
 
@@ -59,7 +59,7 @@ public class NhaCungCapDAO {
 
             ps.setString(1, ncc.getMaNCC());
             ps.setString(2, ncc.getTenNCC());
-            ps.setString(3, ncc.getSoDienThoai());
+            ps.setString(3, ncc.getDienThoai());
             ps.setString(4, ncc.getDiaChi());
 
             return ps.executeUpdate() > 0;
@@ -86,7 +86,7 @@ public class NhaCungCapDAO {
         ){
 
             ps.setString(1, ncc.getTenNCC());
-            ps.setString(2, ncc.getSoDienThoai());
+            ps.setString(2, ncc.getDienThoai());
             ps.setString(3, ncc.getDiaChi());
             ps.setString(4, ncc.getMaNCC());
 
@@ -177,7 +177,7 @@ public class NhaCungCapDAO {
                 return new NhaCungCapDTO(
                         rs.getString("MaNCC"),
                         rs.getString("TenNCC"),
-                        rs.getString("SoDienThoai"),
+                        rs.getString("DienThoai"),
                         rs.getString("DiaChi"),
                         rs.getBoolean("TrangThaiXoa")
                 );

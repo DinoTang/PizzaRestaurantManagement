@@ -54,7 +54,7 @@ public class DlgChonNhaCungCap extends javax.swing.JDialog {
                 vec.add(ncc.getMaNCC());
                 vec.add(ncc.getTenNCC());
                 vec.add(ncc.getDiaChi());
-                vec.add(ncc.getSoDienThoai());
+                vec.add(ncc.getDienThoai());
                 dtmNhaCungCap.addRow(vec);
             }
         }
