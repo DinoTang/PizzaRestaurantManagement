@@ -22,7 +22,7 @@ public class MyTable extends JTable {
         this.setFont(new Font("Arial", Font.PLAIN, 16));
 
         JTableHeader header = this.getTableHeader();
-        header.setBackground(new Color(242, 153, 74));
+        header.setBackground(new Color(60, 63, 65));
         header.setFont(new Font("Arial", Font.BOLD, 16));
         header.setOpaque(false);
         header.setForeground(Color.WHITE);
