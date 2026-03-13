@@ -11,7 +11,6 @@ public class SanPhamBUS {
     public List<SanPhamDTO> getAllSanPham(){
         return sanPhamDAO.getAllSanPham();
     }
-
     public List<SanPhamDTO> searchSanPham(String keyword){
         return sanPhamDAO.searchSanPhamByName(keyword);
     }
@@ -20,5 +19,17 @@ public class SanPhamBUS {
     }
     public SanPhamDTO getSanPhamById(String maSP){
         return sanPhamDAO.getSanPhamById(maSP);
+    }
+    public boolean addSanPham(SanPhamDTO sp){
+        return sanPhamDAO.addSanPham(sp);
+    }
+    public String getNextSanPhamId(){
+        return sanPhamDAO.getNextSanPhamId();
+    }
+    public boolean updateSanPham(SanPhamDTO sp){
+        return sanPhamDAO.updateSanPham(sp);
+    }
+    public boolean deleteSanPham(String maSP){
+        return sanPhamDAO.deleteSanPham(maSP);
     }
 }

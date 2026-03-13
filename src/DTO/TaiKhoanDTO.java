@@ -3,8 +3,8 @@ package DTO;
 public class TaiKhoanDTO {
 
     private String maTaiKhoan;
-    private String maQuyen;
     private String maNhanVien;
+    private String maQuyen;
     private String tenDangNhap;
     private String matKhau;
     private boolean trangThaiXoa;

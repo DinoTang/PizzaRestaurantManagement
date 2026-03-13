@@ -1,17 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-/**
- *
- * @author quock
- */
 public class NguyenLieuDTO {
+
     private String maNguyenLieu;
     private String tenNguyenLieu;
     private String maDonVi;
+    private double tonKho;
+    private String maNCC;
+    private boolean trangThaiXoa;
+
+    public NguyenLieuDTO(){}
+
+    public NguyenLieuDTO(String maNguyenLieu, String tenNguyenLieu, String maDonVi,
+                         double tonKho, boolean trangThaiXoa, String maNCC) {
+        this.maNguyenLieu = maNguyenLieu;
+        this.tenNguyenLieu = tenNguyenLieu;
+        this.maDonVi = maDonVi;
+        this.tonKho = tonKho;
+        this.trangThaiXoa = trangThaiXoa;
+        this.maNCC = maNCC;
+    }
 
     public String getMaNguyenLieu() {
         return maNguyenLieu;
@@ -52,8 +60,12 @@ public class NguyenLieuDTO {
     public void setTrangThaiXoa(boolean trangThaiXoa) {
         this.trangThaiXoa = trangThaiXoa;
     }
-    private double tonKho;
-    private boolean trangThaiXoa;
 
-    public NguyenLieuDTO() {}
+    public String getMaNCC() {
+        return maNCC;
+    }
+
+    public void setMaNCC(String maNCC) {
+        this.maNCC = maNCC;
+    }
 }

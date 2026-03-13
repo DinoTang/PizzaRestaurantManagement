@@ -195,4 +195,35 @@ public class SanPhamDAO {
 
         return false;
     }
+    public String getNextSanPhamId(){
+
+        String sql = """
+                     SELECT MaSP
+                     FROM sanpham
+                     ORDER BY MaSP DESC
+                     LIMIT 1
+                     """;
+
+        try(
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ){
+
+            if(rs.next()){
+
+                String lastId = rs.getString("MaSP");
+
+                int number = Integer.parseInt(lastId.substring(2));
+                number++;
+
+                return String.format("SP%02d", number);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "SP01";
+    }
 }

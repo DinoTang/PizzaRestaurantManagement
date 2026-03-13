@@ -11,5 +11,17 @@ public class LoaiBUS {
     public List<LoaiDTO> getAllLoai() {
         return loaiDAO.getAllLoai();
     }
+     public boolean addLoai(LoaiDTO loai){
 
+        if(loai.getTenLoai() == null || loai.getTenLoai().trim().isEmpty())
+            return false;
+
+        return loaiDAO.addLoai(loai);
+    } 
+    public String getNextLoaiId(){
+        return loaiDAO.getNextLoaiId();
+    }
+    public LoaiDTO getLoaiTheoId(String maLoai){
+        return loaiDAO.getLoaiTheoId(maLoai);
+    }
 }

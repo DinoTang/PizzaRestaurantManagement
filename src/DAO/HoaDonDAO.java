@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.Date;
 public class HoaDonDAO {
 
     public boolean addHoaDon(HoaDonDTO hd){
@@ -67,5 +69,45 @@ public class HoaDonDAO {
         }
 
         return maHD;
+    }
+    public List<HoaDonDTO> getAllHoaDon(){
+
+        List<HoaDonDTO> list = new ArrayList<>();
+
+        try{
+
+            Connection conn = DBConnection.getConnection();
+
+            String sql = "SELECT * FROM hoadon";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                HoaDonDTO hd = new HoaDonDTO();
+
+                hd.setMaHD(rs.getString("MaHD"));
+                hd.setMaKH(rs.getString("MaKH"));
+                hd.setMaNV(rs.getString("MaNV"));
+                hd.setMaGiamGia(rs.getString("MaGiamGia"));
+
+                Date date = rs.getDate("NgayLap");
+
+                if(date != null){
+                    hd.setNgayLap(date.toLocalDate());
+                }
+
+                hd.setTongTien(rs.getDouble("TongTien"));
+
+                list.add(hd);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

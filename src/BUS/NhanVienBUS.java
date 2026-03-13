@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.NhanVienDAO;
 import DTO.NhanVienDTO;
+import java.util.List;
 
 /**
  *
@@ -16,5 +17,8 @@ public class NhanVienBUS {
 
     public NhanVienDTO getNhanVienById(String id) {
         return nhanVienDAO.GetNhanVienById(id);
+    }
+    public List<NhanVienDTO> GetAllNhanVien(){
+        return nhanVienDAO.GetAllNhanVien();
     }
 }

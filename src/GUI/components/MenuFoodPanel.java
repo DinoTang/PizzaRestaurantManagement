@@ -195,7 +195,7 @@ public class MenuFoodPanel extends RoundedPanel {
                 folder = "other";
             }
 
-            String imagePath = "/images/menu/" + folder + "/" + sp.getHinhAnh();
+            String imagePath = "/images/SanPham/" + folder + "/" + sp.getHinhAnh();
 
             ItemCard card;
 

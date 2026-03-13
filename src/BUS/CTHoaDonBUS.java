@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.CTHoaDonDAO;
 import DTO.CTHoaDonDTO;
+import java.util.List;
 
 /**
  *
@@ -14,12 +15,15 @@ import DTO.CTHoaDonDTO;
 public class CTHoaDonBUS {
 
     private CTHoaDonDAO dao = new CTHoaDonDAO();
-
+    
     public boolean addCTHoaDon(CTHoaDonDTO ct){
 
         
         ct.setThanhTien(ct.getDonGia() * ct.getSoLuong());
 
         return dao.addCTHoaDon(ct);
+    }
+    public List<CTHoaDonDTO> getCTHoaDonByMaHD(String maHD){
+        return dao.getCTHoaDonByMaHD(maHD);
     }
 }

@@ -1,23 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-/**
- *
- * @author quock
- */
 public class PhieuNhapDTO {
+
     private String maPN;
     private String maNCC;
-    private String maNhanVien;
-    private LocalDateTime thoiGianNhap;
-    private double tongTien;
-    private double tienChietKhau;
-    private double tongTienThanhToan;
+    private String maNV;
+    private Date ngayLap;
+    private int tongTien;
+
+    public PhieuNhapDTO() {
+    }
+
+    public PhieuNhapDTO(String maPN, String maNCC, String maNV, Date ngayLap, int tongTien) {
+        this.maPN = maPN;
+        this.maNCC = maNCC;
+        this.maNV = maNV;
+        this.ngayLap = ngayLap;
+        this.tongTien = tongTien;
+    }
 
     public String getMaPN() {
         return maPN;
@@ -35,54 +37,28 @@ public class PhieuNhapDTO {
         this.maNCC = maNCC;
     }
 
-    public String getMaNhanVien() {
-        return maNhanVien;
+    public String getMaNV() {
+        return maNV;
     }
 
-    public void setMaNhanVien(String maNhanVien) {
-        this.maNhanVien = maNhanVien;
+    public void setMaNV(String maNV) {
+        this.maNV = maNV;
     }
 
-    public LocalDateTime getThoiGianNhap() {
-        return thoiGianNhap;
+    public Date getNgayLap() {
+        return ngayLap;
     }
 
-    public void setThoiGianNhap(LocalDateTime thoiGianNhap) {
-        this.thoiGianNhap = thoiGianNhap;
+    public void setNgayLap(Date ngayLap) {
+        this.ngayLap = ngayLap;
     }
 
-    public double getTongTien() {
+    public int getTongTien() {
         return tongTien;
     }
 
-    public void setTongTien(double tongTien) {
+    public void setTongTien(int tongTien) {
         this.tongTien = tongTien;
     }
 
-    public double getTienChietKhau() {
-        return tienChietKhau;
-    }
-
-    public void setTienChietKhau(double tienChietKhau) {
-        this.tienChietKhau = tienChietKhau;
-    }
-
-    public double getTongTienThanhToan() {
-        return tongTienThanhToan;
-    }
-
-    public void setTongTienThanhToan(double tongTienThanhToan) {
-        this.tongTienThanhToan = tongTienThanhToan;
-    }
-
-    public boolean isTrangThaiXoa() {
-        return trangThaiXoa;
-    }
-
-    public void setTrangThaiXoa(boolean trangThaiXoa) {
-        this.trangThaiXoa = trangThaiXoa;
-    }
-    private boolean trangThaiXoa;
-
-    public PhieuNhapDTO() {}
 }

@@ -24,4 +24,12 @@ public class TaiKhoanBUS {
 
         return this.taiKhoanDAO.Login(username, password);
     }
+    
+    public boolean themTaiKhoan(TaiKhoanDTO tk){
+        return taiKhoanDAO.AddTaiKhoan(tk);
+    }
+    public String GetNextTaiKhoanId()
+    {
+        return taiKhoanDAO.GetNextTaiKhoanId();
+    }
 }

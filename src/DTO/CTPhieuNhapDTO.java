@@ -1,20 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-/**
- *
- * @author quock
- */
 public class CTPhieuNhapDTO {
     private String maPN;
     private String maNguyenLieu;
-    private String maDonVi;
     private int soLuong;
-    private double donGia;
-    private double thanhTien;
+    private int donGia;
+    private int thanhTien;
+
+    public CTPhieuNhapDTO() {
+    }
+
+    public CTPhieuNhapDTO(String maPN, String maNguyenLieu, int soLuong, int donGia, int thanhTien) {
+        this.maPN = maPN;
+        this.maNguyenLieu = maNguyenLieu;
+        this.soLuong = soLuong;
+        this.donGia = donGia;
+        this.thanhTien = thanhTien;
+    }
 
     public String getMaPN() {
         return maPN;
@@ -32,14 +34,6 @@ public class CTPhieuNhapDTO {
         this.maNguyenLieu = maNguyenLieu;
     }
 
-    public String getMaDonVi() {
-        return maDonVi;
-    }
-
-    public void setMaDonVi(String maDonVi) {
-        this.maDonVi = maDonVi;
-    }
-
     public int getSoLuong() {
         return soLuong;
     }
@@ -48,21 +42,19 @@ public class CTPhieuNhapDTO {
         this.soLuong = soLuong;
     }
 
-    public double getDonGia() {
+    public int getDonGia() {
         return donGia;
     }
 
-    public void setDonGia(double donGia) {
+    public void setDonGia(int donGia) {
         this.donGia = donGia;
     }
 
-    public double getThanhTien() {
+    public int getThanhTien() {
         return thanhTien;
     }
 
-    public void setThanhTien(double thanhTien) {
+    public void setThanhTien(int thanhTien) {
         this.thanhTien = thanhTien;
     }
-
-    public CTPhieuNhapDTO() {}
 }

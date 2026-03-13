@@ -184,7 +184,7 @@ public class DashboardGUI extends javax.swing.JFrame {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
             if(quyenBUS.isAdmin(maQuyen)){
-                //new QuanLyGUI(maNV, maVaiTro).setVisible(true);
+                Utils.WindowUtil.showWindow(new QuanLyGUI(maNV, maQuyen));
                 dispose();
             }
             else{

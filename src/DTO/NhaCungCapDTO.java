@@ -12,10 +12,16 @@ public class NhaCungCapDTO {
     private String maNCC;
     private String tenNCC;
     private String soDienThoai;
-    private String email;
     private String diaChi;
     private boolean trangThaiXoa;
-
+    
+    public NhaCungCapDTO(String maNCC, String tenNCC, String soDienThoai, String diaChi, boolean trangThaiXoa) {
+        this.maNCC = maNCC;
+        this.tenNCC = tenNCC;
+        this.soDienThoai = soDienThoai;
+        this.diaChi = diaChi;
+        this.trangThaiXoa = trangThaiXoa;
+    }
     public NhaCungCapDTO() {}
 
     // getters & setters
@@ -42,14 +48,6 @@ public class NhaCungCapDTO {
 
     public void setSoDienThoai(String soDienThoai) {
         this.soDienThoai = soDienThoai;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getDiaChi() {
