@@ -58,7 +58,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
     DefaultTableModel dtmSanPham;
     JTextField txtMa, txtTen, txtsoLuong, txtdonViTinh, txtdonGia, txtTimKiem;
     JComboBox<String> cmbLoai;
-    JButton btnThem, btnSua, btnXoa, btnTim, btnChonAnh, btnReset, btnXuatExcel, btnNhapExcel;
+    JButton btnThem, btnSua, btnXoa, btnTim, btnChonAnh, btnReset, btnXuatExcel, btnNhapExcel, btnCongThuc;
     JLabel lblAnhSP;
     
     private void addControlsSanPham() {
@@ -188,6 +188,9 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnXoa = new JButton("Xoá");
         btnTim = new JButton("");
         btnXuatExcel = new JButton("Xuất");
+        btnCongThuc = new JButton("Công thức");
+       
+   
 //        btnNhapExcel = new JButton("Nhập");
 
         Font fontButton = new Font("Tahoma", Font.PLAIN, 16);
@@ -195,6 +198,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnSua.setFont(fontButton);
         btnXoa.setFont(fontButton);
         btnTim.setFont(fontButton);
+         btnCongThuc.setFont(font);
         btnTim.setPreferredSize(new Dimension(50, 30));
         btnXuatExcel.setFont(fontButton);
 //        btnNhapExcel.setFont(fontButton);
@@ -221,6 +225,8 @@ public class PnQuanLySanPhamGUI extends JPanel {
         pnButton.add(btnXoa);
 //        pnButton.add(btnTim);
         pnButton.add(btnXuatExcel);
+        pnButton.add(btnCongThuc);
+        
 //        pnButton.add(btnNhapExcel);
 
         Dimension btnSize = new Dimension(120, 40);
@@ -229,6 +235,8 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnXoa.setPreferredSize(btnSize);
 //        btnTim.setPreferredSize(btnSize);
         btnXuatExcel.setPreferredSize(btnSize);
+        pnButton.setPreferredSize(btnSize);
+        
 //        btnNhapExcel.setPreferredSize(btnSize);
 
         this.add(pnButton);
@@ -361,6 +369,12 @@ public class PnQuanLySanPhamGUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 xuLyXuatFileExcel();
+            }
+        });
+        btnCongThuc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xuLyMoCongThuc();
             }
         });
 //        btnNhapExcel.addActionListener(new ActionListener() {
@@ -581,5 +595,19 @@ public class PnQuanLySanPhamGUI extends JPanel {
             dtmSanPham.addRow(vec);
         }
         MyDialog dlg = new MyDialog("Số kết quả tìm được: " + dssp.size(), MyDialog.INFO_DIALOG);
+    }
+    
+    private void xuLyMoCongThuc() {
+
+    String maSP = txtMa.getText();
+
+    if(maSP == null || maSP.trim().isEmpty()){
+        new MyDialog("Vui lòng chọn sản phẩm trước!", MyDialog.ERROR_DIALOG);
+        return;
+    }
+
+    DlgCongThuc dlg = new DlgCongThuc(maSP);
+    dlg.setLocationRelativeTo(null);
+    dlg.setVisible(true);
     }
 }

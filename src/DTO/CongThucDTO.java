@@ -1,31 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-/**
- *
- * @author quock
- */
 public class CongThucDTO {
-    private String maCT;
-    private String maSanPham;
 
-    public String getMaCT() {
-        return maCT;
+    private String maSP;
+    private String maNguyenLieu;
+    private String tenNguyenLieu;
+    private double soLuong;
+
+    public CongThucDTO() {
     }
 
-    public void setMaCT(String maCT) {
-        this.maCT = maCT;
+    public CongThucDTO(String maSP, String maNguyenLieu, double soLuong) {
+        this.maSP = maSP;
+        this.maNguyenLieu = maNguyenLieu;
+        this.soLuong = soLuong;
     }
 
-    public String getMaSanPham() {
-        return maSanPham;
+    public String getMaSP() {
+        return maSP;
+    }
+    
+    public String getTenNguyenLieu() {
+    return tenNguyenLieu;
+}
+
+    public void setTenNguyenLieu(String tenNguyenLieu) {
+    this.tenNguyenLieu = tenNguyenLieu;
     }
 
-    public void setMaSanPham(String maSanPham) {
-        this.maSanPham = maSanPham;
+    public void setMaSP(String maSP) {
+        this.maSP = maSP;
     }
 
     public String getMaNguyenLieu() {
@@ -36,14 +40,6 @@ public class CongThucDTO {
         this.maNguyenLieu = maNguyenLieu;
     }
 
-    public String getMaDonVi() {
-        return maDonVi;
-    }
-
-    public void setMaDonVi(String maDonVi) {
-        this.maDonVi = maDonVi;
-    }
-
     public double getSoLuong() {
         return soLuong;
     }
@@ -51,18 +47,4 @@ public class CongThucDTO {
     public void setSoLuong(double soLuong) {
         this.soLuong = soLuong;
     }
-
-    public boolean isTrangThaiXoa() {
-        return trangThaiXoa;
-    }
-
-    public void setTrangThaiXoa(boolean trangThaiXoa) {
-        this.trangThaiXoa = trangThaiXoa;
-    }
-    private String maNguyenLieu;
-    private String maDonVi;
-    private double soLuong;
-    private boolean trangThaiXoa;
-
-    public CongThucDTO() {}
 }
