@@ -166,6 +166,7 @@ public class DlgCongThuc extends JDialog {
     private void loadNguyenLieu(){
 
         cmbNguyenLieu.removeAllItems();
+        cmbNguyenLieu.addItem("Chọn nguyên liệu");
 
         List<NguyenLieuDTO> list = nlBUS.getAllNguyenLieu();
 

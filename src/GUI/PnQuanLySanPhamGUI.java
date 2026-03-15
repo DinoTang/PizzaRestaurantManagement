@@ -469,7 +469,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
     private void loadDataCmbLoai() {
         cmbLoai.removeAllItems();
         List<LoaiDTO> dsl = loaiBUS.getAllLoai();
-        cmbLoai.addItem("0 - Chọn loại");
+        cmbLoai.addItem("Chọn loại");
         for (LoaiDTO loai : dsl) {
             cmbLoai.addItem(loai.getMaLoai() + " - " + loai.getTenLoai());
         }

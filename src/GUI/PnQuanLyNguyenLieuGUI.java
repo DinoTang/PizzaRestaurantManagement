@@ -215,11 +215,11 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
     }
 
     private void loadComboBox() {
-
+        cbDonVi.addItem("Chọn đơn vị");
         for (DonViDTO dv : dvBUS.getAllDonVi()) {
             cbDonVi.addItem(dv.getTenDonVi());
         }
-
+        cbNCC.addItem("Chọn nhà cung cấp");
         for (NhaCungCapDTO ncc : nccBUS.getAllNhaCungCap()) {
             cbNCC.addItem(ncc.getTenNCC());
         }
