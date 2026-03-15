@@ -29,7 +29,7 @@ public class CTPhieuNhapBUS {
         String ma = maPN;
         
         for(CTPhieuNhapDTO ct: listPhieuNhap) {
-            if(ct.getMaPN() == ma) {
+            if(ct.getMaPN().equals(ma)) {
                 dsct.add(ct);
             }
         }

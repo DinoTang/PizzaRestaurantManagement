@@ -113,9 +113,9 @@ public class CTPhieuNhapDAO {
     public boolean addCTPhieuNhap(CTPhieuNhapDTO ctpn) {
 
         String sqlUpdateSP = """
-                             UPDATE sanpham
-                             SET SoLuong = SoLuong + ?
-                             WHERE MaSP = ?
+                             UPDATE nguyenlieu
+                             SET TonKho = TonKho + ?
+                             WHERE MaNguyenLieu = ?
                              """;
 
         String sqlInsert = """

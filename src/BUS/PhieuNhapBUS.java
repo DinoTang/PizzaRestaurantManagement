@@ -40,6 +40,8 @@ public class PhieuNhapBUS {
         pn.setMaNCC(maNCC);
         pn.setMaNV(maNV);
         pn.setTongTien(tongTien);
+        pn.setMaPN(phieuNhapDAO.getMaPhieuNhapMoi());
+        pn.setNgayLap(new Date());
 
         return phieuNhapDAO.addPhieuNhap(pn);
     }

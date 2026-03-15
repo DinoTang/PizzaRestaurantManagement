@@ -37,6 +37,7 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
 //        changLNF("Windows");
         addControls();
         addEvents();
+        loadTable();
     }
 
     private void addControls() {

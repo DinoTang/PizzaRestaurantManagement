@@ -42,29 +42,29 @@ public class PhieuNhapDAO {
 
     public boolean addPhieuNhap(PhieuNhapDTO pn) {
 
-        String sql = """
-                     INSERT INTO phieunhap (MaPN, MaNCC, MaNV, NgayLap, TongTien)
-                     VALUES (?, ?, ?, ?, ?)
-                     """;
+    String sql = """
+                 INSERT INTO phieunhap (MaPN, MaNCC, MaNV, NgayLap, TongTien)
+                 VALUES (?, ?, ?, ?, ?)
+                 """;
 
-        try (
-            Connection conn = DBConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-        ) {
+    try (
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+    ) {
 
-            ps.setString(1, pn.getMaPN());
-            ps.setString(2, pn.getMaNCC());
-            ps.setString(3, pn.getMaNV());
-            ps.setDate(4, new java.sql.Date(pn.getNgayLap().getTime()));
-            ps.setInt(5, pn.getTongTien());
+        ps.setString(1, pn.getMaPN());
+        ps.setString(2, pn.getMaNCC());
+        ps.setString(3, pn.getMaNV());
+        ps.setDate(4, new java.sql.Date(pn.getNgayLap().getTime()));
+        ps.setInt(5, pn.getTongTien());
 
-            return ps.executeUpdate() > 0;
+        return ps.executeUpdate() > 0;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 
-        return false;
+    return false;
     }
 
     public PhieuNhapDTO getPhieuNhapById(String maPN) {
@@ -167,5 +167,35 @@ public class PhieuNhapDAO {
         }
 
         return null;
+    }
+    
+    public String getMaPhieuNhapMoi() {
+
+    String maPN = "PN001";
+
+    String sql = "SELECT MaPN FROM phieunhap ORDER BY MaPN DESC LIMIT 1";
+
+    try (
+        Connection conn = DBConnection.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+    ) {
+
+        if (rs.next()) {
+
+            String maCuoi = rs.getString("MaPN"); // PN005
+
+            int so = Integer.parseInt(maCuoi.substring(2));
+
+            so++;
+
+            maPN = "PN" + String.format("%03d", so);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return maPN;
     }
 }
