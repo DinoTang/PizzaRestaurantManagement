@@ -125,7 +125,7 @@ public class PaymentDlg extends JDialog {
                     SanPhamBUS spBUS = new SanPhamBUS();
 
                     for(CartItemDTO item : CartBUS.getCart()){
-                        spBUS.updateSoLuong(item.getMaSP(), item.getSoLuong());
+                        spBUS.updateSoLuongGiam(item.getMaSP(), item.getSoLuong());
                     }
 
                     // xóa giỏ hàng

@@ -232,4 +232,25 @@ public class NguyenLieuDAO {
 
         return null;
     }
+    
+    public boolean giamTonKho(String maNguyenLieu, double soLuong){
+
+        String sql = "UPDATE nguyenlieu SET TonKho = TonKho - ? WHERE MaNguyenLieu = ?";
+
+        try(
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+        ){
+
+            ps.setDouble(1, soLuong);
+            ps.setString(2, maNguyenLieu);
+
+            return ps.executeUpdate() > 0;
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

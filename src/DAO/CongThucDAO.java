@@ -124,5 +124,38 @@ public class CongThucDAO {
 
     return list;
     }
+    
+    public List<CongThucDTO> getCongThucBySanPham(String maSP){
+
+        List<CongThucDTO> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM CongThuc WHERE MaSP = ?";
+
+        try(
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+        ){
+
+            ps.setString(1, maSP);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                CongThucDTO ct = new CongThucDTO();
+
+                ct.setMaSP(rs.getString("MaSP"));
+                ct.setMaNguyenLieu(rs.getString("MaNguyenLieu"));
+                ct.setSoLuong(rs.getDouble("SoLuong"));
+
+                list.add(ct);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
 }

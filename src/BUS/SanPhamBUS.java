@@ -1,6 +1,9 @@
 package BUS;
 
+import DAO.CongThucDAO;
+import DAO.NguyenLieuDAO;
 import DAO.SanPhamDAO;
+import DTO.CongThucDTO;
 import DTO.SanPhamDTO;
 import java.util.List;
 
@@ -14,8 +17,11 @@ public class SanPhamBUS {
     public List<SanPhamDTO> searchSanPham(String keyword){
         return sanPhamDAO.searchSanPhamByName(keyword);
     }
-    public boolean updateSoLuong(String maSP, int soLuong){
-        return sanPhamDAO.updateSoLuong(maSP, soLuong);
+    public boolean updateSoLuongTang(String maSP, int soLuong){
+        return sanPhamDAO.updateSoLuongTang(maSP, soLuong);
+    }
+    public boolean updateSoLuongGiam(String maSP, int soLuong){
+        return sanPhamDAO.updateSoLuongGiam(maSP, soLuong);
     }
     public SanPhamDTO getSanPhamById(String maSP){
         return sanPhamDAO.getSanPhamById(maSP);
@@ -31,5 +37,20 @@ public class SanPhamBUS {
     }
     public boolean deleteSanPham(String maSP){
         return sanPhamDAO.deleteSanPham(maSP);
+    }
+    
+    public void giamNguyenLieuTheoCongThuc(String maSP, int soLuongSanPham){
+
+        CongThucDAO ctDAO = new CongThucDAO();
+        NguyenLieuDAO nlDAO = new NguyenLieuDAO();
+
+        List<CongThucDTO> list = ctDAO.getCongThucBySanPham(maSP);
+
+        for(CongThucDTO ct : list){
+
+            double soLuongCanTru = ct.getSoLuong() * soLuongSanPham;
+
+            nlDAO.giamTonKho(ct.getMaNguyenLieu(), soLuongCanTru);
+        }
     }
 }

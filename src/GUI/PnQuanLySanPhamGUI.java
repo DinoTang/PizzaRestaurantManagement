@@ -487,6 +487,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
 
     private void xuLyThemSanPham() {
 
+        // kiểm tra dữ liệu
         if(txtTen.getText().trim().isEmpty()){
             new MyDialog("Vui lòng nhập tên sản phẩm!", MyDialog.ERROR_DIALOG);
             return;
@@ -502,11 +503,11 @@ public class PnQuanLySanPhamGUI extends JPanel {
             return;
         }
 
-        String anh = (fileAnhSP != null) ? fileAnhSP.getName() : "default.png";
-
         String tenSP = txtTen.getText();
         int soLuong = Integer.parseInt(txtsoLuong.getText());
+        String anh = (fileAnhSP != null) ? fileAnhSP.getName() : "default.png";
 
+        // tìm sản phẩm theo tên
         List<SanPhamDTO> list = spBUS.searchSanPham(tenSP);
         SanPhamDTO spTonTai = null;
 
@@ -514,17 +515,30 @@ public class PnQuanLySanPhamGUI extends JPanel {
             spTonTai = list.get(0);
         }
 
+        // nếu sản phẩm đã tồn tại
         if(spTonTai != null){
 
-            spBUS.updateSoLuong(spTonTai.getMaSP(), soLuong);
+            boolean flag = spBUS.updateSoLuongTang(spTonTai.getMaSP(), soLuong);
 
-            new MyDialog("Sản phẩm đã tồn tại, đã tăng số lượng!", MyDialog.SUCCESS_DIALOG);
+            if(flag){
 
-        }else{
+                // giảm nguyên liệu theo công thức
+                spBUS.giamNguyenLieuTheoCongThuc(spTonTai.getMaSP(), soLuong);
 
+                new MyDialog("Sản phẩm đã tồn tại, đã tăng số lượng!", MyDialog.SUCCESS_DIALOG);
+
+            }else{
+                new MyDialog("Cập nhật số lượng thất bại!", MyDialog.ERROR_DIALOG);
+            }
+
+        }
+        else{
+
+            // tạo sản phẩm mới
             String maSP = spBUS.getNextSanPhamId();
 
             SanPhamDTO sp = new SanPhamDTO();
+
             sp.setMaSP(maSP);
             sp.setTenSP(tenSP);
             sp.setMaLoai(cmbLoai.getSelectedItem()+"");
@@ -537,16 +551,23 @@ public class PnQuanLySanPhamGUI extends JPanel {
             boolean flag = spBUS.addSanPham(sp);
 
             if(flag){
+
+                // giảm nguyên liệu theo công thức
+                spBUS.giamNguyenLieuTheoCongThuc(maSP, soLuong);
+
                 new MyDialog("Thêm sản phẩm thành công!", MyDialog.SUCCESS_DIALOG);
+
             }else{
                 new MyDialog("Thêm sản phẩm thất bại!", MyDialog.ERROR_DIALOG);
             }
         }
 
+        // lưu ảnh nếu có
         if(fileAnhSP != null){
             luuFileAnh();
         }
 
+        // reload bảng
         loadDataLenBangSanPham();
     }
 
