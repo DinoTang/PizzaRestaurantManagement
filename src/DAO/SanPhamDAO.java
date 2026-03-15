@@ -179,7 +179,7 @@ public class SanPhamDAO {
     }
     public boolean updateSoLuong(String maSP, int soLuong){
 
-        String sql = "UPDATE sanpham SET SoLuong = SoLuong - ? WHERE MaSP = ?";
+        String sql = "UPDATE sanpham SET SoLuong = SoLuong + ? WHERE MaSP = ?";
 
         try(Connection conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){

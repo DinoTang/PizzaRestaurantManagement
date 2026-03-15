@@ -694,45 +694,56 @@ public class PnQuanLyNhanVienGUI extends JPanel {
 
     private void xuLyXoaNhanVien(){
 
-    String ma = txtMaNV.getText();
-    
-    NhanVienDTO nv = nhanVienBUS.getNhanVienById(ma);
+        String ma = txtMaNV.getText();
 
-    if(nhanVienBUS.deleteNhanVien(nv)){
-        loadDataTblNhanVien();
-    }
+        if(ma == null || ma.trim().isEmpty()){
+            new MyDialog("Vui lòng chọn nhân viên muốn xóa!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+
+        MyDialog dlg = new MyDialog("Bạn có chắc chắn muốn xoá?", MyDialog.WARNING_DIALOG);
+
+        if(dlg.getAction() == MyDialog.OK_OPTION){
+
+            NhanVienDTO nv = nhanVienBUS.getNhanVienById(ma);
+
+            if(nhanVienBUS.deleteNhanVien(nv)){
+                loadDataTblNhanVien();
+            }
+
+        }
     }
 
     private void xuLySuaNhanVien(){
 
-    String ma = txtMaNV.getText();
+        String ma = txtMaNV.getText();
 
-    NhanVienDTO nv = nhanVienBUS.getNhanVienById(ma);
+        NhanVienDTO nv = nhanVienBUS.getNhanVienById(ma);
 
-    nv.setHoTen(txtHoten.getText());
+        nv.setHoTen(txtHoten.getText());
 
-    if(nhanVienBUS.updateNhanVien(nv)){
-        loadDataTblNhanVien();
-    }
+        if(nhanVienBUS.updateNhanVien(nv)){
+            loadDataTblNhanVien();
+        }
     }
 
     private void xuLyThemNhanVien(){
 
-    String hoten = txtHoten.getText();
+        String hoten = txtHoten.getText();
 
-    NhanVienDTO nv = new NhanVienDTO();
+        NhanVienDTO nv = new NhanVienDTO();
 
-    nv.setMaNhanVien(nhanVienBUS.getNextId());
-    nv.setHoTen(hoten);
-    nv.setSoDienThoai("");
-    nv.setEmail("");
-    nv.setLuong(0);
-    nv.setNgayTao(LocalDate.now());
-    nv.setTrangThaiXoa(false);
+        nv.setMaNhanVien(nhanVienBUS.getNextId());
+        nv.setHoTen(hoten);
+        nv.setSoDienThoai("");
+        nv.setEmail("");
+        nv.setLuong(0);
+        nv.setNgayTao(LocalDate.now());
+        nv.setTrangThaiXoa(false);
 
-    if(nhanVienBUS.addNhanVien(nv)){
-        loadDataTblNhanVien();
-    }
+        if(nhanVienBUS.addNhanVien(nv)){
+            loadDataTblNhanVien();
+        }
     }
 
     private void xuLyTimKiemNhanVien(){

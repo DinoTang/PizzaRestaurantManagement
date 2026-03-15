@@ -95,13 +95,13 @@ public class PnQuanLySanPhamGUI extends JPanel {
         lblDonViTinh = new JLabel("Đơn vị tính");
         lblDonGia = new JLabel("Đơn giá");
 
-        txtMa = new JTextField(15);
+        txtMa = new JTextField(25);
         txtMa.setEditable(false);
-        txtTen = new JTextField(15);
+        txtTen = new JTextField(25);
         cmbLoai = new JComboBox<String>();
-        txtsoLuong = new JTextField(15);
-        txtdonViTinh = new JTextField(15);
-        txtdonGia = new JTextField(15);
+        txtsoLuong = new JTextField(25);
+        txtdonViTinh = new JTextField(25);
+        txtdonGia = new JTextField(25);
 
         JPanel pnMa = new TransparentPanel();
         lblMa.setFont(font);
@@ -198,7 +198,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnSua.setFont(fontButton);
         btnXoa.setFont(fontButton);
         btnTim.setFont(fontButton);
-         btnCongThuc.setFont(font);
+        btnCongThuc.setFont(fontButton);
         btnTim.setPreferredSize(new Dimension(50, 30));
         btnXuatExcel.setFont(fontButton);
 //        btnNhapExcel.setFont(fontButton);
@@ -208,7 +208,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnXoa.setIcon(Constants.loadIcon("/images/delete-icon.png"));
         btnTim.setIcon(Constants.loadIcon("/images/Search-icon.png"));
         btnXuatExcel.setIcon(Constants.loadIcon("/images/excel-icon.png"));
-//        btnNhapExcel.setIcon(new ImageIcon("image/excel-icon.png"));
+        btnCongThuc.setIcon(Constants.loadIcon("/images/recipe-icon.png"));
 
         JPanel pnTimKiem = new TransparentPanel();
         JLabel lblTimKiem = new JLabel("Từ khoá tìm");
@@ -235,7 +235,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnXoa.setPreferredSize(btnSize);
 //        btnTim.setPreferredSize(btnSize);
         btnXuatExcel.setPreferredSize(btnSize);
-        pnButton.setPreferredSize(btnSize);
+        btnCongThuc.setPreferredSize(new Dimension(150, 40));
         
 //        btnNhapExcel.setPreferredSize(btnSize);
 
@@ -486,21 +486,68 @@ public class PnQuanLySanPhamGUI extends JPanel {
     }
 
     private void xuLyThemSanPham() {
+
+        if(txtTen.getText().trim().isEmpty()){
+            new MyDialog("Vui lòng nhập tên sản phẩm!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+
+        if(txtsoLuong.getText().trim().isEmpty()){
+            new MyDialog("Vui lòng nhập số lượng!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+
+        if(txtdonGia.getText().trim().isEmpty()){
+            new MyDialog("Vui lòng nhập đơn giá!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+
         String anh = (fileAnhSP != null) ? fileAnhSP.getName() : "default.png";
-        System.out.println(fileAnhSP.getName());
-        String maSP = spBUS.getNextSanPhamId();
-        SanPhamDTO sp = new SanPhamDTO();
-        sp.setMaSP(maSP);
-        sp.setTenSP(txtTen.getText());
-        sp.setMaLoai(cmbLoai.getSelectedItem() + "");
-        sp.setSoLuong(Integer.parseInt(txtsoLuong.getText()));
-        sp.setDonViTinh(txtdonViTinh.getText());
-        sp.setDonGia(Integer.parseInt(txtdonGia.getText()));
-        boolean flag = spBUS.addSanPham(sp);
-     
-//        spBUS.docListSanPham();
+
+        String tenSP = txtTen.getText();
+        int soLuong = Integer.parseInt(txtsoLuong.getText());
+
+        List<SanPhamDTO> list = spBUS.searchSanPham(tenSP);
+        SanPhamDTO spTonTai = null;
+
+        if(!list.isEmpty()){
+            spTonTai = list.get(0);
+        }
+
+        if(spTonTai != null){
+
+            spBUS.updateSoLuong(spTonTai.getMaSP(), soLuong);
+
+            new MyDialog("Sản phẩm đã tồn tại, đã tăng số lượng!", MyDialog.SUCCESS_DIALOG);
+
+        }else{
+
+            String maSP = spBUS.getNextSanPhamId();
+
+            SanPhamDTO sp = new SanPhamDTO();
+            sp.setMaSP(maSP);
+            sp.setTenSP(tenSP);
+            sp.setMaLoai(cmbLoai.getSelectedItem()+"");
+            sp.setSoLuong(soLuong);
+            sp.setDonViTinh(txtdonViTinh.getText());
+            sp.setDonGia(Integer.parseInt(txtdonGia.getText()));
+            sp.setHinhAnh(anh);
+            sp.setTrangThaiXoa(false);
+
+            boolean flag = spBUS.addSanPham(sp);
+
+            if(flag){
+                new MyDialog("Thêm sản phẩm thành công!", MyDialog.SUCCESS_DIALOG);
+            }else{
+                new MyDialog("Thêm sản phẩm thất bại!", MyDialog.ERROR_DIALOG);
+            }
+        }
+
+        if(fileAnhSP != null){
+            luuFileAnh();
+        }
+
         loadDataLenBangSanPham();
-        luuFileAnh();
     }
 
     File fileAnhSP;
@@ -521,6 +568,13 @@ public class PnQuanLySanPhamGUI extends JPanel {
     }
 
     private void xuLyXoaSanPham() {
+        String maSP = txtMa.getText();
+
+        if(maSP == null || maSP.trim().isEmpty()){
+            new MyDialog("Vui lòng chọn sản phẩm muốn xóa!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+        
         MyDialog dlg = new MyDialog("Bạn có chắc chắn muốn xoá?", MyDialog.WARNING_DIALOG);
         if (dlg.OK_OPTION == dlg.getAction()) {
             boolean flag = spBUS.deleteSanPham(txtMa.getText());

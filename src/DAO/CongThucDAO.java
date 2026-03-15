@@ -92,9 +92,10 @@ public class CongThucDAO {
     List<CongThucDTO> list = new ArrayList<>();
 
     String sql = """
-        SELECT nl.TenNguyenLieu, ct.SoLuong
+        SELECT nl.TenNguyenLieu, ct.SoLuong, dv.TenDonVi
         FROM CongThuc ct
         JOIN NguyenLieu nl ON ct.MaNguyenLieu = nl.MaNguyenLieu
+        JOIN DonVi dv ON nl.MaDonVi = dv.MaDonVi
         WHERE ct.MaSP = ?
         """;
 
@@ -112,6 +113,7 @@ public class CongThucDAO {
 
             ct.setTenNguyenLieu(rs.getString("TenNguyenLieu"));
             ct.setSoLuong(rs.getFloat("SoLuong"));
+            ct.setTenDonVi(rs.getString("TenDonVi")); // thêm dòng này
 
             list.add(ct);
         }

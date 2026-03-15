@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class DlgCongThuc extends JDialog {
 
@@ -101,7 +102,7 @@ public class DlgCongThuc extends JDialog {
         // ===== TABLE =====
 
         dtm = new DefaultTableModel(
-                new Object[]{"Tên nguyên liệu","Số lượng"},0
+                new Object[]{"Tên nguyên liệu","Số lượng","Đơn vị"},0
         ){
             public boolean isCellEditable(int row,int column){
                 return false;
@@ -109,6 +110,16 @@ public class DlgCongThuc extends JDialog {
         };
 
         tblCongThuc = new MyTable(dtm);
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+        leftRenderer.setHorizontalAlignment(JLabel.LEFT);
+
+        tblCongThuc.getColumnModel().getColumn(0).setCellRenderer(leftRenderer);
+        tblCongThuc.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tblCongThuc.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
         JScrollPane scr = new JScrollPane(tblCongThuc);
 
@@ -178,7 +189,8 @@ public class DlgCongThuc extends JDialog {
 
             dtm.addRow(new Object[]{
                     ct.getTenNguyenLieu(),
-                    ct.getSoLuong()
+                    String.format("%.2f", ct.getSoLuong()),
+                    ct.getTenDonVi()
             });
 
         }

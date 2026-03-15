@@ -275,36 +275,11 @@ public class PnQuanLyKhachHangGUI extends JPanel {
 
         btnTim.addActionListener(e -> searchRange());
 
-        btnThem.addActionListener(e -> {
-            KhachHangDTO kh = new KhachHangDTO();
-            kh.setMaKhachHang(khachHangBUS.getNextId());
-            kh.setTenKhachHang(txtTen.getText());
-            kh.setSoDienThoai(txtSDT.getText());
-            kh.setNgayTao(LocalDate.now());
-            kh.setTongChiTieu(0);
-            if (khachHangBUS.addCustomer(kh)) {
-                btnReset.doClick();
-            }
+        btnThem.addActionListener(e -> xuLyThemKhachHang());
 
-        });
+        btnSua.addActionListener(e -> xuLySuaKhachHang());
 
-        btnSua.addActionListener(e -> {
-            KhachHangDTO kh = khachHangBUS.getKhachHangById(txtMa.getText());
-            kh.setTenKhachHang(txtTen.getText());
-            kh.setSoDienThoai(txtSDT.getText());
-            if (khachHangBUS.updateCustomer(kh)) {
-                btnReset.doClick();
-            }
-
-        });
-
-        btnXoa.addActionListener(e -> {
-
-            if (khachHangBUS.deleteCustomer(txtMa.getText())) {
-                btnReset.doClick();
-            }
-
-        });
+        btnXoa.addActionListener(e -> xuLyXoaKhachHang());
 
     }
 
@@ -348,5 +323,81 @@ public class PnQuanLyKhachHangGUI extends JPanel {
 
         List<KhachHangDTO> ds = khachHangBUS.searchCustomer(txtMinChiTieu.getText(), txtMaxChiTieu.getText());
         loadData(ds);
+    }
+    
+    private void xuLyThemKhachHang() {
+
+    if(txtTen.getText().trim().isEmpty()){
+        JOptionPane.showMessageDialog(this,"Vui lòng nhập tên khách hàng!");
+        return;
+    }
+
+    if(txtSDT.getText().trim().isEmpty()){
+        JOptionPane.showMessageDialog(this,"Vui lòng nhập số điện thoại!");
+        return;
+    }
+
+    KhachHangDTO kh = new KhachHangDTO();
+
+    kh.setMaKhachHang(khachHangBUS.getNextId());
+    kh.setTenKhachHang(txtTen.getText());
+    kh.setSoDienThoai(txtSDT.getText());
+    kh.setNgayTao(LocalDate.now());
+    kh.setTongChiTieu(0);
+
+    if(khachHangBUS.addCustomer(kh)){
+        JOptionPane.showMessageDialog(this,"Thêm khách hàng thành công!");
+        btnReset.doClick();
+    }else{
+        JOptionPane.showMessageDialog(this,"Thêm khách hàng thất bại!");
+    }
+    }   
+    
+    private void xuLySuaKhachHang(){
+
+    if(txtMa.getText().trim().isEmpty()){
+        JOptionPane.showMessageDialog(this,"Vui lòng chọn khách hàng cần sửa!");
+        return;
+    }
+
+    KhachHangDTO kh = khachHangBUS.getKhachHangById(txtMa.getText());
+
+    kh.setTenKhachHang(txtTen.getText());
+    kh.setSoDienThoai(txtSDT.getText());
+
+    if(khachHangBUS.updateCustomer(kh)){
+        JOptionPane.showMessageDialog(this,"Cập nhật thành công!");
+        btnReset.doClick();
+    }else{
+        JOptionPane.showMessageDialog(this,"Cập nhật thất bại!");
+    }
+    }
+    
+    private void xuLyXoaKhachHang(){
+
+    String ma = txtMa.getText();
+
+    if(ma.trim().isEmpty()){
+        JOptionPane.showMessageDialog(this,"Vui lòng chọn khách hàng cần xoá!");
+        return;
+    }
+
+    int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Bạn có chắc muốn xoá khách hàng này?",
+            "Xác nhận xoá",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if(confirm == JOptionPane.YES_OPTION){
+
+        if(khachHangBUS.deleteCustomer(ma)){
+            JOptionPane.showMessageDialog(this,"Xoá thành công!");
+            btnReset.doClick();
+        }else{
+            JOptionPane.showMessageDialog(this,"Xoá thất bại!");
+        }
+
+    }
     }
 }

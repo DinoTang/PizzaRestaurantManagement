@@ -5,6 +5,7 @@ public class CongThucDTO {
     private String maSP;
     private String maNguyenLieu;
     private String tenNguyenLieu;
+    private String tenDonVi;
     private double soLuong;
 
     public CongThucDTO() {
@@ -21,8 +22,16 @@ public class CongThucDTO {
     }
     
     public String getTenNguyenLieu() {
-    return tenNguyenLieu;
-}
+        return tenNguyenLieu;
+    }
+    
+    public String getTenDonVi() {
+        return tenDonVi;
+    }
+    
+    public void setTenDonVi(String tenDonVi) {
+        this.tenDonVi = tenDonVi;
+    }
 
     public void setTenNguyenLieu(String tenNguyenLieu) {
     this.tenNguyenLieu = tenNguyenLieu;
