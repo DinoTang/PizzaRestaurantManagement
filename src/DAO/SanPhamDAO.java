@@ -107,6 +107,30 @@ public class SanPhamDAO {
 
         return list;
     }
+    
+    public String getTenSP(String maSP) {
+
+        String sql = "SELECT TenSP FROM sanpham WHERE MaSP = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maSP);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getString("TenSP");
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 
     public SanPhamDTO getSanPhamById(String maSP){
 

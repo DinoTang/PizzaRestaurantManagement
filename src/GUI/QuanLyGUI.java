@@ -39,10 +39,10 @@ public class QuanLyGUI extends JFrame {
     // PnQuanLyKhuyenMaiGUI khuyenMaiPanel;
     PnQuanLyNhapHangGUI nhapHangPanel;
     PnQuanLySanPhamGUI sanPhamPanel;
-     PnQuanLyNhanVienGUI nhanVienPanel;
+    PnQuanLyNhanVienGUI nhanVienPanel;
     PnQuanLyKhachHangGUI khachHangPanel;
-    // PnQuanLyThongKeGUI thongKePanel;
-     PnQuanLyNguyenLieuGUI nguyenLieuPanel;
+    PnQuanLyThongKeGUI thongKePanel;
+    PnQuanLyNguyenLieuGUI nguyenLieuPanel;
 
     JLabel btnClose, btnMinimize, btnMinisize, lblHoaDon, lblKhuyenMai, lblNhapHang, lblSanPham, lblNhanVien,
             lblKhachHang, lblThongKe, lblNguyenLieu;
@@ -231,12 +231,12 @@ public class QuanLyGUI extends JFrame {
             lblKhachHang.setVisible(true);
         }
 
-        // if (quyen.getThongKe() == 1) {
-        // thongKePanel = new PnQuanLyThongKeGUI();
-        // pnThongKe.setLayout(new BorderLayout());
-        // pnThongKe.add(thongKePanel, BorderLayout.CENTER);
-        // lblThongKe.setVisible(true);
-        // }
+         if (quyen.getThongKe() == 1) {
+            thongKePanel = new PnQuanLyThongKeGUI();
+            pnThongKe.setLayout(new BorderLayout());
+            pnThongKe.add(thongKePanel, BorderLayout.CENTER);
+            lblThongKe.setVisible(true);
+         }
         pnMain.add(pnCard);
         /*
          * ============================================================

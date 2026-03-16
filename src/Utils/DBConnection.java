@@ -20,7 +20,7 @@ public class DBConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Ket noi mysql thanh cong");
+//            System.out.println("Ket noi mysql thanh cong");
         } catch (Exception e) {
             System.out.println("Ket noi mysql that bai");
             e.printStackTrace();

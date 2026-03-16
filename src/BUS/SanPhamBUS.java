@@ -38,6 +38,9 @@ public class SanPhamBUS {
     public boolean deleteSanPham(String maSP){
         return sanPhamDAO.deleteSanPham(maSP);
     }
+    public String getTenSP(String maSP) {
+        return sanPhamDAO.getTenSP(maSP);
+    }
     
     public void giamNguyenLieuTheoCongThuc(String maSP, int soLuongSanPham){
 
