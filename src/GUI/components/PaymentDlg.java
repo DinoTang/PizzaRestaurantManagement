@@ -136,12 +136,10 @@ public class PaymentDlg extends JDialog {
                     JOptionPane.showMessageDialog(this,"Thanh toán thành công!");
 
                     // ===== HIỆN HÓA ĐƠN =====
+                    dispose();
+
                     HoaDonGUI hdGUI = new HoaDonGUI(hd, new ArrayList<>(dsCT));
                     hdGUI.setVisible(true);
-                    hdGUI.toFront();
-                    hdGUI.requestFocus();
-
-                    dispose();
                 }else{
                     JOptionPane.showMessageDialog(this,"Lỗi thanh toán!");
                 }
