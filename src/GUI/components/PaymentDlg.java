@@ -138,6 +138,8 @@ public class PaymentDlg extends JDialog {
                     // ===== HIỆN HÓA ĐƠN =====
                     HoaDonGUI hdGUI = new HoaDonGUI(hd, new ArrayList<>(dsCT));
                     hdGUI.setVisible(true);
+                    hdGUI.toFront();
+                    hdGUI.requestFocus();
 
                     dispose();
                 }else{
