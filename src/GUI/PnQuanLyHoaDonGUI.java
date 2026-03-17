@@ -13,6 +13,7 @@ import DTO.NhanVienDTO;
 
 import Custom.TransparentPanel;
 import Custom.MyTable;
+import Utils.Constants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -117,14 +118,16 @@ public class PnQuanLyHoaDonGUI extends JPanel {
         JScrollPane scrCT = new JScrollPane(tblChiTietHoaDon);
         pnTableCT.add(scrCT,BorderLayout.CENTER);
 
-        this.add(pnTableCT);
-
         // nút xuất pdf
         JPanel pnBtn = new TransparentPanel();
         btnXuatPDF = new JButton("Xuất PDF");
+        java.awt.Font fontButton = new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 16);
+        btnXuatPDF.setFont(fontButton);
+        btnXuatPDF.setIcon(Constants.loadIcon("/images/PDF-icon.png"));
         pnBtn.add(btnXuatPDF);
-
+        
         this.add(pnBtn);
+        this.add(pnTableCT);
     }
 
     private void addEvents() {
