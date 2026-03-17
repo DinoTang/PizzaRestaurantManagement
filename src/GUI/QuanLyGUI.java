@@ -3,6 +3,7 @@ package GUI;
 import BUS.QuyenBUS;
 import BUS.TaiKhoanBUS;
 import DTO.QuyenDTO;
+import GUI.components.HeaderQuanLyPanel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -238,6 +239,7 @@ public class QuanLyGUI extends JFrame {
          * ============================================================
          */
         con.add(pnMain);
+        pnMain.add(new HeaderQuanLyPanel(maNV, maQuyen), BorderLayout.NORTH);
     }
 
     int xMouse, yMouse;

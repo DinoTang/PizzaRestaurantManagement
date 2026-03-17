@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class HoaDonCard extends JPanel {
-
+    private boolean isSelected = false;
     public HoaDonCard(String maHD, String ngay, double tong){
 
         setPreferredSize(new Dimension(230,70)); // ngắn hơn
@@ -31,5 +31,10 @@ public class HoaDonCard extends JPanel {
         infoPanel.add(lblTong);
 
         add(infoPanel,BorderLayout.CENTER);
+    }
+    public void setSelected(boolean selected){
+        isSelected = selected;
+        setBackground(selected ? new Color(255,140,0) : Color.WHITE);
+        repaint();
     }
 }

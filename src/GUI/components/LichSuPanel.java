@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 import com.toedter.calendar.JDateChooser;
+import java.time.LocalDate;
 
 public class LichSuPanel extends JPanel {
 
@@ -33,7 +34,7 @@ public class LichSuPanel extends JPanel {
 
     private JDateChooser dateTu;
     private JDateChooser dateDen;
-    
+    private HoaDonCard selectedCard = null;
     private HoaDonBUS hoaDonBUS = new HoaDonBUS();
     private CTHoaDonBUS ctHoaDonBUS = new CTHoaDonBUS();
     private KhachHangBUS khachHangBUS = new KhachHangBUS();
@@ -49,7 +50,7 @@ public class LichSuPanel extends JPanel {
         add(createContentPanel(), BorderLayout.CENTER);
         
         loadData();
-
+        btnSearch.addActionListener(e -> filterHoaDon());
     }
     private void loadData(){
 
@@ -76,7 +77,7 @@ public class LichSuPanel extends JPanel {
         panel.add(createPriceRow());
         panel.add(createDateRow());
 
-        JButton btnSearch = new JButton("Tìm");
+        btnSearch = new JButton("Tìm");
         btnSearch.setBackground(new Color(255,140,0));
         btnSearch.setForeground(Color.WHITE);
         btnSearch.setFocusPainted(false);
@@ -282,6 +283,14 @@ public class LichSuPanel extends JPanel {
 
         card.addMouseListener(new java.awt.event.MouseAdapter(){
             public void mouseClicked(java.awt.event.MouseEvent e){
+
+                if(selectedCard != null){
+                    selectedCard.setSelected(false);
+                }
+
+                selectedCard = card;
+                card.setSelected(true);
+
                 setHoaDonDetail(hd);
             }
         });
@@ -357,5 +366,34 @@ public class LichSuPanel extends JPanel {
     public void refreshData(){
         List<HoaDonDTO> list = hoaDonBUS.getAllHoaDon();
         loadHoaDon(list);
+    }
+    private JButton btnSearch;
+
+
+    private void filterHoaDon(){
+        List<HoaDonDTO> list = hoaDonBUS.getAllHoaDon();
+
+        Double giaTu = txtGiaTu.getText().isEmpty() ? null : Double.parseDouble(txtGiaTu.getText());
+        Double giaDen = txtGiaDen.getText().isEmpty() ? null : Double.parseDouble(txtGiaDen.getText());
+        
+        List<HoaDonDTO> result = new java.util.ArrayList<>();
+        java.util.Date dTu = dateTu.getDate();
+        java.util.Date dDen = dateDen.getDate();
+
+        LocalDate ldTu = dTu == null ? null : dTu.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        LocalDate ldDen = dDen == null ? null : dDen.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+
+        for(HoaDonDTO hd : list){
+
+            if(giaTu != null && hd.getTongTien() < giaTu) continue;
+            if(giaDen != null && hd.getTongTien() > giaDen) continue;
+
+            if(ldTu != null && hd.getNgayLap().isBefore(ldTu)) continue;
+            if(ldDen != null && hd.getNgayLap().isAfter(ldDen)) continue;
+
+            result.add(hd);
+        }
+
+        loadHoaDon(result);
     }
 }
