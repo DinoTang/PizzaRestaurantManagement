@@ -36,7 +36,7 @@ public class QuanLyGUI extends JFrame {
     JPanel pnTitle, pnMenuLeft, pnCard, pnHoaDon, pnKhuyenMai, pnNhapHang, pnSanPham, pnNhanVien, pnKhachHang,
             pnThongKe, pnNguyenLieu;
     PnQuanLyHoaDonGUI hoaDonPanel;
-    // PnQuanLyKhuyenMaiGUI khuyenMaiPanel;
+    PnQuanLyKhuyenMaiGUI khuyenMaiPanel;
     PnQuanLyNhapHangGUI nhapHangPanel;
     PnQuanLySanPhamGUI sanPhamPanel;
     PnQuanLyNhanVienGUI nhanVienPanel;
@@ -85,12 +85,6 @@ public class QuanLyGUI extends JFrame {
         btnDoiMatKhau = new JLabel(this.loadIcon("icons8_gear_46px.png"));
         btnDoiMatKhau.setToolTipText("Đổi mật khẩu");
         btnDoiMatKhau.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        // pnTitle.add(btnDoiMatKhau, BorderLayout.WEST);
-
-        // ===== Title ở giữa =====
-//        JLabel lblTitleText = new JLabel(this.loadIcon("title-text.png"));
-//        lblTitleText.setHorizontalAlignment(JLabel.CENTER);
-//        pnTitle.add(lblTitleText, BorderLayout.CENTER);
 
         // ===== Panel chứa nút bên phải =====
         JPanel pnRightButton = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
@@ -190,9 +184,9 @@ public class QuanLyGUI extends JFrame {
         pnHoaDon.setLayout(new BorderLayout());
         pnHoaDon.add(hoaDonPanel, BorderLayout.CENTER);
 
-        // khuyenMaiPanel = new PnQuanLyKhuyenMaiGUI();
-        // pnKhuyenMai.setLayout(new BorderLayout());
-        // pnKhuyenMai.add(khuyenMaiPanel, BorderLayout.CENTER);
+         khuyenMaiPanel = new PnQuanLyKhuyenMaiGUI();
+         pnKhuyenMai.setLayout(new BorderLayout());
+         pnKhuyenMai.add(khuyenMaiPanel, BorderLayout.CENTER);
 
          nguyenLieuPanel = new PnQuanLyNguyenLieuGUI();
          pnNguyenLieu.setLayout(new BorderLayout());

@@ -585,6 +585,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         jLabel17.setText("Phiếu nhập");
         jPanel22.add(jLabel17);
 
+        btnResetTabXemLai.setIcon(Constants.loadIcon("/images/Refresh-icon.png"));
         btnResetTabXemLai.setPreferredSize(new java.awt.Dimension(40, 40));
         btnResetTabXemLai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -742,7 +743,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã SP", "Số lượng", "Đơn giá", "Thành tiền"
+                "Mã NL", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ));
         tblCTPhieuNhap.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -191,4 +191,109 @@ public class TaiKhoanDAO {
 
         return "TK01";
     }
+    
+    public boolean kiemTraMaNV(String maNV){
+        boolean result = false;
+        try{
+            String sql = "SELECT * FROM taikhoan WHERE MaNV = ?";
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, maNV);
+
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                result = true;
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public String getTenDangNhapTheoMaNV(String maNV) {
+
+        String sql = "SELECT TenDangNhap FROM TaiKhoan WHERE MaNV=?";
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, maNV);
+
+            ResultSet rs = pre.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("TenDangNhap");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    // reset mật khẩu
+    public boolean datLaiMatKhau(String maNV, String matKhauMoi) {
+
+        String sql = "UPDATE TaiKhoan SET MatKhau=? WHERE MaNV=?";
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement pre = conn.prepareStatement(sql);
+
+            pre.setString(1, matKhauMoi);
+            pre.setString(2, maNV);
+
+            return pre.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // cập nhật quyền
+    public boolean datLaiQuyen(String maNV, String maQuyen) {
+
+        String sql = "UPDATE TaiKhoan SET MaQuyen=? WHERE MaNV=?";
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement pre = conn.prepareStatement(sql);
+
+            pre.setString(1, maQuyen);
+            pre.setString(2, maNV);
+
+            return pre.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    
+    public String getQuyenTheoMaNV(String maNV) {
+
+        String sql = "SELECT MaQuyen FROM TaiKhoan WHERE MaNV=?";
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, maNV);
+
+            ResultSet rs = pre.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("MaQuyen");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 }

@@ -8,7 +8,7 @@ import Custom.ImagePanel;
 //import static Main.Main.changLNF;
 
 import BUS.NhanVienBUS;
-import BUS.PhanQuyenBUS;
+//import BUS.PhanQuyenBUS;
 import BUS.QuyenBUS;
 import BUS.TaiKhoanBUS;
 import Custom.XuLyFileExcel;
@@ -245,7 +245,7 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         btnXoaTaiKhoan.setFont(fontButton);
         pnButton2.add(btnCapTaiKhoan);
         pnButton2.add(btnResetMatKhau);
-        pnButton2.add(btnXoaTaiKhoan);
+//        pnButton2.add(btnXoaTaiKhoan);
 
         pnNhanVien.add(pnTopNV);
         pnNhanVien.add(pnButton);
@@ -642,13 +642,13 @@ public class PnQuanLyNhanVienGUI extends JPanel {
     }
 
     private void xuLyResetMatKhau() {
-//        String maNV = txtMaNV.getText();
-//        if (maNV.trim().equals("")) {
-//            new MyDialog("Hãy chọn nhân viên!", MyDialog.ERROR_DIALOG);
-//            return;
-//        }
-//        DlgQuyen_MatKhau dialog = new DlgQuyen_MatKhau(maNV);
-//        dialog.setVisible(true);
+        String maNV = txtMaNV.getText();
+        if (maNV.trim().equals("")) {
+            new MyDialog("Hãy chọn nhân viên!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+        DlgQuyen_MatKhau dialog = new DlgQuyen_MatKhau(maNV);
+        dialog.setVisible(true);
     }
 
     private void xuLyCapTaiKhoan() {
@@ -656,6 +656,15 @@ public class PnQuanLyNhanVienGUI extends JPanel {
             new MyDialog("Hãy chọn nhân viên!", MyDialog.ERROR_DIALOG);
             return;
         }
+        String maNV = txtMaNV.getText();
+        if(taiKhoanBUS.daCoTaiKhoan(maNV)){
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Nhân viên này đã có tài khoản!", 
+                    "Thông báo", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         DlgCapTaiKhoan dialog = new DlgCapTaiKhoan(txtMaNV.getText());
         dialog.setVisible(true);
         loadDataTblNhanVien();
@@ -666,28 +675,8 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         loadDataTblNhanVien();
     }
 
-//    private void xuLyNhapExcel() {
-//        MyDialog dlg = new MyDialog("Dữ liệu cũ sẽ bị xoá, tiếp tục?", MyDialog.WARNING_DIALOG);
-//        if (dlg.getAction() != MyDialog.OK_OPTION) {
-//            return;
-//        }
-//
-//        XuLyFileExcel nhapExcel = new XuLyFileExcel();
-//        nhapExcel.nhapExcel(tblNhanVien);
-//
-//        int row = tblNhanVien.getRowCount();
-//        for (int i = 0; i < row; i++) {
-//            String ho = tblNhanVien.getValueAt(i, 1) + "";
-//            String ten = tblNhanVien.getValueAt(i, 2) + "";
-//            String gioiTinh = tblNhanVien.getValueAt(i, 3) + "";
-//            String chucVu = tblNhanVien.getValueAt(i, 4) + "";
-//
-//            nhanVienBUS.nhapExcel(ho, ten, gioiTinh, chucVu);
-//
-//        }
-//    }
 
-        private void xuLyXuatExcel() {
+    private void xuLyXuatExcel() {
         XuLyFileExcel xuatExcel = new XuLyFileExcel();
         xuatExcel.xuatExcel(tblNhanVien);
     }
@@ -727,22 +716,45 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         }
     }
 
-    private void xuLyThemNhanVien(){
+    private void xuLyThemNhanVien() {
 
-        String hoten = txtHoten.getText();
+        String hoten = txtHoten.getText().trim();
+        String sdt = txtSoDienThoai.getText().trim();
+        String email = txtEmail.getText().trim();
+
+        if(hoten.isEmpty()){
+            new MyDialog("Họ tên không được để trống!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+
+        double luong;
+        try {
+            luong = Double.parseDouble(txtLuong.getText().trim());
+        } catch (NumberFormatException e) {
+            new MyDialog("Lương phải là số!", MyDialog.ERROR_DIALOG);
+            return;
+        }
 
         NhanVienDTO nv = new NhanVienDTO();
 
         nv.setMaNhanVien(nhanVienBUS.getNextId());
         nv.setHoTen(hoten);
-        nv.setSoDienThoai("");
-        nv.setEmail("");
-        nv.setLuong(0);
+        nv.setSoDienThoai(sdt);
+        nv.setEmail(email);
+        nv.setLuong(luong);
         nv.setNgayTao(LocalDate.now());
         nv.setTrangThaiXoa(false);
 
         if(nhanVienBUS.addNhanVien(nv)){
             loadDataTblNhanVien();
+            new MyDialog("Thêm nhân viên thành công!", MyDialog.SUCCESS_DIALOG);
+
+            // reset form
+            txtHoten.setText("");
+            txtSoDienThoai.setText("");
+            txtEmail.setText("");
+            txtLuong.setText("");
+            txtHoten.requestFocus();
         }
     }
 

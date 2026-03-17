@@ -4,6 +4,7 @@
  */
 package BUS;
 
+import Custom.MyDialog;
 import DAO.TaiKhoanDAO;
 import DTO.TaiKhoanDTO;
 
@@ -31,5 +32,26 @@ public class TaiKhoanBUS {
     public String GetNextTaiKhoanId()
     {
         return taiKhoanDAO.GetNextTaiKhoanId();
+    }
+    
+    public boolean daCoTaiKhoan(String maNV){
+        return taiKhoanDAO.kiemTraMaNV(maNV);
+    }
+    
+    public String getTenDangNhapTheoMa(String maNV) {
+        return taiKhoanDAO.getTenDangNhapTheoMaNV(maNV);
+    }
+
+    // lấy quyền
+    public String getQuyenTheoMa(String maNV) {
+        return taiKhoanDAO.getQuyenTheoMaNV(maNV);
+    }
+
+    public boolean datLaiMatKhau(String maNV, String matKhauMoi) {
+        return taiKhoanDAO.datLaiMatKhau(maNV, matKhauMoi);
+    }
+
+    public boolean datLaiQuyen(String maNV, String maQuyen) {
+        return taiKhoanDAO.datLaiQuyen(maNV, maQuyen);
     }
 }

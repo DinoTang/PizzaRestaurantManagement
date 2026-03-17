@@ -1,8 +1,5 @@
 package GUI;
 
-//import QuanLyPizza.BUS.PhanQuyenBUS;
-//import QuanLyPizza.BUS.TaiKhoanBUS;
-//import QuanLyPizza.DTO.PhanQuyen;
 import BUS.QuyenBUS;
 import BUS.TaiKhoanBUS;
 import DTO.QuyenDTO;
@@ -15,6 +12,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class DlgCapTaiKhoan extends javax.swing.JDialog {
 
     private String maNV;
+    private List<QuyenDTO> listQuyen;
 
     public DlgCapTaiKhoan(String maNV) {
         this.maNV = maNV;
@@ -158,13 +156,23 @@ public class DlgCapTaiKhoan extends javax.swing.JDialog {
     private QuyenBUS quyenBUS = new QuyenBUS();
     String maTK = taiKhoanBUS.GetNextTaiKhoanId();
     private void btnTaoTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoTaiKhoanActionPerformed
+
         TaiKhoanDTO tk = new TaiKhoanDTO();
+
+        int index = cmbQuyen.getSelectedIndex();
+        String maQuyen = listQuyen.get(index).getMaQuyen();
+
         tk.setMaTaiKhoan(maTK);
-        tk.setMaNhanVien(txtMaNV.getText());
-        tk.setMaQuyen((String) cmbQuyen.getSelectedItem());
+        tk.setMaNhanVien(maNV);
+        tk.setMaQuyen(maQuyen);
         tk.setTenDangNhap(txtTenDangNhap.getText());
         tk.setMatKhau("123456");
-        taiKhoanBUS.themTaiKhoan(tk);
+
+        if(taiKhoanBUS.themTaiKhoan(tk)){
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Cấp tài khoản thành công!");
+            this.dispose(); // đóng dialog
+        }
     }//GEN-LAST:event_btnTaoTaiKhoanActionPerformed
 
     private void txtTenDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenDangNhapActionPerformed
@@ -173,11 +181,12 @@ public class DlgCapTaiKhoan extends javax.swing.JDialog {
 
     private void loadDataCmbQuyen() {
         cmbQuyen.removeAllItems();
-        
-        List<QuyenDTO> dsq = quyenBUS.getAllQuyen();
-        for (QuyenDTO q : dsq) {
-            cmbQuyen.addItem(q.getTenQuyen());
-        }
+
+     listQuyen = quyenBUS.getAllQuyen();
+
+     for (QuyenDTO q : listQuyen) {
+         cmbQuyen.addItem(q.getTenQuyen());
+     }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
