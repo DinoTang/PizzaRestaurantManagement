@@ -1,162 +1,9 @@
-//package DAO;
-//
-//import java.sql.*;
-//import java.util.ArrayList;
-//import Utils.DBConnection;
-//import DTO.ThongKeDTO;
-//
-//public class ThongKeDAO {
-//
-//    Connection conn;
-//
-//    public ThongKeDAO() {
-//        conn = DBConnection.getConnection();
-//    }
-//
-//    public int[] getDoanhThuTheoThang(int nam) {
-//
-//        int[] data = new int[12];
-//
-//        try {
-//
-//            String sql = """
-//                SELECT MONTH(NgayLap) thang,
-//                       SUM(TongTien) doanhthu
-//                FROM hoadon
-//                WHERE YEAR(NgayLap) = ?
-//                GROUP BY MONTH(NgayLap)
-//            """;
-//
-//            PreparedStatement ps = conn.prepareStatement(sql);
-//            ps.setInt(1, nam);
-//
-//            ResultSet rs = ps.executeQuery();
-//
-//            while(rs.next()){
-//                int thang = rs.getInt("thang");
-//                int tien = rs.getInt("doanhthu");
-//
-//                data[thang-1] = tien;
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return data;
-//    }
-//
-//    public ArrayList<ThongKeDTO> getTopSanPham(int nam){
-//
-//        ArrayList<ThongKeDTO> list = new ArrayList<>();
-//
-//        try {
-//
-//            String sql = """
-//                SELECT sp.TenSP, SUM(ct.SoLuong) soluong
-//                FROM cthoadon ct
-//                JOIN sanpham sp ON sp.MaSP = ct.MaSP
-//                JOIN hoadon hd ON hd.MaHD = ct.MaHD
-//                WHERE YEAR(hd.NgayLap) = ?
-//                GROUP BY sp.MaSP
-//                ORDER BY soluong DESC
-//                LIMIT 5
-//            """;
-//
-//            PreparedStatement ps = conn.prepareStatement(sql);
-//            ps.setInt(1, nam);
-//
-//            ResultSet rs = ps.executeQuery();
-//
-//            while(rs.next()){
-//                list.add(new ThongKeDTO(
-//                        rs.getString("TenSP"),
-//                        rs.getInt("soluong")
-//                ));
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return list;
-//    }
-//    
-//    public ArrayList<ThongKeDTO> getTopNhanVien(int nam){
-//
-//    ArrayList<ThongKeDTO> list = new ArrayList<>();
-//
-//    try{
-//
-//        String sql = """
-//            SELECT nv.HoTen, COUNT(hd.MaHD) AS soluong
-//            FROM hoadon hd
-//            JOIN nhanvien nv ON nv.MaNV = hd.MaNV
-//            WHERE YEAR(hd.NgayLap) = ?
-//            GROUP BY nv.MaNV
-//            ORDER BY soluong DESC
-//            LIMIT 5
-//        """;
-//
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//        ps.setInt(1, nam);
-//
-//        ResultSet rs = ps.executeQuery();
-//
-//        while(rs.next()){
-//            list.add(new ThongKeDTO(
-//                    rs.getString("HoTen"),
-//                    rs.getInt("soluong")
-//            ));
-//        }
-//
-//    }catch(Exception e){
-//        e.printStackTrace();
-//    }
-//
-//    return list;
-//    }
-//    
-//    public ArrayList<ThongKeDTO> getTopKhachHang(int nam){
-//
-//    ArrayList<ThongKeDTO> list = new ArrayList<>();
-//
-//    try{
-//
-//        String sql = """
-//            SELECT kh.TenKhachHang, COUNT(hd.MaHD) AS soluong
-//            FROM hoadon hd
-//            JOIN khachhang kh ON kh.MaKH = hd.MaKH
-//            WHERE YEAR(hd.NgayLap) = ?
-//            GROUP BY kh.MaKH
-//            ORDER BY soluong DESC
-//            LIMIT 5
-//        """;
-//
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//        ps.setInt(1, nam);
-//
-//        ResultSet rs = ps.executeQuery();
-//
-//        while(rs.next()){
-//            list.add(new ThongKeDTO(
-//                    rs.getString("TenKhachHang"),
-//                    rs.getInt("soluong")
-//            ));
-//        }
-//
-//    }catch(Exception e){
-//        e.printStackTrace();
-//    }
-//
-//    return list;
-//    }
-//
-//}
 package DAO;
 
 import DTO.ThongKeDTO;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 import Utils.DBConnection;
 
@@ -217,72 +64,82 @@ public class ThongKeDAO {
     }
 
     // Doanh thu theo tháng
-   public Map<Integer, Double> getDoanhThuTheoThang(int nam){
+   public Map<String, Double> getDoanhThuTheoNgay(Date from, Date to){
 
-    Map<Integer, Double> map = new HashMap<>();
+        Map<String, Double> map = new LinkedHashMap<>();
 
-    try{
+        try{
 
-        Connection con = DBConnection.getConnection();
+            Connection con = DBConnection.getConnection();
 
-        String sql = """
-        SELECT MONTH(NgayLap) thang,
-        SUM(TongTien) tong
-        FROM hoadon
-        WHERE YEAR(NgayLap)=?
-        GROUP BY MONTH(NgayLap)
-        """;
+            String sql = """
+            SELECT DATE(NgayLap) ngay,
+            SUM(TongTien) tong
+            FROM hoadon
+            WHERE NgayLap BETWEEN ? AND ?
+            GROUP BY DATE(NgayLap)
+            ORDER BY ngay
+            """;
 
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, nam);
+            PreparedStatement ps = con.prepareStatement(sql);
 
-        ResultSet rs = ps.executeQuery();
+            ps.setDate(1, new java.sql.Date(from.getTime()));
+            ps.setDate(2, new java.sql.Date(to.getTime()));
 
-        while(rs.next()){
+            ResultSet rs = ps.executeQuery();
 
-            int thang = rs.getInt("thang");
-            double tong = rs.getDouble("tong");
+            while(rs.next()){
 
-            map.put(thang, tong);
+                String ngay = rs.getString("ngay");
+                double tong = rs.getDouble("tong");
+
+                map.put(ngay, tong);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
-    }catch(Exception e){
-        e.printStackTrace();
+        return map;
     }
 
-    return map;
-}
-
     // Top sản phẩm
-    public List<ThongKeDTO> getTopSanPham() {
+    public ArrayList<ThongKeDTO> getTopSanPham(Date from, Date to){
 
-        List<ThongKeDTO> list = new ArrayList<>();
+        ArrayList<ThongKeDTO> list = new ArrayList<>();
 
-        try {
+        try{
+
+            Connection con = DBConnection.getConnection();
 
             String sql = """
             SELECT sp.TenSP ten,
             SUM(ct.SoLuong) soluong
             FROM cthoadon ct
-            JOIN sanpham sp ON sp.MaSP=ct.MaSP
+            JOIN sanpham sp ON sp.MaSP = ct.MaSP
+            JOIN hoadon hd ON hd.MaHD = ct.MaHD
+            WHERE hd.NgayLap BETWEEN ? AND ?
             GROUP BY sp.MaSP
             ORDER BY soluong DESC
             LIMIT 5
             """;
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setDate(1,new java.sql.Date(from.getTime()));
+            ps.setDate(2,new java.sql.Date(to.getTime()));
 
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            while(rs.next()){
 
-                list.add(new ThongKeDTO(
-                        rs.getString("ten"),
-                        rs.getDouble("soluong")
-                ));
+                String ten = rs.getString("ten");
+                Double sl = rs.getDouble("soluong");
+
+                list.add(new ThongKeDTO(ten,sl));
             }
 
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
         }
 
@@ -290,39 +147,144 @@ public class ThongKeDAO {
     }
 
     // Khách hàng mua nhiều
-    public List<ThongKeDTO> getTopKhachHang() {
+    public ArrayList<ThongKeDTO> getTopKhachHang(Date from, Date to){
 
-        List<ThongKeDTO> list = new ArrayList<>();
+        ArrayList<ThongKeDTO> list = new ArrayList<>();
 
-        try {
+        try{
+
+            Connection con = DBConnection.getConnection();
 
             String sql = """
-            SELECT kh.TenKH ten,
-            COUNT(hd.MaHD) tong
+            SELECT kh.TenKhachHang ten,
+            SUM(hd.TongTien) tongtien
             FROM hoadon hd
-            JOIN khachhang kh ON kh.MaKH=hd.MaKH
-            GROUP BY kh.MaKH
-            ORDER BY tong DESC
+            JOIN khachhang kh ON kh.MaKH = hd.MaKH
+            WHERE hd.NgayLap BETWEEN ? AND ?
+            GROUP BY kh.MaKH, kh.TenKhachHang
+            ORDER BY tongtien DESC
             LIMIT 5
             """;
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setDate(1, new java.sql.Date(from.getTime()));
+            ps.setDate(2, new java.sql.Date(to.getTime()));
 
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            while(rs.next()){
 
-                list.add(new ThongKeDTO(
-                        rs.getString("ten"),
-                        rs.getDouble("tong")
-                ));
+                String ten = rs.getString("ten");
+                double tongTien = rs.getDouble("tongtien");
+
+                list.add(new ThongKeDTO(ten, tongTien));
             }
 
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
         }
 
         return list;
     }
+    
+   public ArrayList<ThongKeDTO> getTopNhanVien(Date from, Date to){
+
+        ArrayList<ThongKeDTO> list = new ArrayList<>();
+
+        try{
+
+            Connection con = DBConnection.getConnection();
+
+            String sql = """
+            SELECT nv.HoTen ten,
+            COUNT(hd.MaHD) soluong
+            FROM hoadon hd
+            JOIN nhanvien nv ON nv.MaNV = hd.MaNV
+            WHERE hd.NgayLap BETWEEN ? AND ?
+            GROUP BY nv.MaNV
+            ORDER BY soluong DESC
+            LIMIT 5
+            """;
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setDate(1,new java.sql.Date(from.getTime()));
+            ps.setDate(2,new java.sql.Date(to.getTime()));
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                list.add(new ThongKeDTO(
+                        rs.getString("ten"),
+                        rs.getDouble("soluong")
+                ));
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    public int getTongPizza(){
+
+    int tong = 0;
+
+    try{
+
+        Connection con = DBConnection.getConnection();
+
+        String sql = """
+        SELECT SUM(SoLuong) tong
+        FROM cthoadon
+        """;
+
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()){
+            tong = rs.getInt("tong");
+        }
+
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+
+    return tong;
+    }
+    
+    public int getTongKhachHang(){
+
+    int tong = 0;
+
+    try{
+
+        Connection con = DBConnection.getConnection();
+
+        String sql = """
+        SELECT COUNT(*) tong
+        FROM khachhang
+        """;
+
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()){
+            tong = rs.getInt("tong");
+        }
+
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+
+    return tong;
+    }   
+    
+    
 
 }

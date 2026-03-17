@@ -1,354 +1,297 @@
-//package GUI;
-//
-//import org.jfree.chart.ChartFactory;
-//import org.jfree.chart.ChartPanel;
-//import org.jfree.chart.JFreeChart;
-//import org.jfree.chart.plot.PlotOrientation;
-//import org.jfree.data.category.DefaultCategoryDataset;
-//import BUS.ThongKeBUS;
-//import DTO.ThongKeDTO;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.util.ArrayList;
-//
-//public class PnQuanLyThongKeGUI extends JPanel {
-//
-//    JComboBox<Integer> cmbNam;
-//
-//    JButton btnDoanhThu;
-//    JButton btnSanPham;
-//    JButton btnNhanVien;
-//    JButton btnKhachHang;
-//
-//    JPanel chartPanel;
-//
-//    ThongKeBUS thongKeBUS = new ThongKeBUS();
-//
-//    public PnQuanLyThongKeGUI(){
-//
-//        setLayout(new BorderLayout());
-//
-//        JPanel top = new JPanel();
-//
-//        cmbNam = new JComboBox<>();
-//
-//        for(int i=2020;i<=2030;i++){
-//            cmbNam.addItem(i);
-//        }
-//
-//        btnDoanhThu = new JButton("Doanh thu");
-//        btnSanPham = new JButton("Sản phẩm bán chạy");
-//        btnNhanVien = new JButton("Nhân viên năng suất");
-//        btnKhachHang = new JButton("Khách hàng mua nhiều");
-//
-//        top.add(new JLabel("Năm:"));
-//        top.add(cmbNam);
-//
-//        top.add(btnDoanhThu);
-//        top.add(btnSanPham);
-//        top.add(btnNhanVien);
-//        top.add(btnKhachHang);
-//
-//        add(top,BorderLayout.NORTH);
-//
-//        chartPanel = new JPanel(new BorderLayout());
-//        add(chartPanel,BorderLayout.CENTER);
-//
-//        btnDoanhThu.addActionListener(e -> loadDoanhThu());
-//        btnSanPham.addActionListener(e -> loadSanPham());
-//        btnNhanVien.addActionListener(e -> loadNhanVien());
-//        btnKhachHang.addActionListener(e -> loadKhachHang());
-//    }
-//
-//    private int getNam(){
-//        return Integer.parseInt(cmbNam.getSelectedItem()+"");
-//    }
-//
-//    private void showChart(JFreeChart chart){
-//
-//        chartPanel.removeAll();
-//
-//        ChartPanel panel = new ChartPanel(chart);
-//
-//        chartPanel.add(panel,BorderLayout.CENTER);
-//
-//        chartPanel.revalidate();
-//        chartPanel.repaint();
-//    }
-//
-//    private void loadDoanhThu(){
-//
-//        int nam = getNam();
-//
-//        int[] data = thongKeBUS.getDoanhThuTheoThang(nam);
-//
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//
-//        for(int i=0;i<data.length;i++){
-//            dataset.addValue(data[i],"Doanh thu","Tháng "+(i+1));
-//        }
-//
-//        JFreeChart chart = ChartFactory.createBarChart(
-//                "Doanh thu năm "+nam,
-//                "Tháng",
-//                "Tiền",
-//                dataset,
-//                PlotOrientation.VERTICAL,
-//                true,
-//                true,
-//                false
-//        );
-//
-//        showChart(chart);
-//    }
-//
-//    private void loadSanPham(){
-//
-//        int nam = getNam();
-//
-//        ArrayList<ThongKeDTO> list = thongKeBUS.getTopSanPham(nam);
-//
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//
-//        for(ThongKeDTO i : list){
-//            dataset.addValue(i.getSoLuong(),"Số lượng",i.getTen());
-//        }
-//
-//        JFreeChart chart = ChartFactory.createBarChart(
-//                "Top sản phẩm bán chạy",
-//                "Sản phẩm",
-//                "Số lượng",
-//                dataset,
-//                PlotOrientation.VERTICAL,
-//                true,
-//                true,
-//                false
-//        );
-//
-//        showChart(chart);
-//    }
-//    
-//    private void loadNhanVien(){
-//
-//        int nam = getNam();
-//
-//        ArrayList<ThongKeDTO> list = thongKeBUS.getTopNhanVien(nam);
-//
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//
-//        for(ThongKeDTO i : list){
-//            dataset.addValue(i.getSoLuong(),"Số hóa đơn",i.getTen());
-//        }
-//
-//        JFreeChart chart = ChartFactory.createBarChart(
-//                "Nhân viên năng suất",
-//                "Nhân viên",
-//                "Số hóa đơn",
-//                dataset,
-//                PlotOrientation.VERTICAL,
-//                true,
-//                true,
-//                false
-//        );
-//
-//        showChart(chart);
-//    }
-//    
-//    private void loadKhachHang(){
-//
-//        int nam = getNam();
-//
-//        ArrayList<ThongKeDTO> list = thongKeBUS.getTopKhachHang(nam);
-//
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//
-//        for(ThongKeDTO i : list){
-//            dataset.addValue(i.getSoLuong(),"Số hóa đơn",i.getTen());
-//        }
-//
-//        JFreeChart chart = ChartFactory.createBarChart(
-//                "Khách hàng mua nhiều",
-//                "Khách hàng",
-//                "Số lần mua",
-//                dataset,
-//                PlotOrientation.VERTICAL,
-//                true,
-//                true,
-//                false
-//        );
-//
-//        showChart(chart);
-//    }
-//}
-
 package GUI;
 
 import BUS.ThongKeBUS;
 import DTO.ThongKeDTO;
-import org.jfree.chart.*;
+
+import com.toedter.calendar.JDateChooser;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class PnQuanLyThongKeGUI extends JPanel {
 
-    JLabel lblDoanhThu = new JLabel();
-    JLabel lblHoaDon = new JLabel();
+    private ThongKeBUS thongKeBUS = new ThongKeBUS();
 
-    JPanel chartDoanhThu = new JPanel(new BorderLayout());
-    JPanel chartSanPham = new JPanel(new BorderLayout());
+    private JDateChooser dateFrom;
+    private JDateChooser dateTo;
 
-    JComboBox<Integer> cmbNam = new JComboBox<>();
+    private JPanel chartDoanhThu;
+    private JPanel chartSanPham;
+    private JPanel chartKhachHang;
+    private JPanel chartNhanVien;
 
-    ThongKeBUS thongKeBUS = new ThongKeBUS();
+    private JLabel lbDoanhThu;
+    private JLabel lbHoaDon;
+    private JLabel lbPizza;
+    private JLabel lbKhachHang;
 
     public PnQuanLyThongKeGUI() {
 
         setLayout(new BorderLayout());
 
-        for (int i = 2020; i <= 2030; i++) {
-            cmbNam.addItem(i);
-        }
-
         add(createTopPanel(), BorderLayout.NORTH);
-
-        add(createDashboard(), BorderLayout.CENTER);
-
-        add(createCharts(), BorderLayout.SOUTH);
+        add(createCenterPanel(), BorderLayout.CENTER);
 
         loadDashboard();
-        loadDoanhThu();
-        loadTopSanPham();
     }
 
-    JPanel createTopPanel() {
+    // ====================== TOP PANEL ======================
 
-        JPanel p = new JPanel();
+    private JPanel createTopPanel(){
 
-        p.add(new JLabel("Năm"));
+        JPanel panel = new JPanel();
 
-        p.add(cmbNam);
+        panel.add(new JLabel("Từ ngày"));
 
-        JButton btnLoad = new JButton("Xem");
+        dateFrom = new JDateChooser();
+        dateFrom.setDateFormatString("yyyy-MM-dd");
+        panel.add(dateFrom);
 
-        btnLoad.addActionListener(e -> {
+        panel.add(new JLabel("Đến ngày"));
+
+        dateTo = new JDateChooser();
+        dateTo.setDateFormatString("yyyy-MM-dd");
+        panel.add(dateTo);
+
+        JButton btnThongKe = new JButton("Thống kê");
+
+        btnThongKe.addActionListener(e -> {
 
             loadDoanhThu();
             loadTopSanPham();
-
+            loadTopKhachHang();
+            loadTopNhanVien();
         });
 
-        p.add(btnLoad);
+        panel.add(btnThongKe);
 
-        return p;
+        return panel;
     }
 
-    JPanel createDashboard() {
+    // ====================== CENTER PANEL ======================
 
-        JPanel p = new JPanel(new GridLayout(1,2,20,20));
+    private JPanel createCenterPanel(){
 
-        p.add(createCard("Tổng doanh thu", lblDoanhThu));
+        JPanel main = new JPanel(new BorderLayout());
 
-        p.add(createCard("Tổng hóa đơn", lblHoaDon));
+        main.add(createDashboard(), BorderLayout.NORTH);
+        main.add(createCharts(), BorderLayout.CENTER);
 
-        return p;
+        return main;
     }
 
-    JPanel createCard(String title, JLabel value) {
+    // ====================== DASHBOARD ======================
+
+    private JPanel createDashboard(){
+
+        JPanel panel = new JPanel(new GridLayout(1,4,20,20));
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        lbDoanhThu = new JLabel("0",SwingConstants.CENTER);
+        lbHoaDon = new JLabel("0",SwingConstants.CENTER);
+        lbPizza = new JLabel("0",SwingConstants.CENTER);
+        lbKhachHang = new JLabel("0",SwingConstants.CENTER);
+
+        panel.add(createCard("Tổng doanh thu", lbDoanhThu));
+        panel.add(createCard("Tổng hóa đơn", lbHoaDon));
+        panel.add(createCard("Tổng pizza", lbPizza));
+        panel.add(createCard("Tổng khách hàng", lbKhachHang));
+
+        return panel;
+    }
+
+    private JPanel createCard(String title, JLabel value){
 
         JPanel card = new JPanel(new BorderLayout());
 
-        JLabel lblTitle = new JLabel(title);
-
-        lblTitle.setFont(new Font("Arial",Font.BOLD,16));
+        JLabel lbTitle = new JLabel(title,SwingConstants.CENTER);
 
         value.setFont(new Font("Arial",Font.BOLD,22));
 
-        card.add(lblTitle,BorderLayout.NORTH);
-
+        card.add(lbTitle,BorderLayout.NORTH);
         card.add(value,BorderLayout.CENTER);
 
-        card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         return card;
     }
 
-    JPanel createCharts() {
+    // ====================== CHART AREA ======================
 
-        JPanel p = new JPanel(new GridLayout(1,2));
+    private JPanel createCharts(){
 
-        p.add(chartDoanhThu);
+        JPanel panel = new JPanel(new GridLayout(2,2,10,10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        p.add(chartSanPham);
+        chartDoanhThu = new JPanel(new BorderLayout());
+        chartSanPham = new JPanel(new BorderLayout());
+        chartKhachHang = new JPanel(new BorderLayout());
+        chartNhanVien = new JPanel(new BorderLayout());
 
-        return p;
+        panel.add(chartDoanhThu);
+        panel.add(chartSanPham);
+        panel.add(chartKhachHang);
+        panel.add(chartNhanVien);
+
+        return panel;
     }
 
-    void loadDashboard() {
+    // ====================== DASHBOARD LOAD ======================
 
-        lblDoanhThu.setText(String.valueOf(thongKeBUS.getTongDoanhThu()));
+    private void loadDashboard(){
 
-        lblHoaDon.setText(String.valueOf(thongKeBUS.getTongHoaDon()));
+        double doanhThu = thongKeBUS.getTongDoanhThu();
+        int hoaDon = thongKeBUS.getTongHoaDon();
+        int pizza = thongKeBUS.getTongPizza();
+        int khachHang = thongKeBUS.getTongKhachHang();
 
+        lbDoanhThu.setText(String.format("%,.0f VNĐ",doanhThu));
+        lbHoaDon.setText(String.valueOf(hoaDon));
+        lbPizza.setText(String.valueOf(pizza));
+        lbKhachHang.setText(String.valueOf(khachHang));
     }
 
-    void loadDoanhThu() {
+    // ====================== DOANH THU ======================
 
-        int nam = (int) cmbNam.getSelectedItem();
+    private void loadDoanhThu(){
 
-        Map<String, Double> data = thongKeBUS.getDoanhThuTheoThang(nam);
+        Date from = dateFrom.getDate();
+        Date to = dateTo.getDate();
+
+        if(from == null || to == null){
+
+            JOptionPane.showMessageDialog(this,"Vui lòng chọn ngày");
+            return;
+        }
+
+        Map<String,Double> data = thongKeBUS.getDoanhThuTheoNgay(from,to);
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        for(int i=0;i<12;i++){
-            dataset.addValue(data.get(i), "Doanh thu", "Tháng " + (i+1));
+        for(String ngay : data.keySet()){
+
+            dataset.addValue(data.get(ngay),"Doanh thu",ngay);
         }
 
         JFreeChart chart = ChartFactory.createLineChart(
-                "Doanh thu theo tháng",
-                "Thời gian",
+                "Doanh thu theo ngày",
+                "Ngày",
                 "VNĐ",
                 dataset,
                 PlotOrientation.VERTICAL,
-                true,true,false
+                false,true,false
         );
 
         chartDoanhThu.removeAll();
-
         chartDoanhThu.add(new ChartPanel(chart));
-
         chartDoanhThu.revalidate();
     }
 
-    void loadTopSanPham() {
+    // ====================== TOP SAN PHAM ======================
 
-        List<ThongKeDTO> list = thongKeBUS.getTopSanPham();
+    private void loadTopSanPham(){
+
+        Date from = dateFrom.getDate();
+        Date to = dateTo.getDate();
+
+        if(from == null || to == null){
+            return;
+        }
+
+        List<ThongKeDTO> list = thongKeBUS.getTopSanPham(from,to);
 
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        for (ThongKeDTO sp : list) {
+        for(ThongKeDTO sp : list){
 
-            dataset.setValue(sp.getTen(), sp.getGiaTri());
-
+            dataset.setValue(sp.getTen(), sp.getSoLuong());
         }
 
         JFreeChart chart = ChartFactory.createPieChart(
-                "Top sản phẩm bán",
+                "Top 5 sản phẩm bán chạy",
                 dataset,
-                true,true,false
+                true,
+                true,
+                false
         );
 
+        PiePlot plot = (PiePlot) chart.getPlot();
+        plot.setCircular(true);
+        plot.setLabelGap(0.02);
+
         chartSanPham.removeAll();
-
         chartSanPham.add(new ChartPanel(chart));
-
         chartSanPham.revalidate();
     }
 
+    // ====================== TOP KHACH HANG ======================
+
+    private void loadTopKhachHang(){
+
+        Date from = dateFrom.getDate();
+        Date to = dateTo.getDate();
+
+        List<ThongKeDTO> list = thongKeBUS.getTopKhachHang(from,to);
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for(ThongKeDTO kh : list){
+
+            dataset.addValue(kh.getSoLuong(),"Lượt mua",kh.getTen());
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Top khách hàng",
+                "Khách hàng",
+                "Số lần mua",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false,true,false
+        );
+
+        chartKhachHang.removeAll();
+        chartKhachHang.add(new ChartPanel(chart));
+        chartKhachHang.revalidate();
+    }
+
+    // ====================== TOP NHAN VIEN ======================
+
+    private void loadTopNhanVien(){
+
+        Date from = dateFrom.getDate();
+        Date to = dateTo.getDate();
+
+        List<ThongKeDTO> list = thongKeBUS.getTopNhanVien(from,to);
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for(ThongKeDTO nv : list){
+
+            dataset.addValue(nv.getSoLuong(),"Hóa đơn",nv.getTen());
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Top nhân viên",
+                "Nhân viên",
+                "Số hóa đơn",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false,true,false
+        );
+
+        chartNhanVien.removeAll();
+        chartNhanVien.add(new ChartPanel(chart));
+        chartNhanVien.revalidate();
+    }
 }

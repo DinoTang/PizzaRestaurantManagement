@@ -1,29 +1,3 @@
-//package BUS;
-//import java.util.ArrayList;
-//import DAO.ThongKeDAO;
-//import DTO.ThongKeDTO;
-//
-//public class ThongKeBUS {
-//
-//    ThongKeDAO thongKeDAO = new ThongKeDAO();
-//
-//    public int[] getDoanhThuTheoThang(int nam){
-//        return thongKeDAO.getDoanhThuTheoThang(nam);
-//    }
-//
-//    public ArrayList<ThongKeDTO> getTopSanPham(int nam){
-//        return thongKeDAO.getTopSanPham(nam);
-//    }
-//    
-//    public ArrayList<ThongKeDTO> getTopNhanVien(int nam){
-//        return thongKeDAO.getTopNhanVien(nam);
-//    }
-//
-//    public ArrayList<ThongKeDTO> getTopKhachHang(int nam){
-//        return thongKeDAO.getTopKhachHang(nam);
-//    }
-//
-//}
 package BUS;
 
 import DAO.ThongKeDAO;
@@ -34,6 +8,8 @@ public class ThongKeBUS {
 
     ThongKeDAO thongKeDAO = new ThongKeDAO();
 
+    // ================= DASHBOARD =================
+
     public double getTongDoanhThu() {
         return thongKeDAO.getTongDoanhThu();
     }
@@ -42,16 +18,29 @@ public class ThongKeBUS {
         return thongKeDAO.getTongHoaDon();
     }
 
-    public Map<String, Double> getDoanhThuTheoThang(int nam) {
-        return thongKeDAO.getDoanhThuTheoThang(nam);
+    public int getTongPizza(){
+        return thongKeDAO.getTongPizza();
     }
 
-    public List<ThongKeDTO> getTopSanPham() {
-        return thongKeDAO.getTopSanPham();
+    public int getTongKhachHang(){
+        return thongKeDAO.getTongKhachHang();
     }
 
-    public List<ThongKeDTO> getTopKhachHang() {
-        return thongKeDAO.getTopKhachHang();
+    // ================= DOANH THU =================
+
+    public Map<String,Double> getDoanhThuTheoNgay(Date from, Date to){
+        return thongKeDAO.getDoanhThuTheoNgay(from,to);
     }
 
+    public List<ThongKeDTO> getTopSanPham(Date from, Date to){
+        return thongKeDAO.getTopSanPham(from,to);
+    }
+
+    public List<ThongKeDTO> getTopKhachHang(Date from, Date to){
+        return thongKeDAO.getTopKhachHang(from,to);
+    }
+
+    public List<ThongKeDTO> getTopNhanVien(Date from, Date to){
+        return thongKeDAO.getTopNhanVien(from,to);
+    }
 }

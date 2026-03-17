@@ -1,43 +1,13 @@
-//package DTO;
-//public class ThongKeDTO {
-//    private String ten;
-//    private int soLuong;
-//
-//    public ThongKeDTO() {}
-//
-//    public ThongKeDTO(String ten, int soLuong) {
-//        this.ten = ten;
-//        this.soLuong = soLuong;
-//    }
-//
-//    public String getTen() {
-//        return ten;
-//    }
-//
-//    public void setTen(String ten) {
-//        this.ten = ten;
-//    }
-//
-//    public int getSoLuong() {
-//        return soLuong;
-//    }
-//
-//    public void setSoLuong(int soLuong) {
-//        this.soLuong = soLuong;
-//    }
-//}
 package DTO;
-
 public class ThongKeDTO {
-
     private String ten;
-    private double giaTri;
+    private double soLuong;
 
     public ThongKeDTO() {}
 
-    public ThongKeDTO(String ten, double giaTri) {
+    public ThongKeDTO(String ten, double soLuong) {
         this.ten = ten;
-        this.giaTri = giaTri;
+        this.soLuong = soLuong;
     }
 
     public String getTen() {
@@ -48,11 +18,11 @@ public class ThongKeDTO {
         this.ten = ten;
     }
 
-    public double getGiaTri() {
-        return giaTri;
+    public double getSoLuong() {
+        return soLuong;
     }
 
-    public void setGiaTri(double giaTri) {
-        this.giaTri = giaTri;
+    public void setSoLuong(double soLuong) {
+        this.soLuong = soLuong;
     }
 }
