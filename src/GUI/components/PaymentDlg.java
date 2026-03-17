@@ -11,6 +11,7 @@ import DTO.CTHoaDonDTO;
 import DTO.CartItemDTO;
 import DTO.GiamGiaDTO;
 import DTO.HoaDonDTO;
+import GUI.HoaDonGUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -22,6 +23,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -108,30 +110,34 @@ public class PaymentDlg extends JDialog {
                 hd.setMaHD(bus.getNextMaHoaDon());
                 if(bus.taoHoaDon(hd)){
 
-                    // lưu chi tiết hóa đơn
                     CTHoaDonBUS ctBUS = new CTHoaDonBUS();
 
+                    List<CTHoaDonDTO> dsCT = new ArrayList<>();
+
                     for(CartItemDTO item : CartBUS.getCart()){
-                        CTHoaDonDTO cTHoaDonDTO = new CTHoaDonDTO();
-                        cTHoaDonDTO.setMaHoaDon(hd.getMaHD());
-                        cTHoaDonDTO.setMaSanPham(item.getMaSP());
-                        cTHoaDonDTO.setSoLuong(item.getSoLuong());
-                        cTHoaDonDTO.setDonGia(item.getGia());
-                        
-                        ctBUS.addCTHoaDon(cTHoaDonDTO);
+                        CTHoaDonDTO ct = new CTHoaDonDTO();
+                        ct.setMaHoaDon(hd.getMaHD());
+                        ct.setMaSanPham(item.getMaSP());
+                        ct.setSoLuong(item.getSoLuong());
+                        ct.setDonGia(item.getGia());
+
+                        ctBUS.addCTHoaDon(ct);
+                        dsCT.add(ct); // 🔥 lưu lại để truyền qua hóa đơn
                     }
 
-                    // trừ tồn kho
+                    // trừ kho
                     SanPhamBUS spBUS = new SanPhamBUS();
-
                     for(CartItemDTO item : CartBUS.getCart()){
                         spBUS.updateSoLuongGiam(item.getMaSP(), item.getSoLuong());
                     }
 
-                    // xóa giỏ hàng
                     CartBUS.clearCart();
 
                     JOptionPane.showMessageDialog(this,"Thanh toán thành công!");
+
+                    // ===== HIỆN HÓA ĐƠN =====
+                    HoaDonGUI hdGUI = new HoaDonGUI(hd, new ArrayList<>(dsCT));
+                    hdGUI.setVisible(true);
 
                     dispose();
                 }else{
