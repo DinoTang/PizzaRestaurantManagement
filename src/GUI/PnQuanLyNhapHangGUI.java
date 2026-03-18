@@ -30,6 +30,13 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
     public PnQuanLyNhapHangGUI(String maNV) {
         this.maNV = maNV;
         initComponents();
+        tabNhapHang.addChangeListener(e -> {
+            int index = tabNhapHang.getSelectedIndex();
+            if(index == 1){
+                loadDataTablePhieuNhap();
+                clearThongTinPhieuNhap();
+            }
+        });
         customControls();
         loadDataCmbNhanVien();
         loadDataTableKho();
@@ -102,6 +109,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         dtmPhieuNhap.addColumn("Ngày lập");
         dtmPhieuNhap.addColumn("Tổng tiền");
         tblPhieuNhap.setModel(dtmPhieuNhap);
+        tblPhieuNhap.setDefaultEditor(Object.class, null);
         tblPhieuNhap.getColumnModel().getColumn(0).setPreferredWidth(20);
 
         dtmCTPhieuNhap = new DefaultTableModel();
@@ -131,6 +139,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
             tblCTPhieuNhap.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -932,6 +941,21 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
                 dtmCTPhieuNhap.addRow(vec);
             }
         }
+    }
+    
+    private void clearThongTinPhieuNhap() {
+        txtMaPN.setText("");
+        txtMaNCC.setText("");
+        txtMaNV.setText("");
+        txtNgayLap.setText("");
+        txtTongTienPN.setText("");
+
+        txtCTSanPham.setText("");
+        txtCTSoLuong.setText("");
+        txtCTDonGia.setText("");
+        txtCTThanhTien.setText("");
+
+        dtmCTPhieuNhap.setRowCount(0);
     }
 
     private void btnThemVaoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVaoGioActionPerformed

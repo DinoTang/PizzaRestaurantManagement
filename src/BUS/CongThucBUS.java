@@ -70,5 +70,9 @@ public class CongThucBUS {
     public List<CongThucDTO> getCongThucTheoSP(String maSP) {
     return ctDAO.getCongThucTheoSP(maSP);
     }
+    
+    public String getMaByTen(String MaNL){
+        return ctDAO.getMaByTen(MaNL);
+    }
 
 }

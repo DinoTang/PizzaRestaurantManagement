@@ -251,7 +251,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         ){
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // không cho sửa ô
+                return false; 
             }
         };
         tblSanPham = new MyTable(dtmSanPham);

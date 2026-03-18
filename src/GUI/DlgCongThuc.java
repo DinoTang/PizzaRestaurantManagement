@@ -298,7 +298,12 @@ public class DlgCongThuc extends JDialog {
         }
 
         String item = cmbNguyenLieu.getSelectedItem().toString();
-        String maNL = item.split(" - ")[0];
+        String tenNl = tblCongThuc.getValueAt(row, 0).toString();
+        String maNL = ctBUS.getMaByTen(tenNl);
+        
+        
+        System.out.println("MaSP: " + maSP);
+        System.out.println("MaNL: " + maNL);
 
         MyDialog dlg = new MyDialog("Bạn có chắc muốn xóa?",MyDialog.WARNING_DIALOG);
 

@@ -157,5 +157,37 @@ public class CongThucDAO {
 
         return list;
     }
+    
+    public String getMaByTen(String tenNL) {
+
+        String maNL = null;
+        String sql = "SELECT MaNguyenLieu FROM NguyenLieu WHERE TenNguyenLieu = ?";
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, tenNL);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                maNL = rs.getString("MaNguyenLieu");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return maNL;
+    }
 
 }

@@ -96,7 +96,7 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
         pnTextField.add(pnPhanTram);
 
         // CĂN LABEL
-        Dimension lblSize = lblTen.getPreferredSize();
+        Dimension lblSize = new Dimension(170, 40);
         lblMa.setPreferredSize(lblSize);
         lblTen.setPreferredSize(lblSize);
         lblPhanTram.setPreferredSize(lblSize);
