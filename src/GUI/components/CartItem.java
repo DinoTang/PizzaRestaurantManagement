@@ -35,13 +35,9 @@ public class CartItem extends RoundedPanel {
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,10,0));
         actionPanel.setOpaque(false);
 
-        JLabel lblEdit = new JLabel("Điều chỉnh");
-        lblEdit.setForeground(new Color(0,120,215));
-
         JLabel lblDelete = new JLabel("Xóa");
         lblDelete.setForeground(Color.RED);
 
-        actionPanel.add(lblEdit);
         actionPanel.add(lblDelete);
 
         // quantity
