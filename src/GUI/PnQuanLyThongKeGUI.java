@@ -254,7 +254,7 @@ public class PnQuanLyThongKeGUI extends JPanel {
         JFreeChart chart = ChartFactory.createBarChart(
                 "Top khách hàng",
                 "Khách hàng",
-                "Số lần mua",
+                "Tổng chi tiêu",
                 dataset,
                 PlotOrientation.VERTICAL,
                 false,true,false

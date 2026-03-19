@@ -263,17 +263,7 @@ public class PnQuanLyKhachHangGUI extends JPanel {
 
         });
 
-        txtTukhoa.getDocument().addDocumentListener(new DocumentListener() {
-
-            public void insertUpdate(DocumentEvent e) { search(); }
-
-            public void removeUpdate(DocumentEvent e) { search(); }
-
-            public void changedUpdate(DocumentEvent e) { search(); }
-
-        });
-
-        btnTim.addActionListener(e -> searchRange());
+        btnTim.addActionListener(e -> search());
 
         btnThem.addActionListener(e -> xuLyThemKhachHang());
 

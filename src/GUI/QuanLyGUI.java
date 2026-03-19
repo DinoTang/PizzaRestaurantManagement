@@ -16,7 +16,7 @@ public class QuanLyGUI extends JFrame {
     public QuanLyGUI(String maNV, String maQuyen) {
         this.maNV = maNV;
         this.maQuyen = maQuyen;
-        this.setTitle("Quản trị");
+        this.setTitle("Quản lý");
         this.setSize(1280, 900);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Image icon = Toolkit.getDefaultToolkit().getImage("/images/ManagerUI/icon-app.png");

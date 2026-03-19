@@ -12,8 +12,8 @@ public class KhachHangBUS {
         return dao.getAll();
     }
 
-    public List<KhachHangDTO> searchCustomer(String phone){
-        return dao.searchByPhone(phone);
+    public List<KhachHangDTO> searchCustomer(String key){
+        return dao.searchKhachHang(key);
     }
 
     public boolean addCustomer(KhachHangDTO kh){

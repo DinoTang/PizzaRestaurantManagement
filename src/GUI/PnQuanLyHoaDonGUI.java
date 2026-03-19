@@ -112,6 +112,11 @@ public class PnQuanLyHoaDonGUI extends JPanel {
         };
 
         tblChiTietHoaDon = new MyTable(dtmChiTiet);
+        
+        tblChiTietHoaDon.getColumnModel().getColumn(2).setCellRenderer(center);
+        tblChiTietHoaDon.getColumnModel().getColumn(3).setCellRenderer(center);
+        tblChiTietHoaDon.getColumnModel().getColumn(4).setCellRenderer(center);
+        
         tblChiTietHoaDon.setRowSelectionAllowed(false);
         tblChiTietHoaDon.setFocusable(false);
 
@@ -150,6 +155,7 @@ public class PnQuanLyHoaDonGUI extends JPanel {
         dtmHoaDon.setRowCount(0);
 
         List<HoaDonDTO> list = hoaDonBUS.getAllHoaDon();
+        DecimalFormat formatter = new DecimalFormat("#,###");
 
         for(HoaDonDTO hd : list){
 
@@ -171,7 +177,7 @@ public class PnQuanLyHoaDonGUI extends JPanel {
             else
                 row.add("Không rõ");
 
-            row.add(hd.getTongTien());
+            row.add(formatter.format(hd.getTongTien()) + " đ");
 
             dtmHoaDon.addRow(row);
         }
@@ -180,6 +186,7 @@ public class PnQuanLyHoaDonGUI extends JPanel {
     private void loadChiTietHoaDon(String maHD){
 
         dtmChiTiet.setRowCount(0);
+        DecimalFormat formatter = new DecimalFormat("#,###");
 
         List<CTHoaDonDTO> list = ctHoaDonBUS.getCTHoaDonByMaHD(maHD);
 
@@ -193,8 +200,8 @@ public class PnQuanLyHoaDonGUI extends JPanel {
             row.add(sp != null ? sp.getTenSP() : "Không tồn tại");
 
             row.add(ct.getSoLuong());
-            row.add(ct.getDonGia());
-            row.add(ct.getThanhTien());
+            row.add(formatter.format(ct.getDonGia()) + " đ");
+            row.add(formatter.format(ct.getThanhTien()) + " đ");
 
             dtmChiTiet.addRow(row);
         }
@@ -209,11 +216,15 @@ public class PnQuanLyHoaDonGUI extends JPanel {
             return;
         }
 
+        // Lấy dữ liệu từ bảng
         String maHD = tblHoaDon.getValueAt(row, 0).toString();
         String tenKH = tblHoaDon.getValueAt(row, 1).toString();
         String ngayLap = tblHoaDon.getValueAt(row, 2).toString();
         String tenNV = tblHoaDon.getValueAt(row, 3).toString();
-        String tongTien = tblHoaDon.getValueAt(row, 4).toString();
+
+        // Lấy tổng tiền từ DTO (CHUẨN)
+        HoaDonDTO hd = hoaDonBUS.getHoaDonById(maHD);
+        double tongTien = hd.getTongTien();
 
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Chọn nơi lưu file PDF");
@@ -251,12 +262,14 @@ public class PnQuanLyHoaDonGUI extends JPanel {
 
             DecimalFormat formatter = new DecimalFormat("#,###");
 
+            // ===== TIÊU ĐỀ =====
             Paragraph title = new Paragraph("HÓA ĐƠN BÁN HÀNG", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
 
             document.add(new Paragraph(" "));
 
+            // ===== THÔNG TIN =====
             document.add(new Paragraph("Mã hóa đơn: " + maHD, normalFont));
             document.add(new Paragraph("Khách hàng: " + tenKH, normalFont));
             document.add(new Paragraph("Nhân viên: " + tenNV, normalFont));
@@ -264,31 +277,20 @@ public class PnQuanLyHoaDonGUI extends JPanel {
 
             document.add(new Paragraph(" "));
 
+            // ===== BẢNG =====
             PdfPTable table = new PdfPTable(5);
             table.setWidthPercentage(100);
             table.setWidths(new float[]{2, 4, 2, 2, 2});
 
             PdfPCell cell;
 
-            cell = new PdfPCell(new Phrase("Mã SP", headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
+            String[] headers = {"Mã SP", "Tên SP", "Số lượng", "Đơn giá", "Thành tiền"};
 
-            cell = new PdfPCell(new Phrase("Tên SP", headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
-
-            cell = new PdfPCell(new Phrase("Số lượng", headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
-
-            cell = new PdfPCell(new Phrase("Đơn giá", headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
-
-            cell = new PdfPCell(new Phrase("Thành tiền", headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
+            for (String h : headers) {
+                cell = new PdfPCell(new Phrase(h, headerFont));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+            }
 
             List<CTHoaDonDTO> list = ctHoaDonBUS.getCTHoaDonByMaHD(maHD);
 
@@ -317,12 +319,12 @@ public class PnQuanLyHoaDonGUI extends JPanel {
 
             document.add(new Paragraph(" "));
 
+            // ===== TỔNG TIỀN =====
             Paragraph tong = new Paragraph(
-                    "Tổng tiền: " + formatter.format(Double.parseDouble(tongTien)) + " đ",
+                    "Tổng tiền: " + formatter.format(tongTien) + " đ",
                     boldFont
             );
             tong.setAlignment(Element.ALIGN_RIGHT);
-
             document.add(tong);
 
             document.close();
@@ -334,5 +336,5 @@ public class PnQuanLyHoaDonGUI extends JPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Xuất PDF thất bại!");
         }
-    }
+}
 }

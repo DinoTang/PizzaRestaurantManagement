@@ -61,7 +61,7 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
         JPanel pnTextField = new TransparentPanel();
         pnTextField.setLayout(new BoxLayout(pnTextField, BoxLayout.Y_AXIS));
 
-        JLabel lblMa = new JLabel("Mã KM");
+        JLabel lblMa = new JLabel("Mã khuyến mãi");
         JLabel lblTen = new JLabel("Tên chương trình");
         JLabel lblPhanTram = new JLabel("Phần trăm giảm");
 
