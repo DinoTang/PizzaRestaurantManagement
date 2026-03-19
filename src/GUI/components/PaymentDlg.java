@@ -218,6 +218,10 @@ public class PaymentDlg extends JDialog {
         table = new JTable(model);
         table.setRowHeight(35);
         table.setFont(new Font("Segoe UI",Font.PLAIN,14));
+        table.setRowSelectionAllowed(false);
+        table.setColumnSelectionAllowed(false);
+        table.setCellSelectionEnabled(false);
+        table.setEnabled(false);
 
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Segoe UI",Font.BOLD,14));

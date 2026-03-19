@@ -233,7 +233,7 @@ public class LichSuPanel extends JPanel {
 
         tableChiTiet = new JTable(new DefaultTableModel(cols,0));
         tableChiTiet.setRowHeight(25);
-
+        tableChiTiet.setEnabled(false);
         panel.add(new JScrollPane(tableChiTiet),BorderLayout.CENTER);
 
         return panel;

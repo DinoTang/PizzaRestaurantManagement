@@ -24,4 +24,12 @@ public class LoaiBUS {
     public LoaiDTO getLoaiTheoId(String maLoai){
         return loaiDAO.getLoaiTheoId(maLoai);
     }
+    public String getMaLoaiByTen(String tenLoai) {
+    for (LoaiDTO loai : getAllLoai()) {
+        if (loai.getTenLoai().equals(tenLoai)) {
+            return loai.getMaLoai();
+        }
+    }
+    return null;
+}
 }

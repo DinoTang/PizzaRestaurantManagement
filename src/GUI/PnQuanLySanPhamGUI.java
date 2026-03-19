@@ -56,9 +56,10 @@ public class PnQuanLySanPhamGUI extends JPanel {
     final Color colorPanel = new Color(247, 247, 247);
     MyTable tblSanPham;
     DefaultTableModel dtmSanPham;
-    JTextField txtMa, txtTen, txtsoLuong, txtdonViTinh, txtdonGia, txtTimKiem;
+    JTextField txtMa, txtTen, txtsoLuong, txtdonGia, txtTimKiem;
     JComboBox<String> cmbLoai;
-    JButton btnThem, btnSua, btnXoa, btnTim, btnChonAnh, btnReset, btnXuatExcel, btnNhapExcel, btnCongThuc;
+    JComboBox<String> cmbDonVi;
+    JButton btnThem, btnSua, btnXoa, btnTim, btnChonAnh, btnReset, btnXuatExcel, btnCongThuc;
     JLabel lblAnhSP;
     
     private void addControlsSanPham() {
@@ -69,9 +70,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(colorPanel);
 
-        int w = 1030;
-        int h = 844;
-
+        // ===== TITLE =====
         JPanel pnTitle = new TransparentPanel();
         JLabel lblTitle = new JLabel("<html><h1>QUẢN LÝ SẢN PHẨM</h1></html>");
         btnReset = new JButton(Constants.loadIcon("/images/Refresh-icon.png"));
@@ -80,107 +79,99 @@ public class PnQuanLySanPhamGUI extends JPanel {
         pnTitle.add(btnReset);
         this.add(pnTitle);
 
+        // ===== PANEL THÔNG TIN =====
         JPanel pnThongTin = new TransparentPanel();
         pnThongTin.setLayout(new BoxLayout(pnThongTin, BoxLayout.X_AXIS));
 
-        //================PANEL INPUT=========
+        // ===== PANEL INPUT =====
         JPanel pnTextField = new TransparentPanel();
         pnTextField.setLayout(new BoxLayout(pnTextField, BoxLayout.Y_AXIS));
-        JLabel lblMa, lblTen, lblLoai, lblSoLuong, lblDonViTinh, lblDonGia;
 
-        lblMa = new JLabel("Mã SP");
-        lblTen = new JLabel("Tên SP");
-        lblLoai = new JLabel("Loại");
-        lblSoLuong = new JLabel("Số lượng");
-        lblDonViTinh = new JLabel("Đơn vị tính");
-        lblDonGia = new JLabel("Đơn giá");
+        Dimension lblSize = new Dimension(150, 30);
+
+        // Components
+        JLabel lblMa = new JLabel("Mã SP");
+        JLabel lblTen = new JLabel("Tên SP");
+        JLabel lblLoai = new JLabel("Loại");
+        JLabel lblSoLuong = new JLabel("Số lượng");
+        JLabel lblDonViTinh = new JLabel("Đơn vị tính");
+        JLabel lblDonGia = new JLabel("Đơn giá");
 
         txtMa = new JTextField(25);
         txtMa.setEditable(false);
         txtTen = new JTextField(25);
-        cmbLoai = new JComboBox<String>();
         txtsoLuong = new JTextField(25);
-        txtdonViTinh = new JTextField(25);
         txtdonGia = new JTextField(25);
 
-        JPanel pnMa = new TransparentPanel();
-        lblMa.setFont(font);
-        txtMa.setFont(font);
-        pnMa.add(lblMa);
-        pnMa.add(txtMa);
-        pnTextField.add(pnMa);
+        cmbLoai = new JComboBox<>();
+        String[] donViTinhList = {"Chọn đơn vị tính","Cái","Chai","Ly","Lon","Phần"};
+        cmbDonVi = new JComboBox<>(donViTinhList);
 
-        JPanel pnTen = new TransparentPanel();
-        lblTen.setFont(font);
-        txtTen.setFont(font);
-        pnTen.add(lblTen);
-        pnTen.add(txtTen);
-        pnTextField.add(pnTen);
+        // ===== SET FONT =====
+        Component[] inputs = {txtMa, txtTen, txtsoLuong, txtdonGia, cmbLoai, cmbDonVi};
+        for (Component c : inputs) c.setFont(font);
 
-        JPanel pnLoai = new TransparentPanel();
-        lblLoai.setFont(font);
-        cmbLoai.setFont(font);
-        cmbLoai.setPreferredSize(txtMa.getPreferredSize());
-        pnLoai.add(lblLoai);
-        pnLoai.add(cmbLoai);
-        pnTextField.add(pnLoai);
+        JLabel[] labels = {lblMa, lblTen, lblLoai, lblSoLuong, lblDonViTinh, lblDonGia};
+        for (JLabel l : labels) {
+            l.setFont(font);
+            l.setPreferredSize(lblSize);
+        }
 
-        JPanel pnSoLuong = new TransparentPanel();
-        lblSoLuong.setFont(font);
-        txtsoLuong.setFont(font);
-        pnSoLuong.add(lblSoLuong);
-        pnSoLuong.add(txtsoLuong);
-        pnTextField.add(pnSoLuong);
+        // ===== FIX SIZE (QUAN TRỌNG) =====
+        Dimension fieldSize = txtMa.getPreferredSize();
 
-        JPanel pnDonViTinh = new TransparentPanel();
-        lblDonViTinh.setFont(font);
-        txtdonViTinh.setFont(font);
-        pnDonViTinh.add(lblDonViTinh);
-        pnDonViTinh.add(txtdonViTinh);
-        pnTextField.add(pnDonViTinh);
+        cmbLoai.setPreferredSize(fieldSize);
+        cmbLoai.setMinimumSize(fieldSize);
+        cmbLoai.setMaximumSize(fieldSize);
 
-        JPanel pnDonGia = new TransparentPanel();
-        lblDonGia.setFont(font);
-        txtdonGia.setFont(font);
-        pnDonGia.add(lblDonGia);
-        pnDonGia.add(txtdonGia);
-        pnTextField.add(pnDonGia);
+        cmbDonVi.setPreferredSize(fieldSize);
+        cmbDonVi.setMinimumSize(fieldSize);
+        cmbDonVi.setMaximumSize(fieldSize);
 
-        Dimension lblSize = lblDonViTinh.getPreferredSize();
-        lblMa.setPreferredSize(lblSize);
-        lblTen.setPreferredSize(lblSize);
-        lblLoai.setPreferredSize(lblSize);
-        lblSoLuong.setPreferredSize(lblSize);
-        lblDonViTinh.setPreferredSize(lblSize);
-        lblDonGia.setPreferredSize(lblSize);
+        // ===== HÀM TẠO ROW (GỌN CODE) =====
+        java.util.function.BiFunction<JLabel, Component, JPanel> createRow = (lbl, comp) -> {
+            JPanel pn = new TransparentPanel();
+            pn.setAlignmentX(Component.LEFT_ALIGNMENT);
+            pn.add(lbl);
+            pn.add(comp);
+            return pn;
+        };
+
+        pnTextField.add(createRow.apply(lblMa, txtMa));
+        pnTextField.add(createRow.apply(lblTen, txtTen));
+        pnTextField.add(createRow.apply(lblLoai, cmbLoai));
+        pnTextField.add(createRow.apply(lblSoLuong, txtsoLuong));
+        pnTextField.add(createRow.apply(lblDonViTinh, cmbDonVi)); // <-- FIX LỆCH
+        pnTextField.add(createRow.apply(lblDonGia, txtdonGia));
 
         pnThongTin.add(pnTextField);
 
-        //=================PANEL ẢNH==========
+        // ===== PANEL ẢNH =====
         JPanel pnAnh = new TransparentPanel();
         pnAnh.setLayout(new BoxLayout(pnAnh, BoxLayout.Y_AXIS));
 
-        JPanel pnChuaAnh = new TransparentPanel();
-        pnChuaAnh.setPreferredSize(new Dimension((int) pnAnh.getPreferredSize().getWidth(), 250));
         lblAnhSP = new JLabel();
         lblAnhSP.setPreferredSize(new Dimension(200, 200));
         lblAnhSP.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         lblAnhSP.setIcon(getAnhSP(""));
+
+        btnChonAnh = new JButton("Chọn ảnh");
+        btnChonAnh.setFont(font);
+        btnChonAnh.setIcon(Constants.loadIcon("/images/picture_icon.png"));
+
+        JPanel pnChuaAnh = new TransparentPanel();
         pnChuaAnh.add(lblAnhSP);
-        pnAnh.add(pnChuaAnh);
 
         JPanel pnButtonAnh = new TransparentPanel();
-        pnButtonAnh.setPreferredSize(new Dimension(
-                (int) pnChuaAnh.getPreferredSize().getHeight(), 40));
-        btnChonAnh = new JButton("Chọn ảnh");
-        btnChonAnh.setIcon(Constants.loadIcon("/images/picture_icon.png"));
-        btnChonAnh.setFont(font);
         pnButtonAnh.add(btnChonAnh);
-        pnChuaAnh.add(pnButtonAnh);
+
+        pnAnh.add(pnChuaAnh);
+        pnAnh.add(pnButtonAnh);
 
         pnThongTin.add(pnAnh);
         this.add(pnThongTin);
 
+        // ===== BUTTON =====
         JPanel pnButton = new TransparentPanel();
 
         btnThem = new JButton("Thêm");
@@ -189,19 +180,11 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnTim = new JButton("");
         btnXuatExcel = new JButton("Xuất");
         btnCongThuc = new JButton("Công thức");
-       
-   
-//        btnNhapExcel = new JButton("Nhập");
 
         Font fontButton = new Font("Tahoma", Font.PLAIN, 16);
-        btnThem.setFont(fontButton);
-        btnSua.setFont(fontButton);
-        btnXoa.setFont(fontButton);
-        btnTim.setFont(fontButton);
-        btnCongThuc.setFont(fontButton);
-        btnTim.setPreferredSize(new Dimension(50, 30));
-        btnXuatExcel.setFont(fontButton);
-//        btnNhapExcel.setFont(fontButton);
+
+        JButton[] btns = {btnThem, btnSua, btnXoa, btnTim, btnXuatExcel, btnCongThuc};
+        for (JButton b : btns) b.setFont(fontButton);
 
         btnThem.setIcon(Constants.loadIcon("/images/add-icon.png"));
         btnSua.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
@@ -210,50 +193,43 @@ public class PnQuanLySanPhamGUI extends JPanel {
         btnXuatExcel.setIcon(Constants.loadIcon("/images/excel-icon.png"));
         btnCongThuc.setIcon(Constants.loadIcon("/images/recipe-icon.png"));
 
+        Dimension btnSize = new Dimension(120, 40);
+        btnThem.setPreferredSize(btnSize);
+        btnSua.setPreferredSize(btnSize);
+        btnXoa.setPreferredSize(btnSize);
+        btnXuatExcel.setPreferredSize(btnSize);
+        btnCongThuc.setPreferredSize(new Dimension(150, 40));
+
+        pnButton.add(btnThem);
+        pnButton.add(btnSua);
+        pnButton.add(btnXoa);
+        pnButton.add(btnXuatExcel);
+        pnButton.add(btnCongThuc);
+
+        // ===== SEARCH =====
         JPanel pnTimKiem = new TransparentPanel();
         JLabel lblTimKiem = new JLabel("Từ khoá tìm");
         lblTimKiem.setFont(font);
         txtTimKiem = new JTextField(20);
         txtTimKiem.setFont(font);
+
         pnTimKiem.add(lblTimKiem);
         pnTimKiem.add(txtTimKiem);
         pnTimKiem.add(btnTim);
+
         this.add(pnTimKiem);
-
-        pnButton.add(btnThem);
-        pnButton.add(btnSua);
-        pnButton.add(btnXoa);
-//        pnButton.add(btnTim);
-        pnButton.add(btnXuatExcel);
-        pnButton.add(btnCongThuc);
-        
-//        pnButton.add(btnNhapExcel);
-
-        Dimension btnSize = new Dimension(120, 40);
-        btnThem.setPreferredSize(btnSize);
-        btnSua.setPreferredSize(btnSize);
-        btnXoa.setPreferredSize(btnSize);
-//        btnTim.setPreferredSize(btnSize);
-        btnXuatExcel.setPreferredSize(btnSize);
-        btnCongThuc.setPreferredSize(new Dimension(150, 40));
-        
-//        btnNhapExcel.setPreferredSize(btnSize);
-
         this.add(pnButton);
 
-        //============PANEL BẢNG===========
-        JPanel pnTable = new TransparentPanel(new BorderLayout());
-        //====================Bảng hàng hoá====================
-        //<editor-fold defaultstate="collapsed" desc="Bảng sản phẩm">
-       
+        // ===== TABLE =====
         dtmSanPham = new DefaultTableModel(
             new Object[]{"Mã SP","Tên SP","Loại SP","Đơn giá","Số lượng","Đơn vị tính","Ảnh"}, 0
         ){
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; 
+                return false;
             }
         };
+
         tblSanPham = new MyTable(dtmSanPham);
 
         tblSanPham.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
@@ -261,18 +237,10 @@ public class PnQuanLySanPhamGUI extends JPanel {
         tblSanPham.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         tblSanPham.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
 
-        TableColumnModel columnModelBanHang = tblSanPham.getColumnModel();
-        columnModelBanHang.getColumn(0).setPreferredWidth(77);
-        columnModelBanHang.getColumn(1).setPreferredWidth(282);
-        columnModelBanHang.getColumn(2).setPreferredWidth(120);
-        columnModelBanHang.getColumn(3).setPreferredWidth(85);
-        columnModelBanHang.getColumn(4).setPreferredWidth(138);
-        columnModelBanHang.getColumn(5).setPreferredWidth(140);
-        columnModelBanHang.getColumn(6).setPreferredWidth(0);
-
         JScrollPane scrTblSanPham = new JScrollPane(tblSanPham);
-        //</editor-fold>
+        JPanel pnTable = new TransparentPanel(new BorderLayout());
         pnTable.add(scrTblSanPham, BorderLayout.CENTER);
+
         this.add(pnTable);
 
         loadDataCmbLoai();
@@ -288,7 +256,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
                 txtMa.setText("");
                 txtTen.setText("");
                 txtdonGia.setText("");
-                txtdonViTinh.setText("");
+                cmbDonVi.setSelectedIndex(0);
                 txtsoLuong.setText("");
                 cmbLoai.setSelectedIndex(0);
             }
@@ -431,7 +399,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
             txtTen.setText(ten);
             txtdonGia.setText(donGia);
             txtsoLuong.setText(soLuong);
-            txtdonViTinh.setText(donViTinh.replace(",", ""));
+            cmbDonVi.setSelectedItem(donViTinh);
 
             int flag = 0;
             for (int i = 0; i < cmbLoai.getItemCount(); i++) {
@@ -471,7 +439,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
         List<LoaiDTO> dsl = loaiBUS.getAllLoai();
         cmbLoai.addItem("Chọn loại");
         for (LoaiDTO loai : dsl) {
-            cmbLoai.addItem(loai.getMaLoai() + " - " + loai.getTenLoai());
+            cmbLoai.addItem(loai.getTenLoai());
         }
         cmbLoai.addItem("Khác...");
     }
@@ -502,10 +470,17 @@ public class PnQuanLySanPhamGUI extends JPanel {
             new MyDialog("Vui lòng nhập đơn giá!", MyDialog.ERROR_DIALOG);
             return;
         }
+        
+        if (cmbDonVi.getSelectedIndex() == 0) {
+            new MyDialog("Vui lòng chọn đơn vị tính!", MyDialog.ERROR_DIALOG);
+            return;
+        }
 
         String tenSP = txtTen.getText();
         int soLuong = Integer.parseInt(txtsoLuong.getText());
         String anh = (fileAnhSP != null) ? fileAnhSP.getName() : "default.png";
+        String tenLoai = cmbLoai.getSelectedItem().toString();
+        String maLoai = loaiBUS.getMaLoaiByTen(tenLoai);
 
         // tìm sản phẩm theo tên
         List<SanPhamDTO> list = spBUS.searchSanPham(tenSP);
@@ -541,9 +516,9 @@ public class PnQuanLySanPhamGUI extends JPanel {
 
             sp.setMaSP(maSP);
             sp.setTenSP(tenSP);
-            sp.setMaLoai(cmbLoai.getSelectedItem()+"");
+            sp.setMaLoai(maLoai);
             sp.setSoLuong(soLuong);
-            sp.setDonViTinh(txtdonViTinh.getText());
+            sp.setDonViTinh(cmbDonVi.getSelectedItem().toString());
             sp.setDonGia(Integer.parseInt(txtdonGia.getText()));
             sp.setHinhAnh(anh);
             sp.setTrangThaiXoa(false);
@@ -574,18 +549,57 @@ public class PnQuanLySanPhamGUI extends JPanel {
     File fileAnhSP;
 
     private void xuLySuaSanPham() {
-        String anh = fileAnhSP.getName();
+        
+        // kiểm tra dữ liệu
+        if(txtTen.getText().trim().isEmpty()){
+            new MyDialog("Vui lòng nhập tên sản phẩm!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+
+        if(txtsoLuong.getText().trim().isEmpty()){
+            new MyDialog("Vui lòng nhập số lượng!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+
+        if(txtdonGia.getText().trim().isEmpty()){
+            new MyDialog("Vui lòng nhập đơn giá!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+        
+        if (cmbDonVi.getSelectedIndex() == 0) {
+            new MyDialog("Vui lòng chọn đơn vị tính!", MyDialog.ERROR_DIALOG);
+            return;
+        }
+        String tenLoai = cmbLoai.getSelectedItem().toString();
+        String maLoai = loaiBUS.getMaLoaiByTen(tenLoai);
+        
         SanPhamDTO sp = spBUS.getSanPhamById(txtMa.getText());
+        String anh = (fileAnhSP != null) ? fileAnhSP.getName() : sp.getHinhAnh();
         sp.setTenSP(txtTen.getText());
-        sp.setMaLoai(cmbLoai.getSelectedItem() + "");
-        sp.setSoLuong(Integer.parseInt(txtsoLuong.getText()));
-        sp.setDonViTinh(txtdonViTinh.getText());
+        sp.setMaLoai(maLoai);
+        sp.setSoLuong(Integer.parseInt(txtsoLuong.getText().replace(",", "")));
+        sp.setDonViTinh(cmbDonVi.getSelectedItem().toString());
         sp.setHinhAnh(anh);
-        sp.setDonGia(Integer.parseInt(txtdonGia.getText()));
+        sp.setDonGia(Integer.parseInt(txtdonGia.getText().replace(",", "")));
         boolean flag = spBUS.updateSanPham(sp);
 //        spBUS.docListSanPham();
+        
+        if(flag){
+        new MyDialog("Cập nhật sản phẩm thành công!", MyDialog.SUCCESS_DIALOG);
+
+        // chỉ lưu ảnh khi có chọn ảnh mới
+        if (fileAnhSP != null) {
+            luuFileAnh();
+        }
+
         loadDataLenBangSanPham();
-        luuFileAnh();
+
+        // reset ảnh tránh bug
+        fileAnhSP = null;
+
+        } else {
+            new MyDialog("Cập nhật sản phẩm thất bại!", MyDialog.ERROR_DIALOG);
+        }
     }
 
     private void xuLyXoaSanPham() {
@@ -607,6 +621,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
 
     private void luuFileAnh() {
         BufferedImage bImage = null;
+        if (fileAnhSP == null) return;
         try {
             File initialImage = new File(fileAnhSP.getPath());
             bImage = ImageIO.read(initialImage);
