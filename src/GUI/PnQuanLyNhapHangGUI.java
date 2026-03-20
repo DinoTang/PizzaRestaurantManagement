@@ -423,6 +423,11 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
 
         txtNhaCungCap.setEditable(false);
         txtNhaCungCap.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtNhaCungCap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNhaCungCapActionPerformed(evt);
+            }
+        });
 
         btnChonNhaCungCap.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnChonNhaCungCap.setText("...");
@@ -1116,6 +1121,10 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         loadDataTableKho();
         dtmGioNhap.setRowCount(0);
     }//GEN-LAST:event_btnResetKhoActionPerformed
+
+    private void txtNhaCungCapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNhaCungCapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNhaCungCapActionPerformed
 
 // <editor-fold defaultstate="collapsed" desc="Variable">
     // Variables declaration - do not modify//GEN-BEGIN:variables

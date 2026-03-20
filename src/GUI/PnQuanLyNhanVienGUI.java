@@ -92,10 +92,10 @@ public class PnQuanLyNhanVienGUI extends JPanel {
         lblTabbedQuyen.setForeground(Color.white);
         lblTabbedQuyen.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        pnTop.add(lblTabbedNhanVien);
-        pnTop.add(lblTabbedQuyen);
-        //</editor-fold>
-        this.add(pnTop, BorderLayout.NORTH);
+//        pnTop.add(lblTabbedNhanVien);
+//       pnTop.add(lblTabbedQuyen);
+//        //</editor-fold>
+//        this.add(pnTop, BorderLayout.NORTH);
 
         /*
         =========================================================================
