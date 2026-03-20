@@ -5,6 +5,7 @@ import DTO.GiamGiaDTO;
 import Custom.MyDialog;
 import Custom.MyTable;
 import Custom.TransparentPanel;
+import Custom.XuLyFileExcel;
 import Utils.Constants;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
     private GiamGiaBUS giamGiaBUS = new GiamGiaBUS();
 
     private JTextField txtMa, txtTen, txtPhanTram;
-    private JButton btnThem, btnSua, btnXoa, btnReset;
+    private JButton btnThem, btnSua, btnXoa, btnReset, btnXuatExcel;
 
     private MyTable tblKhuyenMai;
     private DefaultTableModel dtm;
@@ -114,18 +115,28 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
+        btnXuatExcel = new JButton("Xuất");
 
         btnThem.setFont(font);
         btnSua.setFont(font);
         btnXoa.setFont(font);
+        btnXuatExcel.setFont(font);
 
         btnThem.setIcon(Constants.loadIcon("/images/add-icon.png"));
         btnSua.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
         btnXoa.setIcon(Constants.loadIcon("/images/delete-icon.png"));
+        btnXuatExcel.setIcon(Constants.loadIcon("/images/excel-icon.png"));
+        
+        Dimension btnSize = new Dimension(130,40);
+        btnThem.setPreferredSize(btnSize);
+        btnSua.setPreferredSize(btnSize);
+        btnXoa.setPreferredSize(btnSize);
+        btnXuatExcel.setPreferredSize(btnSize);
 
         pnButton.add(btnThem);
         pnButton.add(btnSua);
         pnButton.add(btnXoa);
+        pnButton.add(btnXuatExcel);
 
         this.add(pnButton);
 
@@ -157,6 +168,7 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
         btnSua.addActionListener(e -> suaKhuyenMai());
         btnXoa.addActionListener(e -> xoaKhuyenMai());
         btnReset.addActionListener(e -> resetForm());
+        btnXuatExcel.addActionListener(e -> xuLyXuatExcel());
     }
 
     private void loadDataTable(){
@@ -255,5 +267,16 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
         txtMa.setText("");
         txtTen.setText("");
         txtPhanTram.setText("");
+    }
+    
+    private void xuLyXuatExcel() {
+
+        if(tblKhuyenMai.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this, "Không có dữ liệu để xuất!");
+            return;
+        }
+
+        XuLyFileExcel xuatFile = new XuLyFileExcel();
+        xuatFile.xuatExcel(tblKhuyenMai);
     }
 }

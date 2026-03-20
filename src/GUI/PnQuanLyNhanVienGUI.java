@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class PnQuanLyNhanVienGUI extends JPanel {
@@ -262,8 +263,14 @@ public class PnQuanLyNhanVienGUI extends JPanel {
                 return false;
             }
         };
-       
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        
         tblNhanVien = new MyTable(dtmNhanVien);
+        tblNhanVien.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tblNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tblNhanVien.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+    
         JScrollPane scrTblNhanVien = new JScrollPane(tblNhanVien);
         pnTableNhanVien.add(scrTblNhanVien, BorderLayout.CENTER);
         pnNhanVien.add(scrTblNhanVien);

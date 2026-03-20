@@ -4,6 +4,7 @@ import BUS.KhachHangBUS;
 import DTO.KhachHangDTO;
 import Custom.MyTable;
 import Custom.TransparentPanel;
+import Custom.XuLyFileExcel;
 import Utils.Constants;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ public class PnQuanLyKhachHangGUI extends JPanel {
     JButton btnReset;
     JTextField txtMa, txtTen, txtSDT, txtTongChiTieu, txtTukhoa, txtMaxChiTieu, txtMinChiTieu;
 
-    JButton btnThem, btnSua, btnXoa, btnTim;
+    JButton btnThem, btnSua, btnXoa, btnTim, btnXuatExcel;
 
     MyTable tblKhachHang;
     DefaultTableModel dtmKhachHang;
@@ -183,24 +184,28 @@ public class PnQuanLyKhachHangGUI extends JPanel {
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
+        btnXuatExcel = new JButton("Xuất");
 
         btnThem.setFont(fontButton);
         btnSua.setFont(fontButton);
         btnXoa.setFont(fontButton);
+        btnXuatExcel.setFont(fontButton);
 
         btnThem.setIcon(Constants.loadIcon("/images/add-icon.png"));
         btnSua.setIcon(Constants.loadIcon("/images/Pencil-icon.png"));
         btnXoa.setIcon(Constants.loadIcon("/images/delete-icon.png"));
+        btnXuatExcel.setIcon(Constants.loadIcon("/images/excel-icon.png"));
 
         Dimension btnSize = new Dimension(120,40);
-
         btnThem.setPreferredSize(btnSize);
         btnSua.setPreferredSize(btnSize);
         btnXoa.setPreferredSize(btnSize);
+        btnXuatExcel.setPreferredSize(btnSize);
 
         pnButton.add(btnThem);
         pnButton.add(btnSua);
         pnButton.add(btnXoa);
+        pnButton.add(btnXuatExcel);
 
         this.add(pnButton);
 
@@ -270,6 +275,8 @@ public class PnQuanLyKhachHangGUI extends JPanel {
         btnSua.addActionListener(e -> xuLySuaKhachHang());
 
         btnXoa.addActionListener(e -> xuLyXoaKhachHang());
+        
+        btnXuatExcel.addActionListener(e -> xuLyXuatExcel());
 
     }
 
@@ -365,29 +372,40 @@ public class PnQuanLyKhachHangGUI extends JPanel {
     
     private void xuLyXoaKhachHang(){
 
-    String ma = txtMa.getText();
+        String ma = txtMa.getText();
 
-    if(ma.trim().isEmpty()){
-        JOptionPane.showMessageDialog(this,"Vui lòng chọn khách hàng cần xoá!");
-        return;
-    }
-
-    int confirm = JOptionPane.showConfirmDialog(
-            this,
-            "Bạn có chắc muốn xoá khách hàng này?",
-            "Xác nhận xoá",
-            JOptionPane.YES_NO_OPTION
-    );
-
-    if(confirm == JOptionPane.YES_OPTION){
-
-        if(khachHangBUS.deleteCustomer(ma)){
-            JOptionPane.showMessageDialog(this,"Xoá thành công!");
-            btnReset.doClick();
-        }else{
-            JOptionPane.showMessageDialog(this,"Xoá thất bại!");
+        if(ma.trim().isEmpty()){
+            JOptionPane.showMessageDialog(this,"Vui lòng chọn khách hàng cần xoá!");
+            return;
         }
 
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có chắc muốn xoá khách hàng này?",
+                "Xác nhận xoá",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if(confirm == JOptionPane.YES_OPTION){
+
+            if(khachHangBUS.deleteCustomer(ma)){
+                JOptionPane.showMessageDialog(this,"Xoá thành công!");
+                btnReset.doClick();
+            }else{
+                JOptionPane.showMessageDialog(this,"Xoá thất bại!");
+            }
+
+        }
     }
+    
+    private void xuLyXuatExcel() {
+
+        if(tblKhachHang.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this, "Không có dữ liệu để xuất!");
+            return;
+        }
+
+        XuLyFileExcel xuatFile = new XuLyFileExcel();
+        xuatFile.xuatExcel(tblKhachHang);
     }
 }

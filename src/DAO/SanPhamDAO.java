@@ -243,7 +243,7 @@ public class SanPhamDAO {
         String sql = """
                      SELECT MaSP
                      FROM sanpham
-                     ORDER BY MaSP DESC
+                     ORDER BY CAST(SUBSTRING(MaSP, 3) AS UNSIGNED) DESC
                      LIMIT 1
                      """;
 
@@ -260,13 +260,13 @@ public class SanPhamDAO {
                 int number = Integer.parseInt(lastId.substring(2));
                 number++;
 
-                return String.format("SP%02d", number);
+                return String.format("SP%03d", number);
             }
 
         }catch(Exception e){
             e.printStackTrace();
         }
 
-        return "SP01";
+        return "SP001";
     }
 }

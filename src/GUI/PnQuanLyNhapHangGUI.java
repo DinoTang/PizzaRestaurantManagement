@@ -52,7 +52,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
 
     private void customControls() {
         dtmKho = new DefaultTableModel(
-            new Object[]{"Mã SP","Tên nguyên liệu","Tồn kho"}, 0
+            new Object[]{"Mã NL","Tên nguyên liệu","Tồn kho"}, 0
         ){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -125,19 +125,8 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         //=========================================================
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        for (int i = 0; i < dtmKho.getColumnCount(); i++) {
-            tblKho.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-        for (int i = 0; i < dtmGioNhap.getColumnCount(); i++) {
-            tblGioNhap.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-        for (int i = 0; i < dtmPhieuNhap.getColumnCount(); i++) {
-            tblPhieuNhap.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-        for (int i = 0; i < dtmCTPhieuNhap.getColumnCount(); i++) {
-            tblCTPhieuNhap.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
+        tblKho.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tblKho.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
     }
 
 
@@ -319,17 +308,6 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         jLabel2.setText("Hàng chờ nhập");
         jPanel3.add(jLabel2);
 
-        tblGioNhap.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Mã SP", "Tên SP", "Số lượng", "Đơn giá", "Thành tiền"
-            }
-        ));
         tblGioNhap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblGioNhapMouseClicked(evt);
@@ -370,7 +348,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         pnThongTin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel5.setText("Mã SP");
+        jLabel5.setText("Mã NL");
         jLabel5.setPreferredSize(new java.awt.Dimension(56, 22));
         jPanel7.add(jLabel5);
 
@@ -381,7 +359,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         jPanel7.add(jTextField2);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel3.setText("Thông tin sản phẩm");
+        jLabel3.setText("Thông tin nguyên liệu");
         jPanel5.add(jLabel3);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -396,7 +374,7 @@ public class PnQuanLyNhapHangGUI extends javax.swing.JPanel {
         jPanel6.add(txtDonGia);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel6.setText("Tên SP");
+        jLabel6.setText("Tên NL");
         jPanel8.add(jLabel6);
 
         jTextField3.setEditable(false);

@@ -7,6 +7,7 @@ import Custom.TransparentPanel;
 import BUS.DonViBUS;
 import BUS.NguyenLieuBUS;
 import BUS.NhaCungCapBUS;
+import Custom.XuLyFileExcel;
 import DTO.DonViDTO;
 import DTO.NguyenLieuDTO;
 import DTO.NhaCungCapDTO;
@@ -31,7 +32,7 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
     JTextField txtMa, txtTen, txtTim;
     JComboBox<String> cbDonVi, cbNCC;
 
-    JButton btnThem, btnSua, btnXoa, btnTim, btnReset;
+    JButton btnThem, btnSua, btnXoa, btnTim, btnReset, btnXuatExcel;
 
     public PnQuanLyNguyenLieuGUI() {
 //        changLNF("Windows");
@@ -152,22 +153,26 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
         btnThem = new JButton("Thêm", Constants.loadIcon("/images/add-icon.png"));
         btnSua = new JButton("Sửa", Constants.loadIcon("/images/Pencil-icon.png"));
         btnXoa = new JButton("Xoá", Constants.loadIcon("/images/delete-icon.png"));
-
+        btnXuatExcel = new JButton("Xuất", Constants.loadIcon("/images/excel-icon.png"));
+        
         Font fontBtn = new Font("Tahoma", Font.PLAIN, 16);
 
         btnThem.setFont(fontBtn);
         btnSua.setFont(fontBtn);
         btnXoa.setFont(fontBtn);
+        btnXuatExcel.setFont(fontBtn);
 
         Dimension btnSize = new Dimension(120,40);
 
         btnThem.setPreferredSize(btnSize);
         btnSua.setPreferredSize(btnSize);
         btnXoa.setPreferredSize(btnSize);
+        btnXuatExcel.setPreferredSize(btnSize);
 
         pnButton.add(btnThem);
         pnButton.add(btnSua);
         pnButton.add(btnXoa);
+        pnButton.add(btnXuatExcel);
 
         this.add(pnButton);
 
@@ -246,6 +251,7 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
         btnXoa.addActionListener(e -> xoaNguyenLieu());
         btnTim.addActionListener(e -> timNguyenLieu());
         btnReset.addActionListener(e -> resetForm());
+        btnXuatExcel.addActionListener(e -> xuLyXuatExcel());
     }
 
     private void themNguyenLieu() {
@@ -255,8 +261,8 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
         nl.setTenNguyenLieu(txtTen.getText());
         nl.setTonKho(0);
         
-        nl.setMaDonVi(dvBUS.getDonViById(cbDonVi.getSelectedItem() + "").getMaDonVi());
-        nl.setMaNCC(nccBUS.getNCCById(cbNCC.getSelectedItem() + "").getMaNCC());
+        nl.setMaDonVi(dvBUS.getMaDonVi(cbDonVi.getSelectedItem() + ""));
+        nl.setMaNCC(nccBUS.getMaNCC(cbNCC.getSelectedItem() + ""));
 
         boolean flag = nlBUS.addNguyenLieu(nl);
 
@@ -349,5 +355,16 @@ public class PnQuanLyNguyenLieuGUI extends JPanel {
         cbNCC.setSelectedIndex(0);
 
         loadTable();
+    }
+    
+    private void xuLyXuatExcel() {
+
+        if(tblNguyenLieu.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this, "Không có dữ liệu để xuất!");
+            return;
+        }
+
+        XuLyFileExcel xuatFile = new XuLyFileExcel();
+        xuatFile.xuatExcel(tblNguyenLieu);
     }
 }
