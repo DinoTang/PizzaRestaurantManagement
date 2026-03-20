@@ -168,12 +168,12 @@ public class PnQuanLyKhachHangGUI extends JPanel {
         txtMinChiTieu = new JTextField(6);
         txtMaxChiTieu = new JTextField(6);
 
-        pnRange.add(lblMin);
-        pnRange.add(txtMinChiTieu);
-        pnRange.add(lblMax);
-        pnRange.add(txtMaxChiTieu);
+//        pnRange.add(lblMin);
+//        pnRange.add(txtMinChiTieu);
+//        pnRange.add(lblMax);
+//        pnRange.add(txtMaxChiTieu);
 
-        this.add(pnRange);
+//        this.add(pnRange);
 
         /*
         ================= BUTTON =================
